@@ -1,0 +1,49 @@
+:root {
+  --header-color: #3b3b3b;
+  --subheader-color: #6a6a6a;
+  --border-color: #e1e1e1;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 20em;
+}
+
+.profileBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 2em;
+  padding-bottom: 1em;
+  border-top: 1px solid var(--border-color);
+}
+
+.profileBar:last-child {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tagsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.tagsContainer > * {
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
+
+h1 {
+  margin-bottom: -0.5em;
+  font-size: 1.5em;
+  color: var(--header-color);
+}
+
+h2 {
+  font-size: 1em;
+  font-weight: 500;
+  color: var(--subheader-color);
+}
