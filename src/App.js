@@ -1,14 +1,11 @@
-import "./App.css";
+import React from "react";
 import Dashboard from "./components/Dashboard/Dashboard";
-// import DietaryProfile from "./components/DietaryProfile/DietaryProfile";
-
-// temp data
-const data = ["almonds", "peanuts", "Thai", "ice cream", "berries", "pasta"];
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <Dashboard data={data} />
+      <Dashboard />
     </div>
   );
 }
