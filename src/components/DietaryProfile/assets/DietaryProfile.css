@@ -1,6 +1,4 @@
 :root {
-  --tag-text-color: #3b3b3b;
-  --tag-background-color: #eaeaea;
   --add-tag-text-color: white;
   --add-tag-background-color: #3b3b3b;
   --header-color: #3b3b3b;
@@ -8,30 +6,10 @@
   --border-color: #e1e1e1;
 }
 
-/* ---- Tag ---- */
+/* ---- Dietary Profile ---- */
 
-.tag-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: fit-content;
-  height: 2em;
-  padding: 0.1em 0.7em;
-  border-radius: 0.5em;
-  font-weight: 500;
-  background: var(--tag-background-color);
-  color: var(--tag-text-color);
-}
-
-.tag-img {
-  margin-left: 0.5em;
-  width: 1em;
-  height: 1em;
-  cursor: pointer;
-}
-
-span {
-  white-space: pre;
+.dietary-profile {
+  width: 80%;
 }
 
 /* ---- Add Tag ---- */
@@ -80,6 +58,18 @@ span {
   width: 20em;
 }
 
+.label h1 {
+  margin-bottom: -0.5em;
+  font-size: 1.8em;
+  color: var(--header-color);
+}
+
+.label h2 {
+  font-size: 1.25em;
+  font-weight: 500;
+  color: var(--subheader-color);
+}
+
 .profile-section {
   display: flex;
   flex-direction: row;
@@ -91,6 +81,7 @@ span {
 
 .profile-section:last-child {
   border-bottom: 1px solid var(--border-color);
+  margin-bottom: 2em;
 }
 
 .tags-container {
@@ -106,14 +97,7 @@ span {
   margin-right: 1em;
 }
 
-h1 {
-  margin-bottom: -0.5em;
-  font-size: 1.5em;
-  color: var(--header-color);
-}
-
-h2 {
-  font-size: 1em;
-  font-weight: 500;
-  color: var(--subheader-color);
+.tags-container p,
+.edit-actions p {
+  font-size: 1.2em;
 }

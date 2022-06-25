@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Popup from "reactjs-popup";
-import Tag from "../TagSection/Tag";
+import Tag from "./Tag";
 import AddTag from "./AddTag";
 
 export default function TagSection(props) {
@@ -47,14 +47,16 @@ export default function TagSection(props) {
           />
         )}
       </div>
-      {inEditMode ? (
-        <div>
-          <h2 onClick={() => setEditMode(false)}>Save</h2>
-          <h2 onClick={() => cancelEdits()}>Cancel</h2>
-        </div>
-      ) : (
-        <h2 onClick={() => setEditMode(true)}>Edit</h2>
-      )}
+      <div className="edit-actions">
+        {inEditMode ? (
+          <div>
+            <p onClick={() => setEditMode(false)}>Save</p>
+            <p onClick={() => cancelEdits()}>Cancel</p>
+          </div>
+        ) : (
+          <p onClick={() => setEditMode(true)}>Edit</p>
+        )}
+      </div>
     </div>
   );
 }

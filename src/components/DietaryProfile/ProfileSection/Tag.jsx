@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import closeButton from "../assets/DeleteButton.svg";
-import Popup from "reactjs-popup";
+import deleteButton from "../../Shared/assets/DeleteButton.svg";
 
 export default function Tag(props) {
   const [showTag, setShowTag] = useState(true);
@@ -13,8 +12,8 @@ export default function Tag(props) {
           {props.inEditMode && (
             <img
               className="tag-img"
-              src={closeButton}
-              alt="close button"
+              src={deleteButton}
+              alt="delete button"
               onClick={() => setShowTag(false)}
             />
           )}

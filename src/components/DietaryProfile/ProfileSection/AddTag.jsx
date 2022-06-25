@@ -1,5 +1,5 @@
 import React, { useState, useTransition } from "react";
-import addButton from "../assets/AddButton.svg";
+import addButton from "../../Shared/assets/DeleteButton.svg";
 import Popup from "reactjs-popup";
 
 export default function AddTag(props) {

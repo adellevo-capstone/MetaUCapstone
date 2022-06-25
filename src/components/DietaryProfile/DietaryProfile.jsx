@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import TagSection from "./TagSection/TagSection";
+import TagSection from "./ProfileSection/TagSection";
 import "./assets/DietaryProfile.css";
+import RestaurantSection from "./RestaurantSection/RestaurantSection";
 
 export default function DietaryProfile(props) {
   const [likes, setLikes] = useState(["mango"]);
@@ -14,7 +15,7 @@ export default function DietaryProfile(props) {
   ];
 
   return (
-    <>
+    <div className="dietary-profile">
       {profileSections.map((section, index) => (
         <TagSection
           key={index}
@@ -24,6 +25,7 @@ export default function DietaryProfile(props) {
           setData={section.setData}
         />
       ))}
-    </>
+      <RestaurantSection />
+    </div>
   );
 }

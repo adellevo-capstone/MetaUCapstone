@@ -1,0 +1,31 @@
+:root {
+  --text-color: #3b3b3b;
+  --background-color: #eaeaea;
+}
+
+/* ---- Tag ---- */
+
+.tag-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  height: 2em;
+  padding: 0.1em 0.7em;
+  border-radius: 0.5em;
+  font-weight: 500;
+  font-size: 1.2em;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+.tag-img {
+  margin-left: 0.5em;
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+}
+
+span {
+  white-space: pre;
+}
