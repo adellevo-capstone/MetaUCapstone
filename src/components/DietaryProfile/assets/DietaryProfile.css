@@ -1,8 +1,37 @@
 :root {
+  --tag-text-color: #3b3b3b;
+  --background-color: #eaeaea;
   --header-color: #3b3b3b;
   --subheader-color: #6a6a6a;
   --border-color: #e1e1e1;
 }
+
+/* ---- Tag ---- */
+
+.profile-tag-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  padding: 0.01em 0.8em;
+  border-radius: 0.5em;
+  font-weight: 500;
+  background: var(--background-color);
+  color: var(--tag-text-color);
+}
+
+.tag-img {
+  margin-left: 0.5em;
+  width: 1em;
+  height: 2em;
+  cursor: pointer;
+}
+
+span {
+  white-space: pre;
+}
+
+/* TagSection */
 
 .label {
   display: flex;
@@ -24,14 +53,14 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.tagsContainer {
+.tags-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.tagsContainer > * {
+.tags-container > * {
   margin-bottom: 1em;
   margin-right: 1em;
 }

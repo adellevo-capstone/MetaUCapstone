@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import closeButton from "./CloseButton.svg";
-import "./ProfileTag.css";
+import closeButton from "../assets/CloseButton.svg";
 
-export default function ProfileTag({ text }) {
+export default function Tag(props) {
   const [showTag, setShowTag] = useState(true);
 
   return (
     <div>
       {showTag && (
-        <div className="profileTagContainer">
-          <span className="tagText">{text}</span>
+        <div className="profile-tag-container">
+          <span className="tag-text">{props.text}</span>
           <img
-            className="tagImg"
+            className="tag-img"
             src={closeButton}
             alt="close button"
             onClick={() => setShowTag(false)}

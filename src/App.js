@@ -1,8 +1,8 @@
-import logo from "./logo.svg";
-import ProfileBar from "./components/ProfileBar/ProfileBar";
 import "./App.css";
 import Dashboard from "./components/Dashboard/Dashboard";
+// import DietaryProfile from "./components/DietaryProfile/DietaryProfile";
 
+// temp data
 const data = ["almonds", "peanuts", "Thai", "ice cream", "berries", "pasta"];
 
 function App() {
