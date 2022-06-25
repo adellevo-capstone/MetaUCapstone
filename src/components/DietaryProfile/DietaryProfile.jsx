@@ -10,8 +10,9 @@ export default function DietaryProfile(props) {
   ];
   return (
     <>
-      {sectionLabels.map((label) => (
+      {sectionLabels.map((label, index) => (
         <TagSection
+          key={index}
           header={label.header}
           subHeader={label.subHeader}
           data={props.data}

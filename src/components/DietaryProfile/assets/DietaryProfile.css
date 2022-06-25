@@ -40,7 +40,7 @@ span {
   width: 20em;
 }
 
-.profileBar {
+.profile-section {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -49,7 +49,7 @@ span {
   border-top: 1px solid var(--border-color);
 }
 
-.profileBar:last-child {
+.profile-section:last-child {
   border-bottom: 1px solid var(--border-color);
 }
 

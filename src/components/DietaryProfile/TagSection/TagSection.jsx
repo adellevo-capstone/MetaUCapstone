@@ -6,7 +6,7 @@ export default function TagSection(props) {
   const [inEditMode, setEditMode] = useState(false);
 
   return (
-    <div className="profileBar">
+    <div className="profile-section">
       <div className="label">
         <h1>{props.header}</h1>
         <h2>{props.subHeader}</h2>
