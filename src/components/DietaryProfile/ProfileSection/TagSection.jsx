@@ -18,16 +18,16 @@ export default function TagSection(props) {
       <div className="label">
         <h1>{props.header}</h1>
         <h2>{props.subHeader}</h2>
-        <Popup
+        {/* <Popup
           trigger={<h2>Discover similar</h2>}
           position="right center"
         >
           <div>blah</div>
-        </Popup>
+        </Popup> */}
       </div>
       <div className="tags-container">
         {props.data.length === 0 ? (
-          <p>Nothing to see here yet.</p>
+          <p className="nothing-message">Nothing to see here yet.</p>
         ) : (
           props.data.map((tag) => (
             <Tag

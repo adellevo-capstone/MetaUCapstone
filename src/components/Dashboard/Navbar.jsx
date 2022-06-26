@@ -15,19 +15,19 @@ export default function Navbar() {
       {navSections.map((section) => (
         <div key={section}>
           {selected === section ? (
-            <h2
+            <p
               onClick={() => setSelected(section)}
               className="selected"
             >
               {section}
-            </h2>
+            </p>
           ) : (
-            <h2
+            <p
               onClick={() => setSelected(section)}
               className="none"
             >
               {section}
-            </h2>
+            </p>
           )}
         </div>
       ))}

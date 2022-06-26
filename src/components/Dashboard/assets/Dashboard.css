@@ -3,6 +3,7 @@
   --nav-selected: white;
   --nav-non-selected: #aaaaaa;
   --dashboard-background: #f6f6f6;
+  --border-bottom-color: orange;
 }
 
 /* --- Dashboard --- */
@@ -12,7 +13,7 @@
   flex-direction: column;
   align-items: center;
   padding: 3em;
-  background-color: var(--dashboard-background);
+  background-color: white;
   height: 100%;
   /* max-width: 50em; */
 }
@@ -23,25 +24,29 @@
   display: flex;
   flex-direction: row;
   background-color: var(--nav-background-color);
-  margin-bottom: 2em;
+  /* margin-bottom: 2em; */
+  margin: unset;
   padding: 0 2em;
   border-radius: 0.8em;
   /* width: 100%; */
 }
 
-.navbar h2 {
+.navbar p {
   margin: 0 1em;
-  padding: 1em 0;
+  padding: 1em 0 0.8em 0;
   font-weight: 500;
-  font-size: 1.4em;
+  font-size: 1.2em;
+  cursor: pointer;
+  /* white-space: no-wrap; */
 }
 
 .navbar .none {
   color: var(--nav-non-selected);
+  cursor: pointer;
 }
 
 .navbar .selected {
   color: var(--nav-selected);
-  border-bottom: 5px solid orange;
+  border-bottom: 5px solid var(--border-bottom-color);
   margin-bottom: unset;
 }

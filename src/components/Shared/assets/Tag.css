@@ -11,10 +11,9 @@
   align-items: center;
   width: fit-content;
   height: 2em;
-  padding: 0.1em 0.7em;
+  padding: 0em 0.6em;
   border-radius: 0.5em;
   font-weight: 500;
-  font-size: 1.2em;
   background: var(--background-color);
   color: var(--text-color);
 }

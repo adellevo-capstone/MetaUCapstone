@@ -3,13 +3,14 @@
   --add-tag-background-color: #3b3b3b;
   --header-color: #3b3b3b;
   --subheader-color: #6a6a6a;
-  --border-color: #e1e1e1;
+  --border-color: #e9e9e9;
 }
 
 /* ---- Dietary Profile ---- */
 
 .dietary-profile {
-  width: 80%;
+  width: 90%;
+  padding: 2em;
 }
 
 /* ---- Add Tag ---- */
@@ -20,7 +21,7 @@
   align-items: center;
   width: fit-content;
   height: 2em;
-  padding: 0.1em 0.7em;
+  padding: 0em 0.6em;
   border-radius: 0.5em;
   font-weight: 500;
   background: var(--add-tag-background-color);
@@ -60,12 +61,13 @@
 
 .label h1 {
   margin-bottom: -0.5em;
-  font-size: 1.8em;
+  font-size: 1.3em;
+  font-weight: 600;
   color: var(--header-color);
 }
 
 .label h2 {
-  font-size: 1.25em;
+  font-size: 1em;
   font-weight: 500;
   color: var(--subheader-color);
 }
@@ -74,30 +76,40 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-top: 2em;
-  padding-bottom: 1em;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1em 2em;
+  /* border: 1px solid var(--border-color); */
+  /* background-color: #f8f8f8; */
+  /* border-radius: 1.2em; */
+}
+
+.profile-section:first-child {
   border-top: 1px solid var(--border-color);
 }
 
-.profile-section:last-child {
+/* .dietary-profile:last-child {
   border-bottom: 1px solid var(--border-color);
-  margin-bottom: 2em;
-}
+  margin-bottom: 20em;
+} */
 
 .tags-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  min-width: 20em;
   width: 80%;
 }
 
 .tags-container > * {
-  margin-bottom: 1em;
+  /* margin-bottom: 1em; */
   margin-right: 1em;
 }
 
-.tags-container p,
-.edit-actions p {
-  font-size: 1.2em;
+.edit-actions {
+  cursor: pointer;
+}
+
+.nothing-message {
+  /* font-style: italic; */
+  font-weight: 400;
+  color: #3b3b3b62;
 }
