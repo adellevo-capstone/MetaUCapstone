@@ -4,12 +4,14 @@
 
 body {
   font-family: "Lexend", sans-serif;
+  letter-spacing: 0.01em;
 }
 
 /* --- default styles--- */
 
 .App {
   text-align: center;
+  height: 100%;
 }
 
 .App-logo {

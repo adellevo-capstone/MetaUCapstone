@@ -3,7 +3,7 @@
   --background-color: #eaeaea;
 }
 
-/* ---- Tag ---- */
+/* --- Tag --- */
 
 .tag-container {
   display: flex;
@@ -16,6 +16,7 @@
   font-weight: 500;
   background: var(--background-color);
   color: var(--text-color);
+  margin-bottom: 0.6em;
 }
 
 .tag-img {
@@ -27,4 +28,12 @@
 
 span {
   white-space: pre;
+}
+
+/* --- Header --- */
+
+.section-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

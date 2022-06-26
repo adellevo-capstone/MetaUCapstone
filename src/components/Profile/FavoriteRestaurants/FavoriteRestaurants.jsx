@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import RestaurantCard from "./RestaurantCard";
-import "./assets/RestaurantSection.css";
 
-export default function RestaurantSection() {
+export default function FavoriteRestaurants() {
   return (
-    <div className="restaurant-section">
-      <h1>Favorite Restaurants</h1>
+    <div className="favorite-restaurants">
+      <div className="profile-header">
+        <h1>Favorite Restaurants</h1>
+        <span>Sort: Recommended</span>
+      </div>
       <div className="restaurant-card-container">
         <RestaurantCard />
         <RestaurantCard />

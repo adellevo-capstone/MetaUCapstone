@@ -1,0 +1,319 @@
+:root {
+  --add-tag-text-color: white;
+  --add-tag-background-color: #3b3b3b;
+  --header-color: #494949;
+  --main-header-color: #3b3b3b;
+  --subheader-color: #6a6a6a;
+  --border-color: #e9e9e9;
+  /* --profile-section-background-color: rgb(250, 250, 250); */
+  --profile-section-background-color: white;
+  --main-header-size: 1.8em;
+  --profile-header-size: 1.6em;
+  --header-size: 1.4em;
+  --main-header-font-weight: 600;
+  --header-font-weight: 500;
+  --subheader-font-weight: 500;
+  --header-offset-margin: 3em;
+}
+
+/* -------- Mobile -------- */
+
+/* --- Profile --- */
+
+.profile {
+  width: 100vw;
+}
+
+/* --- Header --- */
+
+.section-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1em 3em;
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; */
+}
+
+.section-header h1 {
+  font-size: var(--main-header-size);
+  font-weight: var(--main-header-font-weight);
+  color: var(--main-header-color);
+  margin-bottom: -0.8em;
+  /* margin-top: 1.6em; */
+}
+
+.section-header img {
+  display: none;
+}
+
+/* --- DietaryPreferences --- */
+
+.dietary-preferences {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  text-align: left;
+  margin: 2em 0;
+  padding: 0 3em;
+}
+
+.dietary-preferences h1 {
+  font-size: var(--header-size);
+  font-weight: var(--header-font-weight);
+  margin-left: var(--header-margin-offset);
+  margin-bottom: 1.3em;
+  color: var(--header-color);
+  /* margin-left: var(--header-margin-offset); */
+  /* width: 100%; */
+  /* border-radius: 0.2em;
+  background-color: rgb(232, 232, 232);
+  padding: 0.5em 0.8em;
+  width: fit-content; */
+}
+
+/* --- Add Tag --- */
+
+.add-tag-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  height: 2em;
+  padding: 0em 0.6em;
+  border-radius: 0.5em;
+  font-weight: 500;
+  background: var(--add-tag-background-color);
+  color: var(--add-tag-text-color);
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background: rgba(0, 0, 0, 0.766); */
+  /* width: 100%; */
+  /* height: 100%; */
+  /* width: 60%;
+  height: 60%; */
+  padding: 5em;
+}
+
+.popup-content h1 {
+  margin-bottom: 0.2em;
+}
+
+.box-content {
+  background-color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 4em;
+}
+
+/* --- PreferenceSection --- */
+
+.section-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 10em;
+  width: fit-content;
+  color: var(--subheader-color);
+  font-weight: var(--header-font-weight);
+}
+
+.section-label h1 {
+  margin-bottom: -0.5em;
+  font-size: 1.3em;
+}
+
+.section-label h2 {
+  font-size: 1em;
+  font-weight: var(--subheader-font-weight);
+}
+
+.preference-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding: 1em;
+  background-color: var(--profile-section-background-color);
+  /* max-width: 50em; */
+  /* min-width: 30em; */
+  /* min-width: 70vw; */
+  /* width: fit-content; */
+  /* width: 100vw; */
+  /* border: 1px solid var(--border-color); */
+  /* background-color: #f8f8f8; */
+  /* border-radius: 0.5em; */
+}
+
+.preference-section:last-child {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* .dietary-profile:last-child {
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20em;
+} */
+
+.tag-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 20em;
+}
+
+.tags-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tags-container > * {
+  margin: 0.2em;
+}
+
+.edit-actions {
+  cursor: pointer;
+}
+
+.edit-actions img {
+  width: 2em;
+}
+
+.nothing-message {
+  /* font-style: italic; */
+  font-weight: 400;
+  color: #3b3b3b62;
+}
+
+/* --- RestaurantSection --- */
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  padding-right: 3em;
+}
+
+.profile-header span {
+  background-color: white;
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; */
+  /* padding: 1em;
+  border-radius: 2em; */
+}
+
+.favorite-restaurants {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  text-align: left;
+  margin-top: 1em;
+  /* background-color: #2f2f2f; */
+  /* border-radius: 1em; */
+}
+
+.favorite-restaurants h1 {
+  font-size: var(--header-size);
+  font-weight: var(--header-font-weight);
+  margin-left: var(--header-margin-offset);
+  margin-bottom: 1.2em;
+  color: var(--header-color);
+  width: 100%;
+  padding: 0 2em;
+}
+
+.restaurant-card-container {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  overflow-x: scroll;
+  align-items: center;
+  margin: 0 2.8em;
+}
+
+.restaurant-card-container > * {
+  margin-right: 1.2em;
+}
+
+.restaurant-card-container::after {
+  content: "";
+  flex: auto;
+}
+
+/* --- RestaurantCard --- */
+
+.restaurant-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--profile-section-background-color);
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; */
+  border: 1px solid var(--border-color);
+  /* padding: 1em; */
+  border-radius: 1em;
+}
+
+.restaurant-card h2 {
+  font-size: 1.2em;
+  color: var(--header-color);
+  font-weight: var(--header-font-weight);
+  padding-left: 0.25em;
+}
+
+.restaurant-card img {
+  width: 100%;
+  /* border-radius: 0.2em; */
+}
+
+.restaurant-card .tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* transform: scale(0.9); */
+  font-size: 0.8em;
+}
+
+.restaurant-card .tags > * {
+  margin: 0.2em 0;
+}
+
+.restaurant-card .tag {
+  display: flex;
+  flex-direction: wrap;
+  flex-wrap: wrap;
+  color: grey;
+}
+
+.photo-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.restaurant-card .card-info {
+  padding: 1em;
+  margin-top: -0.5em;
+}
+
+/* -------- Web -------- */
+
+@media only screen and (min-width: 900px) {
+  /* --- Header --- */
+  .section-header img {
+    display: flex;
+    width: var(--main-header-size);
+  }
+
+  .profile {
+    width: 80vw;
+    /* background-color: blue; */
+  }
+}

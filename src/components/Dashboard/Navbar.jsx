@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import UserSettings from "./UserSettings";
 
 export default function Navbar() {
-  const [selected, setSelected] = useState("Dietary Profile");
-  const navSections = ["Dietary Profile", "Events", "Groups"];
+  const [selected, setSelected] = useState("Profile");
+  const navSections = ["Profile", "Events", "Groups"];
 
   //   const handleSelected = (event, section) => {
   //     setSelected(section);
