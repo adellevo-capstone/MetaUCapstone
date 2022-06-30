@@ -1,0 +1,34 @@
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+
+const UserSchema = new mongoose.Schema(
+  {
+    username: {
+      required: true,
+      type: String,
+      trim: true,
+    },
+    password: {
+      required: true,
+      type: String,
+      trim: true,
+    },
+    email: {
+      required: true,
+      type: String,
+      unique: true,
+      lowercase: true,
+    },
+    liked: [mongoose.ObjectId],
+    refresh_token: { type: String },
+  },
+  { collection: "Users", timestamps: true }
+);
+
+UserSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+module.exports = UserSchema;
