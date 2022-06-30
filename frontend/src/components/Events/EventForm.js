@@ -17,9 +17,6 @@ export default function EventForm() {
 
   const handleOnClick = async (event) => {
     event.preventDefault();
-    // const location = "San Diego";
-    const API_KEY =
-      "xfVKTkVdJb7ElOAaDWNhQkSgzsvpITCSt65_LcXwTwSk2oFYuH0VRu-65wpdPXf78I5IXsEt5PWWXxYfZqZfcKDMqjSoff6lRBZyOtkiXufy3_swvlN42cG2gHuvYnYx";
     try {
       // aggregate group members' preferences
       // ideas: use likes/dislikes/frequency as weights
@@ -32,7 +29,7 @@ export default function EventForm() {
           `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?location=${location}`,
           {
             headers: {
-              Authorization: `Bearer ${API_KEY}`,
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
             },
             params: {
               categories: savedCategories + categories,
