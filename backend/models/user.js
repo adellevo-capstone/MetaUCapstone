@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const UserSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       required: true,
       type: String,
       trim: true,
@@ -14,13 +14,21 @@ const UserSchema = new mongoose.Schema(
       trim: true,
     },
     email: {
-      required: true,
       type: String,
       unique: true,
       lowercase: true,
     },
-    liked: [mongoose.ObjectId],
-    refresh_token: { type: String },
+    phoneNumber: {
+      type: String,
+      unique: true,
+    },
+    preferences: {
+      likes: [String],
+      dislikes: [String],
+      restrictions: [String],
+    },
+    events: [mongoose.ObjectId],
+    groups: [mongoose.ObjectId],
   },
   { collection: "Users", timestamps: true }
 );
