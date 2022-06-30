@@ -1,20 +1,23 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+// add profile pic
+
 const UserSchema = new mongoose.Schema(
   {
     name: {
-      required: true,
       type: String,
+      required: true,
       trim: true,
     },
     password: {
-      required: true,
       type: String,
+      required: true,
       trim: true,
     },
     email: {
       type: String,
+      required: true,
       unique: true,
       lowercase: true,
     },
@@ -22,7 +25,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    preferences: {
+    dietaryProfile: {
       likes: [String],
       dislikes: [String],
       restrictions: [String],
