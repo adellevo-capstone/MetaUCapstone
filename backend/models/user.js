@@ -5,7 +5,12 @@ const bcrypt = require("bcrypt");
 
 const UserSchema = new mongoose.Schema(
   {
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastName: {
       type: String,
       required: true,
       trim: true,
@@ -29,6 +34,7 @@ const UserSchema = new mongoose.Schema(
       likes: [String],
       dislikes: [String],
       restrictions: [String],
+      favoriteRestaurants: [String],
     },
     events: [mongoose.ObjectId],
     groups: [mongoose.ObjectId],
