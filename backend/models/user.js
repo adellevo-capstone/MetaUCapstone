@@ -1,51 +1,37 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const validator = require("validator");
 
-// add profile pic
-
-const UserSchema = new mongoose.Schema(
-  {
-    firstName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-    },
-    phoneNumber: {
-      type: String,
-      unique: true,
-    },
-    dietaryProfile: {
-      likes: [String],
-      dislikes: [String],
-      restrictions: [String],
-      favoriteRestaurants: [String],
-    },
-    events: [mongoose.ObjectId],
-    groups: [mongoose.ObjectId],
+const UserSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: [true, "First name is required"],
   },
-  { collection: "Users", timestamps: true }
-);
-
-UserSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
+  lastName: {
+    type: String,
+    required: [true, "Last name is required"],
+  },
+  email: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    validate: [validator.isEmail, "Email is invalid"],
+    required: [true, "Email is required"],
+  },
+  password: {
+    type: String,
+    required: [true, "Password is required"],
+    minlength: 8,
+    select: false,
+  },
+  dietaryProfile: {
+    likes: [String],
+    dislikes: [String],
+    restrictions: [String],
+  },
+  events: [mongoose.ObjectId],
+  groups: [mongoose.ObjectId],
 });
 
-module.exports = UserSchema;
+const User = mongoose.model("User", UserSchema);
+
+module.exports = User;
