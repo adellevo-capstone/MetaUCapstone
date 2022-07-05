@@ -23,7 +23,8 @@ export default function PreferenceSection(props) {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { updatedArray: props.data, sectionType: props.header };
-      await API.patch("api/v1/auth/dietaryProfile/add", body, config);
+      await API.patch("api/v1/auth/dietaryProfile/modify", body, config);
+      // await API.patch("api/v1/auth/dietaryProfile/delete", body, config);
     } catch (err) {
       console.log(err);
       console.log(err.message);
@@ -53,6 +54,8 @@ export default function PreferenceSection(props) {
               <Tag
                 key={tag}
                 text={tag}
+                data={props.data}
+                setData={props.setData}
                 inEditMode={inEditMode}
                 setEditMode={setEditMode}
                 sectionType={props.header}
@@ -66,8 +69,6 @@ export default function PreferenceSection(props) {
               data={props.data}
               setData={props.setData}
               sectionType={props.header}
-              // modifiedItems={modifiedItems}
-              // setModifiedItems={setModifiedItems}
             />
           )}
         </div>
@@ -75,7 +76,6 @@ export default function PreferenceSection(props) {
       <div className="edit-actions">
         {inEditMode ? (
           <div>
-            {/* <p onClick={() => setEditMode(false)}>Save</p> */}
             <p onClick={() => saveEditsToDatabase()}>Save</p>
             <p onClick={() => cancelEdits()}>Cancel</p>
           </div>

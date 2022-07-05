@@ -19,7 +19,7 @@ router.get("/dietaryProfile", authController.checkUser, async (req, res) => {
   }
 });
 
-router.patch("/dietaryProfile/add", authController.checkUser, async (req, res) => {
+router.patch("/dietaryProfile/modify", authController.checkUser, async (req, res) => {
   try {
     const sectionType = req.body.sectionType.toLowerCase();
     req.user.dietaryProfile[sectionType] = req.body.updatedArray;
@@ -32,24 +32,6 @@ router.patch("/dietaryProfile/add", authController.checkUser, async (req, res) =
     console.log(error);
   }
 });
-
-router.patch("/dietaryProfile/delete", authController.checkUser, async (req, res) => {
-  try {
-    const itemToDelete = req.body.food;
-    const sectionType = req.body.sectionType.toLowerCase();
-    const arrayToUpdate = req.user.dietaryProfile[sectionType];
-
-    arrayToUpdate.pull(itemToDelete);
-    req.user.save();
-
-    res.status(201).json({ arrayToUpdate });
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error);
-  }
-});
-
-// ---- Securing routes ----
 
 router.use(authController.secure);
 // router.use(authController.clearanceLevel("level 1"));
