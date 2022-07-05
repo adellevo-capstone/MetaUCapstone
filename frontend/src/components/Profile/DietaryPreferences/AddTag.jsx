@@ -14,7 +14,8 @@ export default function AddTag(props) {
       setNewItem("");
       // update in database
       const config = { headers: { "Content-Type": "application/json" } };
-      const body = { food: newItem };
+      const body = { food: newItem, sectionType: props.sectionType };
+      console.log("body: ", body);
       const res = await API.post("api/v1/auth/dietaryProfile/add", body, config);
       console.log("res: ", res);
     } catch (err) {

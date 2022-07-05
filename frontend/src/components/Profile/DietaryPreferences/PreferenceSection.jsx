@@ -37,6 +37,7 @@ export default function PreferenceSection(props) {
                 text={tag}
                 inEditMode={inEditMode}
                 setEditMode={setEditMode}
+                sectionType={props.header}
               />
             ))
           )}
@@ -46,6 +47,7 @@ export default function PreferenceSection(props) {
               setEditMode={setEditMode}
               data={props.data}
               setData={props.setData}
+              sectionType={props.header}
             />
           )}
         </div>

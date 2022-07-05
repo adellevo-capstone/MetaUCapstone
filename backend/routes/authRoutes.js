@@ -22,12 +22,16 @@ router.get("/dietaryProfile", authController.checkUser, async (req, res) => {
 router.post("/dietaryProfile/add", authController.checkUser, async (req, res) => {
   try {
     const newItem = req.body.food;
-    const arrayToUpdate = req.user.dietaryProfile.likes;
+    const sectionType = req.body.sectionType.toLowerCase();
+    const arrayToUpdate = req.user.dietaryProfile[sectionType];
+    // console.log("arrayToUpdate: ", arrayToUpdate);
+    // const arrayToUpdate = req.user.dietaryProfile.likes;
 
     arrayToUpdate.push(newItem);
     req.user.save();
 
-    res.status(201).json({ arrayToUpdate });
+    // res.status(201).json({ arrayToUpdate });
+    res.status(201).json({ user: req.user });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
@@ -37,7 +41,8 @@ router.post("/dietaryProfile/add", authController.checkUser, async (req, res) =>
 router.patch("/dietaryProfile/delete", authController.checkUser, async (req, res) => {
   try {
     const itemToDelete = req.body.food;
-    const arrayToUpdate = req.user.dietaryProfile.likes;
+    const sectionType = req.body.sectionType.toLowerCase();
+    const arrayToUpdate = req.user.dietaryProfile[sectionType];
 
     arrayToUpdate.pull(itemToDelete);
     req.user.save();

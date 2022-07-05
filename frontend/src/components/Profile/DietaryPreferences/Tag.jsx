@@ -10,12 +10,10 @@ export default function Tag(props) {
   const deleteFromLikes = async () => {
     try {
       // remove food from likes array and reset state
-      // props.setData([...props.data, newItem]);
-      // setNewItem("");
       setShowTag(false);
       // update in database
       const config = { headers: { "Content-Type": "application/json" } };
-      const body = { food: props.text };
+      const body = { food: props.text, sectionType: props.sectionType };
       const res = await API.patch("api/v1/auth/dietaryProfile/delete", body, config);
       console.log("res: ", res);
     } catch (err) {
