@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
+// const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoutes);
+// app.use("/api/v1/user", userRoutes);
 
 const DB = process.env.DATABASE;
 

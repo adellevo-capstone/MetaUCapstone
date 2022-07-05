@@ -44,6 +44,22 @@ const encryptPw = async (password) => {
 
 // API
 
+exports.checkUser = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (!token) {
+    res.status(401).send("Unauthorized: No token provided");
+  } else {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+      if (err) {
+        res.status(401).send("Unauthorized: Invalid token");
+      } else {
+        req.user = await User.findById(decodedToken.id);
+        next();
+      }
+    });
+  }
+};
+
 exports.signup = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   const pw = await encryptPw(password);
@@ -72,6 +88,27 @@ exports.login = async (req, res) => {
     res.status(400).json(err.message);
   }
 };
+
+// router.get("/", checkUser, async (req, res) => {
+//   try {
+//     console.log(req);
+//     res.status(201).json({ dietaryProfile: req.user.dietaryProfile });
+//   } catch (error) {
+//     res.status(500).send(error.message);
+//     console.log(error);
+//   }
+// });
+
+// exports.dietaryProfile = async (req, res) => {
+//   try {
+//     console.log(req);
+//     checkUser();
+//     res.status(201).json({ dietaryProfile: req.user });
+//   } catch (error) {
+//     res.status(500).send(error.message);
+//     console.log(error);
+//   }
+// };
 
 exports.logout = async (req, res) => {
   const options = {
