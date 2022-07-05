@@ -34,6 +34,21 @@ router.post("/dietaryProfile/add", authController.checkUser, async (req, res) =>
   }
 });
 
+router.patch("/dietaryProfile/delete", authController.checkUser, async (req, res) => {
+  try {
+    const itemToDelete = req.body.food;
+    const arrayToUpdate = req.user.dietaryProfile.likes;
+
+    arrayToUpdate.pull(itemToDelete);
+    req.user.save();
+
+    res.status(201).json({ arrayToUpdate });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
 // ---- Securing routes ----
 
 router.use(authController.secure);
