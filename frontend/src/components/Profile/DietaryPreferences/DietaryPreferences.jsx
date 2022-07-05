@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PreferenceSection from "../DietaryPreferences/PreferenceSection";
+import API from "../../../utils/API";
 
 export default function DietaryPreferences() {
-  const [likes, setLikes] = useState(["mango"]);
-  const [dislikes, setDislikes] = useState(["ravioli", "beef"]);
+  const [likes, setLikes] = useState([]);
+  const [dislikes, setDislikes] = useState([]);
   const [restrictions, setRestrictions] = useState([]);
+
+  // get user's dietary profile on first page load
+  useEffect(() => {
+    loadDietaryProfile();
+  }, []);
+
+  const loadDietaryProfile = async () => {
+    try {
+      const res = await API.get("api/v1/auth/dietaryProfile");
+      setLikes(res.data.dietaryProfile.likes);
+      setDislikes(res.data.dietaryProfile.dislikes);
+      setRestrictions(res.data.dietaryProfile.restrictions);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
 
   const profileSections = [
     { header: "Likes", subHeader: "My go-tos", data: likes, setData: setLikes },
