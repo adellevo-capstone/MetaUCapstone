@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Popup from "reactjs-popup";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
@@ -8,8 +8,10 @@ import API from "../../../utils/API";
 export default function PreferenceSection(props) {
   const [inEditMode, setEditMode] = useState(false);
   const [revertedData, setRevertedData] = useState(props.data);
-  // const [modifiedItems, setModifiedItems] = useState([]);
-  // const [modifiedItems, setModifiedItems] = useState([]);
+
+  useEffect(() => {
+    setRevertedData(props.data);
+  }, [inEditMode]);
 
   const cancelEdits = () => {
     setEditMode(false);
@@ -21,9 +23,7 @@ export default function PreferenceSection(props) {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { updatedArray: props.data, sectionType: props.header };
-      console.log("body: ", body);
-      const res = await API.patch("api/v1/auth/dietaryProfile/addItems2", body, config);
-      console.log("res: ", res);
+      await API.patch("api/v1/auth/dietaryProfile/add", body, config);
     } catch (err) {
       console.log(err);
       console.log(err.message);
@@ -45,7 +45,7 @@ export default function PreferenceSection(props) {
         </Popup> */}
         </div>
         <div className="tags-container">
-          {console.log(props.data, inEditMode)}
+          {/* {console.log(props.data, inEditMode)} */}
           {props.data.length === 0 && !inEditMode ? (
             <p className="nothing-message">Nothing to see here.</p>
           ) : (
