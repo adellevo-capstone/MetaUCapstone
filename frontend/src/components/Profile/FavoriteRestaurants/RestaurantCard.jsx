@@ -12,7 +12,7 @@ export default function RestaurantCard() {
       </div>
       <div className="card-info">
         <h2>Boba Galaxy</h2>
-        <h3>$$ | Open</h3>
+        {/* <h3>$$ | Open</h3> */}
         <div className="tag-list">
           <p className="tag">Bubble Tea </p>
           <p className="tag"> Juice Bar and Smoothies</p>

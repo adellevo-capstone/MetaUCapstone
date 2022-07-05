@@ -1,6 +1,6 @@
 const express = require("express");
-const authController = require("../controllers/authController");
 const router = express.Router();
+const authController = require("../controllers/authController");
 
 // ---- Authentication ----
 
@@ -12,8 +12,22 @@ router.route("/logout").get(authController.logout);
 
 router.get("/dietaryProfile", authController.checkUser, async (req, res) => {
   try {
-    // console.log(req);
     res.status(201).json({ dietaryProfile: req.user.dietaryProfile });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+router.post("/dietaryProfile/add", authController.checkUser, async (req, res) => {
+  try {
+    const newItem = req.body.food;
+    const arrayToUpdate = req.user.dietaryProfile.likes;
+
+    arrayToUpdate.push(newItem);
+    req.user.save();
+
+    res.status(201).json({ arrayToUpdate });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);

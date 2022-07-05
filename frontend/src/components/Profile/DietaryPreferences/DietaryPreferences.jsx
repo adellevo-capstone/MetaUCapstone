@@ -7,7 +7,8 @@ export default function DietaryPreferences() {
   const [dislikes, setDislikes] = useState([]);
   const [restrictions, setRestrictions] = useState([]);
 
-  // get user's dietary profile on first page load
+  // ---- Load user's dietary profile ----
+
   useEffect(() => {
     loadDietaryProfile();
   }, []);

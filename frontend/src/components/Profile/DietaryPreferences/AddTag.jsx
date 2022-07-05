@@ -1,15 +1,26 @@
-import React, { useState, useTransition } from "react";
-import addButton from "../../Shared/assets/DeleteButton.svg";
-import Popup from "reactjs-popup";
+import React, { useState, useEffect } from "react";
+import addButton from "../../Shared/assets/AddButton.svg";
+import API from "../../../utils/API";
 
 export default function AddTag(props) {
   const [newItem, setNewItem] = useState("");
 
-  const handleClick = () => {
-    console.log(newItem);
-    props.setData([...props.data, newItem]);
-    // console.log(props.data);
-    // setNewItem("");
+  // ---- Modify user's dietary profile ----
+
+  const addToLikes = async () => {
+    try {
+      // add food to likes array and reset state
+      props.setData([...props.data, newItem]);
+      setNewItem("");
+      // update in database
+      const config = { headers: { "Content-Type": "application/json" } };
+      const body = { food: newItem };
+      const res = await API.post("api/v1/auth/dietaryProfile/add", body, config);
+      console.log("res: ", res);
+    } catch (err) {
+      console.log(err);
+      console.log(err.message);
+    }
   };
 
   return (
@@ -24,7 +35,7 @@ export default function AddTag(props) {
         className="tag-img"
         src={addButton}
         alt="add button"
-        onClick={() => handleClick()}
+        onClick={addToLikes}
       />
     </div>
   );
