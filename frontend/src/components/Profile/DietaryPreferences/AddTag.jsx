@@ -7,22 +7,30 @@ export default function AddTag(props) {
 
   // ---- Modify user's dietary profile ----
 
-  const addToLikes = async () => {
-    try {
-      // add food to likes array and reset state
-      props.setData([...props.data, newItem]);
-      setNewItem("");
-      // update in database
-      const config = { headers: { "Content-Type": "application/json" } };
-      const body = { food: newItem, sectionType: props.sectionType };
-      console.log("body: ", body);
-      const res = await API.post("api/v1/auth/dietaryProfile/add", body, config);
-      console.log("res: ", res);
-    } catch (err) {
-      console.log(err);
-      console.log(err.message);
-    }
+  // add food to likes array and reset state
+  const addToLikes = () => {
+    // props.setModifiedItems([...props.modifiedItems, newItem]);
+    // props.setData(props.data.concat(props.modifiedItems));
+    props.setData([...props.data, newItem]);
+    setNewItem("");
   };
+
+  // const addToLikes = async () => {
+  //   try {
+  //     // add food to likes array and reset state
+  //     props.setData([...props.data, newItem]);
+  //     setNewItem("");
+  //     // update in database
+  //     const config = { headers: { "Content-Type": "application/json" } };
+  //     const body = { food: newItem, sectionType: props.sectionType };
+  //     console.log("body: ", body);
+  //     const res = await API.post("api/v1/auth/dietaryProfile/add", body, config);
+  //     console.log("res: ", res);
+  //   } catch (err) {
+  //     console.log(err);
+  //     console.log(err.message);
+  //   }
+  // };
 
   return (
     <div className="add-tag-container">

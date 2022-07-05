@@ -19,7 +19,7 @@ router.get("/dietaryProfile", authController.checkUser, async (req, res) => {
   }
 });
 
-router.post("/dietaryProfile/add", authController.checkUser, async (req, res) => {
+router.patch("/dietaryProfile/add", authController.checkUser, async (req, res) => {
   try {
     const newItem = req.body.food;
     const sectionType = req.body.sectionType.toLowerCase();
@@ -31,6 +31,41 @@ router.post("/dietaryProfile/add", authController.checkUser, async (req, res) =>
     req.user.save();
 
     // res.status(201).json({ arrayToUpdate });
+    res.status(201).json({ user: req.user });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+router.patch("/dietaryProfile/addItems", authController.checkUser, async (req, res) => {
+  try {
+    let newItems = req.body.foodsToAdd;
+    const sectionType = req.body.sectionType.toLowerCase();
+    // req.user.dietaryProfile[sectionType] = req.body.updatedFoodArray;
+
+    req.user.dietaryProfile[sectionType] = req.user.dietaryProfile[sectionType].concat(newItems);
+
+    req.user.save();
+
+    res.status(201).json({ user: req.user });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+router.patch("/dietaryProfile/addItems2", authController.checkUser, async (req, res) => {
+  try {
+    // const updatedFoodArray = req.body.updatedFoodArray;
+    const sectionType = req.body.sectionType.toLowerCase();
+    console.log(req.body.updatedArray);
+    req.user.dietaryProfile[sectionType] = req.body.updatedArray;
+
+    // req.user.dietaryProfile[sectionType] = req.user.dietaryProfile[sectionType].concat(newItems);
+
+    req.user.save();
+
     res.status(201).json({ user: req.user });
   } catch (error) {
     res.status(500).send(error.message);
