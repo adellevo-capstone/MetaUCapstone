@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import API from "../../../../utils/API";
 
-export default function Search({ searchQuery, setSearchQuery, location, setLocation }) {
+export default function Search(props) {
   //   const [restaurant, setRestaurant] = useState("");
 
-  const onClick = async () => {
+  const findRestaurant = async () => {
     try {
       await axios
         .get(
-          `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${searchQuery}&location=${location}`,
+          `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${props.searchQuery}&location=${props.location}`,
           {
             headers: {
               Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
@@ -36,6 +36,7 @@ export default function Search({ searchQuery, setSearchQuery, location, setLocat
       const body = { restaurantToAdd: restaurantToAdd };
       await API.patch("api/v1/auth/dietaryProfile/addRestaurant", body, config);
       // await API.patch("api/v1/auth/dietaryProfile/delete", body, config);
+      props.loadFavoriteRestaurants();
     } catch (err) {
       console.log(err);
       console.log(err.message);
@@ -43,23 +44,25 @@ export default function Search({ searchQuery, setSearchQuery, location, setLocat
   };
 
   return (
-    <div>
+    <div className="search-popup">
       <h1>Add a restaurant</h1>
-      <input
-        className="search"
-        type="text"
-        name="restaurant"
-        placeholder="Restaurant name"
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <input
-        className="search"
-        type="text"
-        name="locatioh"
-        placeholder="Location"
-        onChange={(e) => setLocation(e.target.value)}
-      />
-      <button onClick={onClick}>Search</button>
+      <div className="search-popup-content">
+        <input
+          className="search"
+          type="text"
+          name="restaurant"
+          placeholder="Restaurant name"
+          onChange={(e) => props.setSearchQuery(e.target.value)}
+        />
+        <input
+          className="search"
+          type="text"
+          name="location"
+          placeholder="Location"
+          onChange={(e) => props.setLocation(e.target.value)}
+        />
+      </div>
+      <button onClick={findRestaurant}>Search</button>
     </div>
   );
 }

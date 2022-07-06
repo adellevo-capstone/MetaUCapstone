@@ -37,7 +37,7 @@ router.patch("/dietaryProfile/addRestaurant", authController.checkUser, async (r
   try {
     const newRestaurant = req.body.restaurantToAdd;
 
-    req.user.dietaryProfile.favoriteRestaurants.push(newRestaurant);
+    req.user.dietaryProfile.favoriteRestaurants.unshift(newRestaurant);
     req.user.save();
 
     res.status(201).json({ user: req.user });

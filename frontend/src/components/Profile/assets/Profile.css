@@ -196,6 +196,23 @@
 
 /* --- RestaurantSection --- */
 
+.search-popup {
+  /* width: 100em; */
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 3em;
+  border-radius: 2em;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.search-popup-content > * {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
 .profile-header {
   display: flex;
   flex-direction: row;
