@@ -27,6 +27,7 @@ const UserSchema = new mongoose.Schema({
     likes: [String],
     dislikes: [String],
     restrictions: [String],
+    favoriteRestaurants: [Object],
   },
   events: [mongoose.ObjectId],
   groups: [mongoose.ObjectId],

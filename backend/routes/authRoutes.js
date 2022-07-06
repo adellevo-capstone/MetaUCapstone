@@ -33,6 +33,20 @@ router.patch("/dietaryProfile/modify", authController.checkUser, async (req, res
   }
 });
 
+router.patch("/dietaryProfile/addRestaurant", authController.checkUser, async (req, res) => {
+  try {
+    const newRestaurant = req.body.restaurantToAdd;
+
+    req.user.dietaryProfile.favoriteRestaurants.push(newRestaurant);
+    req.user.save();
+
+    res.status(201).json({ user: req.user });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
 router.use(authController.secure);
 // router.use(authController.clearanceLevel("level 1"));
 // router.route("/secretcontent").get(authController.secretContent);

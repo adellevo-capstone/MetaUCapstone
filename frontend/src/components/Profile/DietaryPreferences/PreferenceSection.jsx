@@ -46,7 +46,6 @@ export default function PreferenceSection(props) {
         </Popup> */}
         </div>
         <div className="tags-container">
-          {/* {console.log(props.data, inEditMode)} */}
           {props.data.length === 0 && !inEditMode ? (
             <p className="nothing-message">Nothing to see here.</p>
           ) : (
