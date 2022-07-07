@@ -12,10 +12,10 @@ router.route("/logout").get(authController.logout);
 
 // ---- All users ----
 
-router.get("/allUsers", async (req, res) => {
-  let options = { ...req.query };
+router.get("/allUsers", authController.checkUser, async (req, res) => {
+  // let options = { ...req.query };
   try {
-    const allUsers = await User.find(options);
+    const allUsers = await User.find({ _id: { $ne: req.user._id } });
     res.status(201).json(allUsers);
   } catch (error) {
     res.status(500).send(error.message);
@@ -29,22 +29,37 @@ router.get("/allUsers", async (req, res) => {
 router.get("/group", authController.checkUser, async (req, res) => {
   try {
     const groupIds = req.user.groups;
-    const groupData = [];
-    // get group data
+    let groupData = [];
+    let memberInfo = [];
+
     for (let i = 0; i < groupIds.length; i++) {
-      groupData.push(await Group.findById(groupIds[i]));
+      const groupInfo = await Group.findById(groupIds[i]);
+
+      for (let i = 0; i < groupInfo.members.length; i++) {
+        const member = await User.findById(groupInfo.members[i]);
+        memberInfo.push(member);
+      }
+
+      const groupToAdd = {
+        memberInfo: memberInfo,
+        groupInfo: groupInfo,
+      };
+
+      groupData.push(groupToAdd);
+      memberInfo = [];
     }
-    // console.log(groupData);
-    // member data
-    // console.log(groupData[0]);
-    // for (let i = 0; i < groupData.length; i++) {
-    //   for (let j = 0; j < groupData[i].members.length; j++) {
-    //     let user = await User.findById(groupData[i].members[j]);
-    //     groupData[i].members[j] = user.firstName;
-    //   }
-    // }
-    // console.log(groupData.members);
     res.status(201).json({ groups: groupData });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+router.get("/user/:id", async (req, res) => {
+  // let userId = req.params.id;
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(201).json(user);
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
@@ -100,6 +115,15 @@ router.patch("/group/create", authController.checkUser, async (req, res) => {
 // };
 
 // ---- User information ----
+
+router.get("/user", authController.checkUser, async (req, res) => {
+  try {
+    res.status(201).json({ user: req.user });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
 
 router.get("/dietaryProfile", authController.checkUser, async (req, res) => {
   try {

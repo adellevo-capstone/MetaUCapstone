@@ -1,12 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
 import API from "../../utils/API";
+import { useEffect } from "react";
 
 export default function GroupSearch(props) {
   //   const [restaurant, setRestaurant] = useState("");
   const [usersToAdd, setUsersToAdd] = useState([]);
   const [displayedUsers, setDisplayedUsers] = useState([]);
   const [groupName, setGroupName] = useState("");
+
+  useEffect(() => {
+    getCurrentUserInfo();
+  }, []);
+
+  const getCurrentUserInfo = async () => {
+    try {
+      const res = await API.get("api/v1/auth/user");
+      console.log(res);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
 
   const findUsers = async () => {
     try {

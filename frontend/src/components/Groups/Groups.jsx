@@ -5,11 +5,8 @@ import Popup from "reactjs-popup";
 import GroupSearch from "./GroupSearch";
 
 export default function Groups(props) {
-  // const members = ["Adelle Vo", "Naomi Donato", "Janice Park"];
-  const [members, setMembers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
-  const [favorites, setFavorites] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [groups, setGroups] = useState([]);
 
@@ -32,16 +29,10 @@ export default function Groups(props) {
   const loadAllUsers = async () => {
     try {
       const res = await API.get("api/v1/auth/allUsers");
-      console.log(res.data);
       setAllUsers(res.data);
     } catch (err) {
       console.log(err.response);
     }
-  };
-
-  const getUserName = (userId) => {
-    const user = allUsers.find((user) => user._id === userId);
-    return `${user.firstName} ${user.lastName}`;
   };
 
   return (
@@ -62,21 +53,19 @@ export default function Groups(props) {
           setLocation={setLocation}
           loadAllUsers={loadAllUsers}
           allUsers={allUsers}
-          // members={members}
-          // setNewRestaurant={setNewRestaurant}
         />
       </Popup>
       <h2>My groups</h2>
       <div className="groups">
         {groups.map((group) => (
           <div className="group-content">
-            <h3>{group.name}</h3>
-            <p>{group.members.length} members</p>
-            {group.members.map((memberId, index) =>
-              index === group.members.length - 1
-                ? getUserName(memberId)
-                : getUserName(memberId) + ", "
-            )}
+            <h3>{group.groupInfo.name}</h3>
+            <p>{group.memberInfo.length} members</p>
+            <ul>
+              {group.memberInfo.map((member, index) => (
+                <li key={index}>{member.firstName + " " + member.lastName}</li>
+              ))}
+            </ul>
             <button>Add a member</button>
           </div>
         ))}
