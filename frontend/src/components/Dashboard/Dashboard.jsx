@@ -7,6 +7,7 @@ import "../Profile/assets/Profile.css";
 import UserSettings from "./UserSettings";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import EventForm from "../Events/EventForm";
+import Groups from "../Groups/Groups";
 
 export default function Dashboard() {
   return (
@@ -24,10 +25,10 @@ export default function Dashboard() {
           path="/events"
           element={<EventForm />}
         />
-        {/* <Route
+        <Route
           path="/groups"
           element={<Groups />}
-        /> */}
+        />
       </Routes>
       {/* <Navbar /> */}
     </div>

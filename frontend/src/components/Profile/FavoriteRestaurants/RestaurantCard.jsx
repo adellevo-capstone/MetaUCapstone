@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cardImg from "./assets/card-img.png";
 
 export default function RestaurantCard({ restaurant }) {
@@ -23,3 +23,5 @@ export default function RestaurantCard({ restaurant }) {
     </div>
   );
 }
+
+// 9:50

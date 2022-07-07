@@ -48,7 +48,7 @@ export default function Navbar() {
           </p>
         )}
       </Link>
-      <Link to="/groups">
+      <Link to="/dashboard/groups">
         {selected === "Groups" ? (
           <p
             onClick={() => setSelected("Groups")}

@@ -1,0 +1,7 @@
+.groups {
+  display: flex;
+  flex-direction: row;
+  /* background-color: whitesmoke; */
+  border: 1px solid grey;
+  padding: 2em;
+}

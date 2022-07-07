@@ -1,12 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
+const User = require("../models/user");
 
 // ---- Authentication ----
 
 router.route("/signup").post(authController.signup);
 router.route("/login").post(authController.login);
 router.route("/logout").get(authController.logout);
+
+// ---- all users ----
+router.get("/allUsers", async (req, res) => {
+  let options = { ...req.query };
+  try {
+    const allUsers = await User.find(options);
+    res.status(201).json(allUsers);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
 
 // ---- User information ----
 
