@@ -6,8 +6,9 @@ export default function GroupSearch(props) {
   //   const [restaurant, setRestaurant] = useState("");
   const [usersToAdd, setUsersToAdd] = useState([]);
   const [displayedUsers, setDisplayedUsers] = useState([]);
+  const [groupName, setGroupName] = useState("");
 
-  const findUsers = async (restaurantToAdd) => {
+  const findUsers = async () => {
     try {
       const filteredUsers = props.allUsers.filter(
         (user) =>
@@ -21,13 +22,15 @@ export default function GroupSearch(props) {
     }
   };
 
-  const addUsers = async (restaurantToAdd) => {
+  const addUsers = async () => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
-      const body = { restaurantToAdd: restaurantToAdd };
-      await API.patch("api/v1/auth/allUsers", body, config);
-      // await API.patch("api/v1/auth/dietaryProfile/delete", body, config);
-      props.loadFavoriteRestaurants();
+      const memberIds = usersToAdd.map((user) => {
+        return user.userId;
+      });
+      const body = { name: groupName, members: memberIds };
+      //   console.log(body);
+      await API.patch("api/v1/auth/group/create", body, config);
     } catch (err) {
       console.log(err);
       console.log(err.message);
@@ -71,7 +74,14 @@ export default function GroupSearch(props) {
               <li key={index}>{user.name}</li>
             ))}
           </ul>
-          <button onClick={() => addUsers}>Confirm</button>
+          <input
+            className="group name"
+            type="text"
+            name="user"
+            placeholder="Pick a group name..."
+            onChange={(e) => setGroupName(e.target.value)}
+          />
+          <button onClick={addUsers}>Confirm</button>
         </div>
       </div>
     </div>

@@ -11,10 +11,23 @@ export default function Groups(props) {
   const [location, setLocation] = useState("");
   const [favorites, setFavorites] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
+  const [groups, setGroups] = useState([]);
+
+  // ---- Get all favorite restaurants from dietary profile ----
 
   useEffect(() => {
+    loadAllGroups();
     loadAllUsers();
   }, []);
+
+  const loadAllGroups = async () => {
+    try {
+      const res = await API.get("api/v1/auth/group");
+      setGroups(res.data.groups);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
 
   const loadAllUsers = async () => {
     try {
@@ -24,6 +37,11 @@ export default function Groups(props) {
     } catch (err) {
       console.log(err.response);
     }
+  };
+
+  const getUserName = (userId) => {
+    const user = allUsers.find((user) => user._id === userId);
+    return `${user.firstName} ${user.lastName}`;
   };
 
   return (
@@ -50,16 +68,18 @@ export default function Groups(props) {
       </Popup>
       <h2>My groups</h2>
       <div className="groups">
-        {/* <div>
-          <h2>305 group</h2>
-          {members.map((member) => (
-            <div>
-              {member.firstName} {member.lastName}
-            </div>
-          ))}
-         
-          <button>Add a member</button>
-        </div> */}
+        {groups.map((group) => (
+          <div className="group-content">
+            <h3>{group.name}</h3>
+            <p>{group.members.length} members</p>
+            {group.members.map((memberId, index) =>
+              index === group.members.length - 1
+                ? getUserName(memberId)
+                : getUserName(memberId) + ", "
+            )}
+            <button>Add a member</button>
+          </div>
+        ))}
       </div>
     </div>
   );
