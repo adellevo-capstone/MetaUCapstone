@@ -75,8 +75,8 @@ export default function PreferenceSection(props) {
       <div className="edit-actions">
         {inEditMode ? (
           <div>
-            <p onClick={() => saveEditsToDatabase()}>Save</p>
-            <p onClick={() => cancelEdits()}>Cancel</p>
+            <p onClick={saveEditsToDatabase}>Save</p>
+            <p onClick={cancelEdits}>Cancel</p>
           </div>
         ) : (
           <p onClick={() => setEditMode(true)}>

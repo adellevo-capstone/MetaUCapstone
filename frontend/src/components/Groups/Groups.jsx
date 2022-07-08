@@ -9,10 +9,10 @@ export default function Groups() {
   const [location, setLocation] = useState("");
   const [allUsers, setAllUsers] = useState([]);
   const [groups, setGroups] = useState([]);
-
-  // ---- Get all favorite restaurants from dietary profile ----
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
+    getCurrentUserInfo();
     loadAllGroups();
     loadAllUsers();
   }, []);
@@ -35,6 +35,16 @@ export default function Groups() {
     }
   };
 
+  const getCurrentUserInfo = async () => {
+    try {
+      const res = await API.get("api/v1/auth/user");
+      setCurrentUser(res.data.user);
+      //   console.log(res);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
   return (
     <div>
       <Popup
@@ -47,12 +57,14 @@ export default function Groups() {
         }}
       >
         <GroupSearch
+          actionType={"createGroup"}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           location={location}
           setLocation={setLocation}
           loadAllUsers={loadAllUsers}
           allUsers={allUsers}
+          groups={groups}
           loadAllGroups={loadAllGroups}
         />
       </Popup>
@@ -61,13 +73,37 @@ export default function Groups() {
         {groups.map((group) => (
           <div className="group-content">
             <h3>{group.groupInfo.name}</h3>
-            <p>{group.memberInfo.length} members</p>
+            <p>{group.memberInfo.length + 1} members</p>
             <ul>
+              <li>
+                {currentUser.firstName} {currentUser.lastName} (Me)
+              </li>
               {group.memberInfo.map((member, index) => (
                 <li key={index}>{member.firstName + " " + member.lastName}</li>
               ))}
             </ul>
-            <button>Add a member</button>
+            <Popup
+              // closeOnDocumentClick
+              modal
+              nested
+              trigger={<button> Add a member </button>}
+              style={{
+                minWidth: "40em",
+              }}
+            >
+              <GroupSearch
+                actionType={"addMembers"}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                location={location}
+                setLocation={setLocation}
+                loadAllUsers={loadAllUsers}
+                allUsers={allUsers}
+                loadAllGroups={loadAllGroups}
+                groupId={group.groupInfo._id}
+              />
+            </Popup>
+            <button>Leave group</button>
           </div>
         ))}
       </div>
