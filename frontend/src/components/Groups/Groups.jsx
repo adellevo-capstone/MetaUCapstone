@@ -4,7 +4,7 @@ import API from "../../utils/API";
 import Popup from "reactjs-popup";
 import GroupSearch from "./GroupSearch";
 
-export default function Groups() {
+export default function Groups(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
   const [allUsers, setAllUsers] = useState([]);
@@ -45,6 +45,18 @@ export default function Groups() {
     }
   };
 
+  const leaveGroup = async (groupId) => {
+    try {
+      // const config = { headers: { "Content-Type": "application/json" } };
+      // const body = { members: memberIds };
+      await API.patch(`api/v1/auth/group/${groupId}/leave`);
+      loadAllGroups();
+    } catch (err) {
+      console.log(err);
+      console.log(err.message);
+    }
+  };
+
   return (
     <div>
       <Popup
@@ -73,11 +85,11 @@ export default function Groups() {
         {groups.map((group) => (
           <div className="group-content">
             <h3>{group.groupInfo.name}</h3>
-            <p>{group.memberInfo.length + 1} members</p>
+            <p>{group.memberInfo.length} members</p>
             <ul>
-              <li>
+              {/* <li>
                 {currentUser.firstName} {currentUser.lastName} (Me)
-              </li>
+              </li> */}
               {group.memberInfo.map((member, index) => (
                 <li key={index}>{member.firstName + " " + member.lastName}</li>
               ))}
@@ -101,9 +113,10 @@ export default function Groups() {
                 allUsers={allUsers}
                 loadAllGroups={loadAllGroups}
                 groupId={group.groupInfo._id}
+                currentUser={currentUser}
               />
             </Popup>
-            <button>Leave group</button>
+            <button onClick={() => leaveGroup(group.groupInfo._id)}>Leave group</button>
           </div>
         ))}
       </div>

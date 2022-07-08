@@ -77,18 +77,27 @@ router.get("/user/info", async (req, res) => {
   }
 });
 
+// add group ids to user's profiles
+const updateMemberProfiles = async (groupId, members) => {
+  for (let i = 0; i < members.length; i++) {
+    const user = await User.findById(members[i]);
+    user.groups.unshift(groupId);
+    user.save();
+  }
+};
+
 // create group
 router.patch("/group/create", authController.checkUser, async (req, res) => {
   try {
+    const allMembers = [req.user._id, ...req.body.members];
     const newGroup = await Group.create({
       name: req.body.name,
-      members: req.body.members,
+      members: allMembers,
     });
 
-    req.user.groups.unshift(newGroup);
-    req.user.save();
+    await updateMemberProfiles(newGroup._id, allMembers);
 
-    res.status(201).json({ user: req.user });
+    res.status(201).json({ createdGroup: newGroup });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
@@ -98,12 +107,14 @@ router.patch("/group/create", authController.checkUser, async (req, res) => {
 // add members to group
 router.patch("/group/:id/addMembers", authController.checkUser, async (req, res) => {
   try {
+    // add user ids to group
+    const membersToAdd = req.body.members;
     const group = await Group.findById(req.params.id);
-    // console.log(group.members);
-    // console.log(req.body.members);
-    group.members = group.members.concat(req.body.members);
-    // console.log(group.members);
+    group.members = group.members.concat(membersToAdd);
     group.save();
+
+    await updateMemberProfiles(req.params.id, membersToAdd);
+
     res.status(201).json({ group: group });
   } catch (error) {
     res.status(500).send(error.message);
@@ -112,6 +123,23 @@ router.patch("/group/:id/addMembers", authController.checkUser, async (req, res)
 });
 
 // remove members from group
+router.patch("/group/:id/leave", authController.checkUser, async (req, res) => {
+  try {
+    // remove group from user's profile
+    req.user.groups = req.user.groups.filter((groupId) => !groupId.equals(req.params.id));
+    req.user.save();
+
+    // remove user from group
+    const group = await Group.findById(req.params.id);
+    group.members = group.members.filter((member) => !member.equals(req.user._id));
+    group.save();
+
+    res.status(201).json({ userGroups: req.user.groups, group: group });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
 
 // ---- User information ----
 

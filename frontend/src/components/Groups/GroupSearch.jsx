@@ -56,6 +56,8 @@ export default function GroupSearch(props) {
       const memberIds = usersToAdd.map((user) => {
         return user.userId;
       });
+      // let uniqueIds = new Set([...memberIds, props.currentUser]);
+      // const body = { members: [...uniqueIds] };
       const body = { members: memberIds };
       await API.patch(`api/v1/auth/group/${groupId}/addMembers`, body, config);
       props.loadAllGroups();
