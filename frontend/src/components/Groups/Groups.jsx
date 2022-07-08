@@ -4,7 +4,7 @@ import API from "../../utils/API";
 import Popup from "reactjs-popup";
 import GroupSearch from "./GroupSearch";
 
-export default function Groups(props) {
+export default function Groups() {
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
   const [allUsers, setAllUsers] = useState([]);
@@ -38,7 +38,7 @@ export default function Groups(props) {
   return (
     <div>
       <Popup
-        closeOnDocumentClick
+        // closeOnDocumentClick
         modal
         nested
         trigger={<button> Create a group </button>}
@@ -53,6 +53,7 @@ export default function Groups(props) {
           setLocation={setLocation}
           loadAllUsers={loadAllUsers}
           allUsers={allUsers}
+          loadAllGroups={loadAllGroups}
         />
       </Popup>
       <h2>My groups</h2>

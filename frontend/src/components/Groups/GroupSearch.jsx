@@ -36,7 +36,7 @@ export default function GroupSearch(props) {
     }
   };
 
-  const addUsers = async () => {
+  const createGroup = async () => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const memberIds = usersToAdd.map((user) => {
@@ -45,6 +45,7 @@ export default function GroupSearch(props) {
       const body = { name: groupName, members: memberIds };
       //   console.log(body);
       await API.patch("api/v1/auth/group/create", body, config);
+      props.loadAllGroups();
     } catch (err) {
       console.log(err);
       console.log(err.message);
@@ -95,7 +96,7 @@ export default function GroupSearch(props) {
             placeholder="Pick a group name..."
             onChange={(e) => setGroupName(e.target.value)}
           />
-          <button onClick={addUsers}>Confirm</button>
+          <button onClick={createGroup}>Confirm</button>
         </div>
       </div>
     </div>

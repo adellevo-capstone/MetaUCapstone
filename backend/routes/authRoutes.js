@@ -85,7 +85,7 @@ router.patch("/group/create", authController.checkUser, async (req, res) => {
       members: req.body.members,
     });
 
-    req.user.groups.push(newGroup);
+    req.user.groups.unshift(newGroup);
     req.user.save();
 
     res.status(201).json({ user: req.user });
@@ -96,23 +96,22 @@ router.patch("/group/create", authController.checkUser, async (req, res) => {
 });
 
 // add members to group
-// remove members from group
+router.patch("/group/:id/addMembers", authController.checkUser, async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    // console.log(group.members);
+    // console.log(req.body.members);
+    group.members = group.members.concat(req.body.members);
+    // console.log(group.members);
+    group.save();
+    res.status(201).json({ group: group });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
 
-// exports.signup = async (req, res) => {
-//   const { firstName, lastName, email, password } = req.body;
-//   const pw = await encryptPw(password);
-//   try {
-//     const newUser = await User.create({
-//       firstName,
-//       lastName,
-//       email,
-//       password: pw,
-//     });
-//     sendToken(newUser, 201, req, res);
-//   } catch (err) {
-//     res.status(401).json(err.message);
-//   }
-// };
+// remove members from group
 
 // ---- User information ----
 
