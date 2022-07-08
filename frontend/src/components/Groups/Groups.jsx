@@ -8,23 +8,23 @@ export default function Groups(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
   const [allUsers, setAllUsers] = useState([]);
-  const [groups, setGroups] = useState([]);
+  // const [groups, setGroups] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
     getCurrentUserInfo();
-    loadAllGroups();
+    props.loadAllGroups();
     loadAllUsers();
   }, []);
 
-  const loadAllGroups = async () => {
-    try {
-      const res = await API.get("api/v1/auth/group");
-      setGroups(res.data.groups);
-    } catch (err) {
-      console.log(err.response);
-    }
-  };
+  // const loadAllGroups = async () => {
+  //   try {
+  //     const res = await API.get("api/v1/auth/group");
+  //     setGroups(res.data.groups);
+  //   } catch (err) {
+  //     console.log(err.response);
+  //   }
+  // };
 
   const loadAllUsers = async () => {
     try {
@@ -50,7 +50,7 @@ export default function Groups(props) {
       // const config = { headers: { "Content-Type": "application/json" } };
       // const body = { members: memberIds };
       await API.patch(`api/v1/auth/group/${groupId}/leave`);
-      loadAllGroups();
+      props.loadAllGroups();
     } catch (err) {
       console.log(err);
       console.log(err.message);
@@ -76,13 +76,13 @@ export default function Groups(props) {
           setLocation={setLocation}
           loadAllUsers={loadAllUsers}
           allUsers={allUsers}
-          groups={groups}
-          loadAllGroups={loadAllGroups}
+          groups={props.groups}
+          loadAllGroups={props.loadAllGroups}
         />
       </Popup>
       <h2>My groups</h2>
       <div className="groups">
-        {groups.map((group) => (
+        {props.groups.map((group) => (
           <div className="group-content">
             <h3>{group.groupInfo.name}</h3>
             <p>{group.memberInfo.length} members</p>
@@ -111,7 +111,7 @@ export default function Groups(props) {
                 setLocation={setLocation}
                 loadAllUsers={loadAllUsers}
                 allUsers={allUsers}
-                loadAllGroups={loadAllGroups}
+                loadAllGroups={props.loadAllGroups}
                 groupId={group.groupInfo._id}
                 currentUser={currentUser}
               />

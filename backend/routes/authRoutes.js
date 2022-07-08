@@ -3,6 +3,7 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const User = require("../models/user");
 const Group = require("../models/group");
+const Invite = require("../models/invite");
 
 // ---- Authentication ----
 
@@ -17,6 +18,26 @@ router.get("/allUsers", authController.checkUser, async (req, res) => {
   try {
     const allUsers = await User.find({ _id: { $ne: req.user._id } });
     res.status(201).json(allUsers);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+// ---- Events ----
+
+router.get("/events", authController.checkUser, async (req, res) => {
+  try {
+    // 3:40
+    const eventIds = req.user.events;
+    let allEvents = [];
+
+    for (let i = 0; i < eventIds.length; i++) {
+      const eventInfo = await Invite.findById(eventIds[i]);
+      allEvents.push(eventInfo);
+    }
+
+    res.status(201).json({ events: allEvents });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);

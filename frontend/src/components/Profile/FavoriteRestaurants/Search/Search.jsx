@@ -62,7 +62,7 @@ export default function Search(props) {
           onChange={(e) => props.setLocation(e.target.value)}
         />
       </div>
-      <button onClick={findRestaurant}>Search</button>
+      <button onClick={() => findRestaurant}>Search</button>
     </div>
   );
 }
