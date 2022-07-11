@@ -12,10 +12,22 @@ import API from "../../utils/API";
 
 export default function Dashboard() {
   const [groups, setGroups] = useState([]);
+  // const [events, setEvents] = useState({});
 
   useEffect(() => {
     loadAllGroups();
+    // loadAllEvents();
   }, []);
+
+  // const loadAllEvents = async () => {
+  //   try {
+  //     const res = await API.get("api/v1/auth/events");
+  //     setEvents(res.data.events);
+  //     console.log(events);
+  //   } catch (err) {
+  //     console.log(err.response);
+  //   }
+  // };
 
   const loadAllGroups = async () => {
     try {
@@ -41,6 +53,8 @@ export default function Dashboard() {
           path="/events"
           element={
             <EventForm
+              // events={events}
+              // loadAllEvents={loadAllEvents}
               groups={groups}
               loadAllGroups={loadAllGroups}
             />

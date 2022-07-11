@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 
 const InviteSchema = new mongoose.Schema({
   hostId: mongoose.ObjectId,
-  rsvpDeadline: Date,
+  members: [mongoose.ObjectId],
+  // rsvpDeadline: Date,
   responses: [mongoose.ObjectId],
   eventDetails: {
-    time: Date,
-    location: String,
+    // time: Date,
+    // location: String,
     description: String,
     // carpool: {
     //   drivers:

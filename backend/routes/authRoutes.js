@@ -4,6 +4,7 @@ const authController = require("../controllers/authController");
 const User = require("../models/user");
 const Group = require("../models/group");
 const Invite = require("../models/invite");
+const InviteResponse = require("../models/inviteResponse");
 
 // ---- Authentication ----
 
@@ -26,18 +27,76 @@ router.get("/allUsers", authController.checkUser, async (req, res) => {
 
 // ---- Events ----
 
+// get events
 router.get("/events", authController.checkUser, async (req, res) => {
   try {
-    // 3:40
     const eventIds = req.user.events;
-    let allEvents = [];
+    console.log(eventIds);
+    // let allEvents = [];
+    let eventsHosted = [];
+    let eventsInvitedTo = [];
 
     for (let i = 0; i < eventIds.length; i++) {
       const eventInfo = await Invite.findById(eventIds[i]);
-      allEvents.push(eventInfo);
+      // console.log(eventInfo);
+      // eventsHosted.push(eventInfo);
+      if (eventInfo.hostId.equals(req.user._id)) {
+        eventsHosted.push(eventInfo);
+      } else {
+        eventsInvitedTo.push(eventInfo);
+      }
     }
 
-    res.status(201).json({ events: allEvents });
+    res.status(201).json({ hosted: eventsHosted, invitedTo: eventsInvitedTo });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+// add group or event ids to corresponding user's profiles
+const updateMemberProfiles = async (arrayType, createdItemId, memberIds) => {
+  for (let i = 0; i < memberIds.length; i++) {
+    let member = await User.findById(memberIds[i]);
+    // console.log(member.firstName);
+    member[arrayType].unshift(createdItemId);
+    // console.log(member[arrayType]);
+    member.save();
+  }
+};
+
+// create event
+router.patch("/event/create", authController.checkUser, async (req, res) => {
+  try {
+    // const hostPreferences = req.body.hostResponse;
+    const hostResponse = await InviteResponse.create({
+      guestId: req.user._id,
+      attending: true,
+      priceLevel: parseInt(req.body.priceLevel),
+      distanceLevel: parseInt(req.body.distanceLevel),
+      weightedLikes: req.body.weightedLikes,
+      // weightedDislikes: hostPreferences.weightedDislikes,
+    });
+
+    // console.log(hostResponse);
+
+    // const allMembers = [...req.body.members];
+    const newEvent = await Invite.create({
+      hostId: req.user._id,
+      // rsvpDeadline: req.body.rsvpDeadline,
+      members: req.body.members,
+      responses: [hostResponse._id],
+      eventDetails: {
+        description: req.body.description,
+      },
+    });
+
+    // console.log(newEvent);
+
+    await updateMemberProfiles("events", newEvent._id, newEvent.members);
+
+    // res.status(201).json({ createdEvent: hostResponse });
+    res.status(201).json({ createdEvent: newEvent });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
@@ -98,15 +157,6 @@ router.get("/user/info", async (req, res) => {
   }
 });
 
-// add group ids to user's profiles
-const updateMemberProfiles = async (groupId, members) => {
-  for (let i = 0; i < members.length; i++) {
-    const user = await User.findById(members[i]);
-    user.groups.unshift(groupId);
-    user.save();
-  }
-};
-
 // create group
 router.patch("/group/create", authController.checkUser, async (req, res) => {
   try {
@@ -115,8 +165,7 @@ router.patch("/group/create", authController.checkUser, async (req, res) => {
       name: req.body.name,
       members: allMembers,
     });
-
-    await updateMemberProfiles(newGroup._id, allMembers);
+    await updateMemberProfiles("groups", newGroup._id, allMembers);
 
     res.status(201).json({ createdGroup: newGroup });
   } catch (error) {
@@ -134,7 +183,7 @@ router.patch("/group/:id/addMembers", authController.checkUser, async (req, res)
     group.members = group.members.concat(membersToAdd);
     group.save();
 
-    await updateMemberProfiles(req.params.id, membersToAdd);
+    await updateMemberProfiles("groups", req.params.id, membersToAdd);
 
     res.status(201).json({ group: group });
   } catch (error) {
