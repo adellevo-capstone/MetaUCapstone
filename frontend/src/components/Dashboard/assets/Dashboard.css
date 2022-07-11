@@ -17,8 +17,8 @@
   justify-content: left;
   background-color: var(--dashboard-background);
   height: 100%;
-  /* width: 100%; */
-  padding: 2em;
+  width: 96vw;
+  /* padding: 0.2em; */
   /* overflow: hidden; */
 }
 

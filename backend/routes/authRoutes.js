@@ -83,7 +83,7 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     // const allMembers = [...req.body.members];
     const newEvent = await Invite.create({
       hostId: req.user._id,
-      // rsvpDeadline: req.body.rsvpDeadline,
+      rsvpDeadline: new Date(req.body.rsvpDeadline),
       members: req.body.members,
       responses: [hostResponse._id],
       eventDetails: {

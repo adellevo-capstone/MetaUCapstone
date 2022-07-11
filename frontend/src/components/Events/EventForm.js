@@ -4,6 +4,18 @@ import axios from "axios";
 import API from "../../utils/API";
 // import eventDetails from "../events.js";
 
+import DayTimePicker from "@mooncake-dev/react-day-time-picker";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import InputIcon from "react-multi-date-picker/components/input_icon";
+import "./EventForm.css";
+// function App() {
+//   return <DayTimePicker timeSlotSizeMinutes={15} />;
+// }
+// const target = document.getElementById('root');
+// render(<App />, target);
+
 export default function EventForm(props) {
   const [error, setError] = useState("");
   const [location, setLocation] = useState("");
@@ -114,6 +126,9 @@ export default function EventForm(props) {
       const body = {
         members: intendedGroup.groupInfo.members,
         description: elements.description.value,
+        rsvpDeadline: `${elements["rsvp-date"].value}T${elements["rsvp-time"].value}:00`,
+        // rsvpDate: elements["rsvp-date"].value,
+        // rsvpTime: elements["rsvp-time"].value,
         // transportation: elements.transportation.value,
         priceLevel: elements.priceLevel.value,
         distanceLevel: elements.distanceLevel.value,
@@ -121,30 +136,62 @@ export default function EventForm(props) {
         // timeSlot: elements.timeSlot.checked,
       };
 
-      // alert(`Here's your data: ${JSON.stringify(body, undefined, 2)}`);
+      alert(`Here's your data: ${JSON.stringify(body, undefined, 2)}`);
 
-      await API.patch("api/v1/auth/event/create", body, config);
+      // await API.patch("api/v1/auth/event/create", body, config);
     } catch (err) {
       console.log(err);
-      console.log(err.message);
+      // console.log(err.message);
     }
-
-    // update event details;
-    // console.log(eventDetails);
-    // const invitee = eventDetails.invitees[0];
-    // invitee.hasResponded = true;
-    // invitee.isAttending = true;
-    // invitee.extendedPreferences = data.extraCategories.split(",");
-    // invitee.availability.push(data.timeSlot);
-    // console.log(eventDetails);
   };
+
+  const [values, setValues] = useState(
+    [1, 2, 3].map((number) =>
+      new DateObject().set({
+        day: number,
+        hour: number,
+        minute: number,
+        second: number,
+      })
+    )
+  );
 
   return (
     <div>
       <form onSubmit={(event) => createEvent(event)}>
         <h2>Create invitation</h2>
         <fieldset>
-          <label htmlFor="cars">Choose a group:</label>
+          <legend>Pick time slots</legend>
+          <DatePicker
+            // render={<InputIcon />}
+            value={values}
+            onChange={setValues}
+            format="MM/DD/YY HH:mm"
+            multiple
+            plugins={[
+              <TimePicker position="right" />,
+              <DatePanel
+                markFocused
+                position="right"
+              />,
+            ]}
+          />
+
+          {/* <DayTimePicker timeSlotSizeMinutes={30} />; */}
+        </fieldset>
+        <fieldset>
+          <legend>Pick an RSVP deadline</legend>
+          <input
+            id="rsvp-time"
+            type="time"
+          />
+          <input
+            id="rsvp-date"
+            type="date"
+          />
+        </fieldset>
+        <fieldset>
+          <legend>Choose a group</legend>
           <select
             name="groups"
             id="group-member-ids"
@@ -288,6 +335,9 @@ export default function EventForm(props) {
 
         <button type="submit">Create an invitation</button>
       </form>
+      <div>
+        <h2>Pending invitations</h2>
+      </div>
       <div>
         <h2>Events I created</h2>
         {hosted.map((event, index) => (

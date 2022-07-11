@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const InviteSchema = new mongoose.Schema({
   hostId: mongoose.ObjectId,
   members: [mongoose.ObjectId],
-  // rsvpDeadline: Date,
+  rsvpDeadline: Date,
   responses: [mongoose.ObjectId],
   eventDetails: {
     // time: Date,
