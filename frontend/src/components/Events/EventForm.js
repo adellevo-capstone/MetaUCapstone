@@ -7,9 +7,18 @@ import API from "../../utils/API";
 import DayTimePicker from "@mooncake-dev/react-day-time-picker";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import { Calendar } from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import "./EventForm.css";
+import TimeSlot from "./TimeSlot.js";
+import TimeGrid from "./TimeGrid.js";
+
+// import React, { useState } from "react";
+
+// CSS Modules, react-datepicker-cssmodules.css
+// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+
 // function App() {
 //   return <DayTimePicker timeSlotSizeMinutes={15} />;
 // }
@@ -23,6 +32,7 @@ export default function EventForm(props) {
   // const [events, setEvents] = useState({});
   const [hosted, setHosted] = useState([]);
   const [invitedTo, setInvitedTo] = useState([]);
+  // const [numTimeSlots, setNumTimeSlots] = useState([]);
 
   useEffect(() => {
     loadAllEvents();
@@ -123,10 +133,17 @@ export default function EventForm(props) {
         (group) => group.groupInfo._id === elements["group-member-ids"].value
       );
       console.log(intendedGroup.groupInfo.members);
+      const formattedSlots = timeSlots.map((slot) => {
+        const { month, day, year, hour, minute } = slot;
+        const formattedDay = `${month.name} ${day}, ${year}`;
+        return `${formattedDay} @ ` + formatTime(`${hour}:${minute}`);
+      });
+
       const body = {
         members: intendedGroup.groupInfo.members,
         description: elements.description.value,
         rsvpDeadline: `${elements["rsvp-date"].value}T${elements["rsvp-time"].value}:00`,
+        timeSlots: formattedSlots,
         // rsvpDate: elements["rsvp-date"].value,
         // rsvpTime: elements["rsvp-time"].value,
         // transportation: elements.transportation.value,
@@ -136,202 +153,254 @@ export default function EventForm(props) {
         // timeSlot: elements.timeSlot.checked,
       };
 
-      alert(`Here's your data: ${JSON.stringify(body, undefined, 2)}`);
+      // alert(`Here's your data: ${JSON.stringify(body, undefined, 2)}`);
 
-      // await API.patch("api/v1/auth/event/create", body, config);
+      await API.patch("api/v1/auth/event/create", body, config);
     } catch (err) {
       console.log(err);
       // console.log(err.message);
     }
   };
 
-  const [values, setValues] = useState(
-    [1, 2, 3].map((number) =>
-      new DateObject().set({
-        day: number,
-        hour: number,
-        minute: number,
-        second: number,
-      })
-    )
-  );
+  // const [values, setValues] = useState(
+  //   [1, 2, 3].map((number) =>
+  //     new DateObject().set({
+  //       day: number,
+  //       hour: number,
+  //       minute: number,
+  //       second: number,
+  //     })
+  //   )
+  // );
+
+  const [timeSlots, setTimeSlots] = useState([]);
+
+  const formatTime = (time) => {
+    const hour = parseInt(time.substring(0, 3));
+    if (hour > 12) {
+      return hour - 12 + ":" + time.substring(3) + " PM";
+    } else {
+      return time + " AM";
+    }
+  };
+
+  // const [startDate, setStartDate] = useState(new Date());
 
   return (
     <div>
+      <h2>Create invitation</h2>
       <form onSubmit={(event) => createEvent(event)}>
-        <h2>Create invitation</h2>
-        <fieldset>
-          <legend>Pick time slots</legend>
-          <DatePicker
-            // render={<InputIcon />}
-            value={values}
-            onChange={setValues}
-            format="MM/DD/YY HH:mm"
-            multiple
-            plugins={[
-              <TimePicker position="right" />,
-              <DatePanel
-                markFocused
-                position="right"
-              />,
-            ]}
-          />
-
-          {/* <DayTimePicker timeSlotSizeMinutes={30} />; */}
-        </fieldset>
-        <fieldset>
-          <legend>Pick an RSVP deadline</legend>
-          <input
-            id="rsvp-time"
-            type="time"
-          />
-          <input
+        <div className="content">
+          <div className="planning">
+            <fieldset>
+              <legend>Choose a group</legend>
+              <select
+                name="groups"
+                id="group-member-ids"
+              >
+                {props.groups.map((group) => (
+                  <option
+                    key={group.groupInfo._id}
+                    value={group.groupInfo._id}
+                  >
+                    {group.groupInfo.name}
+                  </option>
+                ))}
+              </select>
+            </fieldset>
+            <fieldset>
+              <legend>Pick an RSVP deadline</legend>
+              <input
+                id="date-1"
+                type="datetime-local"
+              />
+              {/* <input
             id="rsvp-date"
             type="date"
           />
-        </fieldset>
-        <fieldset>
-          <legend>Choose a group</legend>
-          <select
-            name="groups"
-            id="group-member-ids"
-          >
-            {props.groups.map((group) => (
-              <option
-                key={group.groupInfo._id}
-                value={group.groupInfo._id}
+          <input
+            id="rsvp-time"
+            type="time"
+          /> */}
+            </fieldset>
+            <fieldset className="time-slot-field">
+              <legend>Pick time slots</legend>
+              {/* <input
+            placeholder="length of event"
+            id="time-slot-num"
+            type="number"
+          /> */}
+
+              <TimeGrid />
+
+              {/* <input
+                className="time-slot"
+                id="date-1"
+                type="datetime-local"
+              />
+              <input
+                className="time-slot"
+                id="date-2"
+                type="datetime-local"
+              />
+              <input
+                className="time-slot"
+                id="date-3"
+                type="datetime-local"
+              /> */}
+
+              {/* <input
+            type="date"
+            id="start"
+            name="trip-start"
+            value="2018-07-22"
+            min="2018-01-01"
+            max="2018-12-31"
+          /> */}
+
+              {/* <TimeSlot />
+          <TimeSlot />
+          <TimeSlot /> */}
+
+              {/* <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            showTimeSelect
+            // isClearable
+            dateFormat="MMMM d, yyyy h:mm aa"
+          /> */}
+
+              {/* ------ other calendar ------ */}
+
+              {/* <Calendar
+                value={timeSlots}
+                onChange={setTimeSlots}
+                format="MM/DD/YY HH:mm"
+                multiple
+                plugins={[
+                  <TimePicker
+                    position="right"
+                    hideSeconds
+                  />,
+                  <DatePanel
+                    markFocused
+                    position="right"
+                  />,
+                ]}
+              /> */}
+
+              {/* ------ other calendar ------ */}
+            </fieldset>
+          </div>
+
+          <div className="filters">
+            <fieldset>
+              <legend>Extra categories</legend>
+              {/* <label htmlFor="extra-categories">Extra categories</label> */}
+              <input
+                id="extra-categories"
+                type="text"
+              />
+            </fieldset>
+
+            <fieldset>
+              <legend>Description</legend>
+              {/* <label htmlFor="comment">Comment</label> */}
+              <textarea id="description" />
+            </fieldset>
+
+            <fieldset>
+              <legend>Transportation</legend>
+              {/* <label htmlFor="transportation">Transportation</label> */}
+              <select
+                id="transportation"
+                selected
               >
-                {group.groupInfo.name}
-              </option>
-            ))}
-          </select>
-        </fieldset>
-        <fieldset>
-          <legend>Extra categories</legend>
-          {/* <label htmlFor="extra-categories">Extra categories</label> */}
-          <input
-            id="extra-categories"
-            type="text"
-          />
-        </fieldset>
+                <option
+                  value=""
+                  disabled
+                >
+                  Select carpool needs
+                </option>
+                <option value="driver">Driver</option>
+                <option value="rider">Rider</option>
+                <option value="none">N/A</option>
+              </select>
+            </fieldset>
 
-        <fieldset>
-          <legend>Description</legend>
-          {/* <label htmlFor="comment">Comment</label> */}
-          <textarea id="description" />
-        </fieldset>
+            <fieldset>
+              <legend>Price Level</legend>
 
-        <fieldset>
-          <legend>Transportation</legend>
-          {/* <label htmlFor="transportation">Transportation</label> */}
-          <select
-            id="transportation"
-            selected
-          >
-            <option
-              value=""
-              disabled
-            >
-              Select carpool needs
-            </option>
-            <option value="driver">Driver</option>
-            <option value="rider">Rider</option>
-            <option value="none">N/A</option>
-          </select>
-        </fieldset>
+              <input
+                id="$"
+                name="priceLevel"
+                type="radio"
+                value={1}
+              />
+              <label htmlFor="$"> {"<$10"} </label>
 
-        <fieldset>
-          <legend>Price Level</legend>
+              <input
+                id="$$"
+                name="priceLevel"
+                type="radio"
+                value={2}
+              />
+              <label htmlFor="$$">$11-30</label>
 
-          <input
-            id="$"
-            name="priceLevel"
-            type="radio"
-            value={1}
-          />
-          <label htmlFor="$"> {"<$10"} </label>
+              <input
+                id="$$$"
+                name="priceLevel"
+                type="radio"
+                value={3}
+              />
+              <label htmlFor="$$$">$31-60</label>
 
-          <input
-            id="$$"
-            name="priceLevel"
-            type="radio"
-            value={2}
-          />
-          <label htmlFor="$$">$11-30</label>
+              <input
+                id="$$$$"
+                name="priceLevel"
+                type="radio"
+                value={4}
+              />
+              <label htmlFor="$$$$">$61+</label>
+            </fieldset>
 
-          <input
-            id="$$$"
-            name="priceLevel"
-            type="radio"
-            value={3}
-          />
-          <label htmlFor="$$$">$31-60</label>
+            <fieldset>
+              <legend>Distance</legend>
 
-          <input
-            id="$$$$"
-            name="priceLevel"
-            type="radio"
-            value={4}
-          />
-          <label htmlFor="$$$$">$61+</label>
-        </fieldset>
+              <input
+                id="trash"
+                name="distanceLevel"
+                type="radio"
+                value={1}
+              />
+              <label htmlFor="level-1">1</label>
 
-        <fieldset>
-          <legend>Distance</legend>
+              <input
+                id="okay"
+                name="distanceLevel"
+                type="radio"
+                value={2}
+              />
+              <label htmlFor="level-2">2</label>
 
-          <input
-            id="trash"
-            name="distanceLevel"
-            type="radio"
-            value={1}
-          />
-          <label htmlFor="level-1">1</label>
+              <input
+                id="amazing"
+                name="distanceLevel"
+                type="radio"
+                value={3}
+              />
+              <label htmlFor="level-3">3</label>
 
-          <input
-            id="okay"
-            name="distanceLevel"
-            type="radio"
-            value={2}
-          />
-          <label htmlFor="level-2">2</label>
-
-          <input
-            id="amazing"
-            name="distanceLevel"
-            type="radio"
-            value={3}
-          />
-          <label htmlFor="level-3">3</label>
-
-          <input
-            id="amazing"
-            name="distanceLevel"
-            type="radio"
-            value={4}
-          />
-          <label htmlFor="level-4">4</label>
-        </fieldset>
-
-        {/* <fieldset>
-        <legend>Set time slot window</legend>
-        <input
-          name="timeSlot"
-          type="checkbox"
-        />
-        <label htmlFor="timeSlot">Saturday, June 21 @ 9:00pm</label>
-        <br />
-        <input
-          name="timeSlot"
-          type="checkbox"
-        />
-        <label htmlFor="timeSlot">Saturday, June 21 @ 10:00pm</label>
-        <br />
-        <input
-          name="timeSlot"
-          type="checkbox"
-        />
-        <label htmlFor="timeSlot">Sunday, June 22 @ 11:00am</label>
-      </fieldset> */}
+              <input
+                id="amazing"
+                name="distanceLevel"
+                type="radio"
+                value={4}
+              />
+              <label htmlFor="level-4">4</label>
+            </fieldset>
+          </div>
+        </div>
 
         <button type="submit">Create an invitation</button>
       </form>
