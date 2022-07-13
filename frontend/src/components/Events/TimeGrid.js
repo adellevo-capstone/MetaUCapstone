@@ -20,27 +20,26 @@ export default function TimeGrid(props) {
     }
   };
 
-  const removeAvailability = (date, slotIndex) => {
-    let currentTimesArray = availableTimes.get(date); // get array
-    if (currentTimesArray) {
-      const index = currentTimesArray.indexOf(slotIndex); // find time slot item
-      setAvailableTimes((map) => new Map(map.set(date, currentTimesArray.splice(index, 1))));
-      console.log(availableTimes);
+  // helper function to remove map keys
+  const deleteDate = (date) => {
+    setAvailableTimes((map) => {
+      let mapCopy = new Map(map);
+      mapCopy.delete(date);
+      return mapCopy;
+    });
+  };
 
-      // remove key if number of slots goes down to 0
+  const removeAvailability = (date, slotIndex) => {
+    let currentTimesArray = availableTimes.get(date);
+    if (currentTimesArray) {
+      // remove time slot from date's slot array
+      const index = currentTimesArray.indexOf(slotIndex);
+      setAvailableTimes((map) => new Map(map.set(date, currentTimesArray.splice(index, 1))));
+
+      // remove date if number of slots goes down to 0
       if (currentTimesArray.length === 0) {
-        setAvailableTimes((map) => {
-          let mapCopy = new Map(map);
-          mapCopy.delete(date);
-          return mapCopy;
-        });
-        // setAvailableTimes((current) => {
-        //   const copy = { ...current };
-        //   delete copy[date];
-        //   return copy;
-        // });
+        deleteDate(date);
       }
-      console.log(availableTimes);
     }
   };
 
@@ -48,13 +47,7 @@ export default function TimeGrid(props) {
     if (availableTimes.size > 0) {
       // create new date with times from old date
       setAvailableTimes((map) => new Map(map.set(newDate, availableTimes.get(prevDate))));
-
-      // delete replaced date
-      setAvailableTimes((map) => {
-        let mapCopy = new Map(map);
-        mapCopy.delete(prevDate);
-        return mapCopy;
-      });
+      deleteDate(prevDate);
     }
     console.log(availableTimes);
   };
