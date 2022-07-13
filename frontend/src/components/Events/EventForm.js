@@ -34,6 +34,9 @@ export default function EventForm(props) {
   const [invitedTo, setInvitedTo] = useState([]);
   // const [numTimeSlots, setNumTimeSlots] = useState([]);
 
+  const [startTime, setStartTime] = useState("00:00");
+  const [availableTimes, setAvailableTimes] = useState(new Map());
+
   useEffect(() => {
     loadAllEvents();
   }, []);
@@ -125,31 +128,31 @@ export default function EventForm(props) {
       // get form data
       event.preventDefault();
       const config = { headers: { "Content-Type": "application/json" } };
-
       const elements = event.currentTarget.elements;
-      console.log(elements["group-member-ids"].value);
-      console.log(props.groups);
+
       const intendedGroup = props.groups.find(
         (group) => group.groupInfo._id === elements["group-member-ids"].value
       );
-      console.log(intendedGroup.groupInfo.members);
-      const formattedSlots = timeSlots.map((slot) => {
-        const { month, day, year, hour, minute } = slot;
-        const formattedDay = `${month.name} ${day}, ${year}`;
-        return `${formattedDay} @ ` + formatTime(`${hour}:${minute}`);
-      });
+
+      // const timeSlots = {
+      //   dateMap: availableTimes,
+      //   startTime: startTime,
+      // };
+      // console.log("timeSlots: ", timeSlots);
+      console.log(availableTimes);
 
       const body = {
         members: intendedGroup.groupInfo.members,
         description: elements.description.value,
-        rsvpDeadline: `${elements["rsvp-date"].value}T${elements["rsvp-time"].value}:00`,
-        timeSlots: formattedSlots,
-        // rsvpDate: elements["rsvp-date"].value,
-        // rsvpTime: elements["rsvp-time"].value,
-        // transportation: elements.transportation.value,
+        rsvpDeadline: elements["rsvp-deadline"].value,
+        timeSlots: {
+          dateMap: Object.fromEntries(availableTimes),
+          startTime: startTime,
+        },
         priceLevel: elements.priceLevel.value,
         distanceLevel: elements.distanceLevel.value,
         weightedLikes: elements["extra-categories"].value.split(","),
+        // transportation: elements.transportation.value,
         // timeSlot: elements.timeSlot.checked,
       };
 
@@ -173,16 +176,16 @@ export default function EventForm(props) {
   //   )
   // );
 
-  const [timeSlots, setTimeSlots] = useState([]);
+  // const [timeSlots, setTimeSlots] = useState([]);
 
-  const formatTime = (time) => {
-    const hour = parseInt(time.substring(0, 3));
-    if (hour > 12) {
-      return hour - 12 + ":" + time.substring(3) + " PM";
-    } else {
-      return time + " AM";
-    }
-  };
+  // const formatTime = (time) => {
+  //   const hour = parseInt(time.substring(0, 3));
+  //   if (hour > 12) {
+  //     return hour - 12 + ":" + time.substring(3) + " PM";
+  //   } else {
+  //     return time + " AM";
+  //   }
+  // };
 
   // const [startDate, setStartDate] = useState(new Date());
 
@@ -197,6 +200,7 @@ export default function EventForm(props) {
               <select
                 name="groups"
                 id="group-member-ids"
+                required
               >
                 {props.groups.map((group) => (
                   <option
@@ -211,8 +215,9 @@ export default function EventForm(props) {
             <fieldset>
               <legend>Pick an RSVP deadline</legend>
               <input
-                id="date-1"
+                id="rsvp-deadline"
                 type="datetime-local"
+                required
               />
               {/* <input
             id="rsvp-date"
@@ -231,7 +236,12 @@ export default function EventForm(props) {
             type="number"
           /> */}
 
-              <TimeGrid />
+              <TimeGrid
+                startTime={startTime}
+                setStartTime={setStartTime}
+                availableTimes={availableTimes}
+                setAvailableTimes={setAvailableTimes}
+              />
 
               {/* <input
                 className="time-slot"
@@ -300,6 +310,7 @@ export default function EventForm(props) {
               <input
                 id="extra-categories"
                 type="text"
+                required
               />
             </fieldset>
 
@@ -315,6 +326,7 @@ export default function EventForm(props) {
               <select
                 id="transportation"
                 selected
+                required
               >
                 <option
                   value=""

@@ -68,36 +68,33 @@ const updateMemberProfiles = async (arrayType, createdItemId, memberIds) => {
 // create event
 router.patch("/event/create", authController.checkUser, async (req, res) => {
   try {
-    // const hostPreferences = req.body.hostResponse;
+    const { dateMap, startTime } = req.body.timeSlots;
+
     const hostResponse = await InviteResponse.create({
       guestId: req.user._id,
       attending: true,
       priceLevel: parseInt(req.body.priceLevel),
       distanceLevel: parseInt(req.body.distanceLevel),
       weightedLikes: req.body.weightedLikes,
-      // weightedDislikes: hostPreferences.weightedDislikes,
+      availability: dateMap,
     });
 
-    // console.log(hostResponse);
-
-    // const allMembers = [...req.body.members];
     const newEvent = await Invite.create({
       hostId: req.user._id,
       rsvpDeadline: new Date(req.body.rsvpDeadline),
       members: req.body.members,
       responses: [hostResponse._id],
-      timeSlots: req.body.timeSlots,
+      timeSlots: { dateMap: dateMap, startTime: startTime },
       eventDetails: {
         description: req.body.description,
       },
     });
 
-    // console.log(newEvent);
-
     await updateMemberProfiles("events", newEvent._id, newEvent.members);
 
     // res.status(201).json({ createdEvent: hostResponse });
     res.status(201).json({ createdEvent: newEvent });
+    // res.status(201).json({ createdEvent: "hi" });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);

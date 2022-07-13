@@ -6,23 +6,23 @@ import TimeSlot from "./TimeSlot";
 // import "moment-timezone";
 
 export default function TimeGrid(props) {
-  const [startTime, setStartTime] = useState("00:00");
+  // const [startTime, setStartTime] = useState("00:00");
   const slotDates = [0, 2, 4, 6, 8, 10];
-  const [availableTimes, setAvailableTimes] = useState(new Map());
-  const [slotDays, setSlotDays] = useState(["", "", "", ""]);
+  // const [availableTimes, props.setAvailableTimes] = useState(new Map());
+  // const [slotDays, setSlotDays] = useState(["", "", "", ""]);
 
   const addAvailability = (date, slotIndex) => {
-    let currentTimesArray = availableTimes.get(date); // get array
+    let currentTimesArray = props.availableTimes.get(date); // get array
     if (currentTimesArray) {
-      setAvailableTimes((map) => new Map(map.set(date, [slotIndex, ...currentTimesArray])));
+      props.setAvailableTimes((map) => new Map(map.set(date, [slotIndex, ...currentTimesArray])));
     } else {
-      setAvailableTimes((map) => new Map(map.set(date, [slotIndex])));
+      props.setAvailableTimes((map) => new Map(map.set(date, [slotIndex])));
     }
   };
 
   // helper function to remove map keys
   const deleteDate = (date) => {
-    setAvailableTimes((map) => {
+    props.setAvailableTimes((map) => {
       let mapCopy = new Map(map);
       mapCopy.delete(date);
       return mapCopy;
@@ -30,11 +30,11 @@ export default function TimeGrid(props) {
   };
 
   const removeAvailability = (date, slotIndex) => {
-    let currentTimesArray = availableTimes.get(date);
+    let currentTimesArray = props.availableTimes.get(date);
     if (currentTimesArray) {
       // remove time slot from date's slot array
       const index = currentTimesArray.indexOf(slotIndex);
-      setAvailableTimes((map) => new Map(map.set(date, currentTimesArray.splice(index, 1))));
+      props.setAvailableTimes((map) => new Map(map.set(date, currentTimesArray.splice(index, 1))));
 
       // remove date if number of slots goes down to 0
       if (currentTimesArray.length === 0) {
@@ -44,12 +44,14 @@ export default function TimeGrid(props) {
   };
 
   const updateAvailability = (prevDate, newDate) => {
-    if (availableTimes.size > 0) {
+    if (props.availableTimes.size > 0) {
       // create new date with times from old date
-      setAvailableTimes((map) => new Map(map.set(newDate, availableTimes.get(prevDate))));
+      props.setAvailableTimes(
+        (map) => new Map(map.set(newDate, props.availableTimes.get(prevDate)))
+      );
       deleteDate(prevDate);
     }
-    console.log(availableTimes);
+    // console.log(availableTimes);
   };
 
   //   let minutesToAdd = 30;
@@ -59,8 +61,8 @@ export default function TimeGrid(props) {
 
   const formatTime = (minuteOffset) => {
     let ending = "AM";
-    let newHours = parseInt(startTime.substring(0, 2)) + parseInt(minuteOffset / 60);
-    let minutes = startTime.substring(3);
+    let newHours = parseInt(props.startTime.substring(0, 2)) + parseInt(minuteOffset / 60);
+    let minutes = props.startTime.substring(3);
     if (newHours > 12) {
       newHours -= 12;
       ending = "PM";
@@ -80,11 +82,11 @@ export default function TimeGrid(props) {
         <input
           className="time"
           type="time"
-          max="22:00"
-          onChange={(e) => setStartTime(e.target.value)}
+          // max="22:00"
+          onChange={(e) => props.setStartTime(e.target.value)}
         />
 
-        {startTime !== "00:00" && (
+        {props.startTime !== "00:00" && (
           <div className="times">
             {/* {console.log(startTime.substring(0, 2))} */}
             {slotDates.map((index) => (
@@ -98,12 +100,12 @@ export default function TimeGrid(props) {
         {[1, 2, 3, 4].map((index) => (
           <DateContainer
             key={index}
-            availableTimes={availableTimes}
+            availableTimes={props.availableTimes}
             addAvailability={addAvailability}
             removeAvailability={removeAvailability}
             updateAvailability={updateAvailability}
-            slotDays={slotDays}
-            setSlotDays={setSlotDays}
+            // slotDays={slotDays}
+            // setSlotDays={setSlotDays}
           />
         ))}
       </div>
