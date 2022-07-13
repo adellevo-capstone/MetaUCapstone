@@ -78,37 +78,14 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  // console.log("Login was successful");
   try {
     const user = await User.findOne({ email }).select("+password");
     const compared = await bcrypt.compare(password, user.password);
     compared ? sendToken(user, 200, req, res) : res.status(400).json({ message: "Login Failed" });
   } catch (err) {
-    console.log(err);
     res.status(400).json(err.message);
   }
 };
-
-// router.get("/", checkUser, async (req, res) => {
-//   try {
-//     console.log(req);
-//     res.status(201).json({ dietaryProfile: req.user.dietaryProfile });
-//   } catch (error) {
-//     res.status(500).send(error.message);
-//     console.log(error);
-//   }
-// });
-
-// exports.dietaryProfile = async (req, res) => {
-//   try {
-//     console.log(req);
-//     checkUser();
-//     res.status(201).json({ dietaryProfile: req.user });
-//   } catch (error) {
-//     res.status(500).send(error.message);
-//     console.log(error);
-//   }
-// };
 
 exports.logout = async (req, res) => {
   const options = {
@@ -119,12 +96,6 @@ exports.logout = async (req, res) => {
   res.cookie("jwt", "expiredtoken", options);
   res.status(200).json({ status: "success" });
 };
-
-// exports.secretContent = (req, res) => {
-//   console.log("REQ USER");
-//   console.log(req.user);
-//   res.status(200).json({ status: "SECRET CONTENT SHOWN!!!" });
-// };
 
 // Middleware
 
@@ -138,7 +109,6 @@ exports.secure = async (req, res, next) => {
     });
   }
   const jwtInfo = await decryptJwt(token);
-  console.log(jwtInfo);
   const user = await User.findById(jwtInfo.id);
   if (!user) {
     return res.status(401).json({
@@ -149,14 +119,3 @@ exports.secure = async (req, res, next) => {
   req.user = user;
   next();
 };
-
-// exports.clearanceLevel = (...clearanceLevel) => {
-//   return (req, res, next) => {
-//     clearanceLevel.includes(req.user.clearance)
-//       ? next()
-//       : res.status(401).json({
-//           status: "unauthorized",
-//           message: "Content not available at your current clearance level",
-//         });
-//   };
-// };

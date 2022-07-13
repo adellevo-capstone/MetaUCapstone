@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
 import API from "../../utils/API";
+import { useEffect } from "react";
 
 export default function GroupSearch(props) {
-  //   const [restaurant, setRestaurant] = useState("");
   const [usersToAdd, setUsersToAdd] = useState([]);
   const [displayedUsers, setDisplayedUsers] = useState([]);
+  const [groupName, setGroupName] = useState("");
 
-  const findUsers = async (restaurantToAdd) => {
+  const findUsers = async () => {
     try {
       const filteredUsers = props.allUsers.filter(
         (user) =>
@@ -17,20 +17,34 @@ export default function GroupSearch(props) {
       setDisplayedUsers(filteredUsers);
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
   };
 
-  const addUsers = async (restaurantToAdd) => {
+  const createGroup = async () => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
-      const body = { restaurantToAdd: restaurantToAdd };
-      await API.patch("api/v1/auth/allUsers", body, config);
-      // await API.patch("api/v1/auth/dietaryProfile/delete", body, config);
-      props.loadFavoriteRestaurants();
+      const memberIds = usersToAdd.map((user) => {
+        return user.userId;
+      });
+      const body = { name: groupName, members: memberIds };
+      await API.patch("api/v1/auth/group/create", body, config);
+      props.loadAllGroups();
     } catch (err) {
       console.log(err);
-      console.log(err.message);
+    }
+  };
+
+  const addMembers = async (groupId) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const memberIds = usersToAdd.map((user) => {
+        return user.userId;
+      });
+      const body = { members: memberIds };
+      await API.patch(`api/v1/auth/group/${groupId}/addMembers`, body, config);
+      props.loadAllGroups();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -71,7 +85,21 @@ export default function GroupSearch(props) {
               <li key={index}>{user.name}</li>
             ))}
           </ul>
-          <button onClick={() => addUsers}>Confirm</button>
+          {props.actionType !== "addMembers" && (
+            <input
+              className="group name"
+              type="text"
+              name="user"
+              placeholder="Pick a group name..."
+              onChange={(e) => setGroupName(e.target.value)}
+            />
+          )}
+
+          {props.actionType === "addMembers" ? (
+            <button onClick={() => addMembers(props.groupId)}>Confirm</button>
+          ) : (
+            <button onClick={createGroup}>Confirm</button>
+          )}
         </div>
       </div>
     </div>

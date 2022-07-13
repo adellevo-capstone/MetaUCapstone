@@ -1,7 +1,18 @@
 .groups {
   display: flex;
-  flex-direction: row;
-  /* background-color: whitesmoke; */
+  flex-direction: column;
+  align-items: center;
+}
+
+.groups > * {
   border: 1px solid grey;
-  padding: 2em;
+  width: 100%;
+}
+
+.group-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1em;
+  margin-bottom: 2em;
 }
