@@ -13,6 +13,7 @@ import InputIcon from "react-multi-date-picker/components/input_icon";
 import "./EventForm.css";
 import TimeSlot from "./TimeSlot.js";
 import TimeGrid from "./TimeGrid.js";
+import Invitation from "./Invitation.js";
 
 // import React, { useState } from "react";
 
@@ -416,13 +417,16 @@ export default function EventForm(props) {
 
         <button type="submit">Create an invitation</button>
       </form>
-      <div>
+      {/* <div>
         <h2>Pending invitations</h2>
-      </div>
+      </div> */}
       <div>
         <h2>Events I created</h2>
         {hosted.map((event, index) => (
-          <p key={index}>{event.eventDetails.description}</p>
+          <Invitation
+            key={index}
+            event={event}
+          />
         ))}
       </div>
       <div>
