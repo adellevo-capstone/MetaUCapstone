@@ -5,9 +5,10 @@ const InviteSchema = new mongoose.Schema({
   members: [mongoose.ObjectId],
   rsvpDeadline: Date,
   responses: [mongoose.ObjectId],
+  timeSlots: [String],
   eventDetails: {
-    // time: Date,
-    // location: String,
+    time: Date,
+    location: String,
     description: String,
     // carpool: {
     //   drivers:

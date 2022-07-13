@@ -6,6 +6,7 @@ export default function Search(props) {
   //   const [restaurant, setRestaurant] = useState("");
 
   const findRestaurant = async () => {
+    console.log("hello");
     try {
       await axios
         .get(
@@ -62,7 +63,7 @@ export default function Search(props) {
           onChange={(e) => props.setLocation(e.target.value)}
         />
       </div>
-      <button onClick={() => findRestaurant}>Search</button>
+      <button onClick={findRestaurant}>Search</button>
     </div>
   );
 }

@@ -8,7 +8,7 @@ const InviteResponseSchema = new mongoose.Schema({
   weightedLikes: [String],
   //   weightedDislikes: [String],
   //   carpoolStatus: String,
-  //   timeSlots: [String]
+  timeSlots: [String],
 });
 
 const InviteResponse = mongoose.model("InviteResponse", InviteResponseSchema);

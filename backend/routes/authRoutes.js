@@ -86,6 +86,7 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
       rsvpDeadline: new Date(req.body.rsvpDeadline),
       members: req.body.members,
       responses: [hostResponse._id],
+      timeSlots: req.body.timeSlots,
       eventDetails: {
         description: req.body.description,
       },
