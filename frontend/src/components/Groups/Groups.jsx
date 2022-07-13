@@ -39,7 +39,6 @@ export default function Groups(props) {
     try {
       const res = await API.get("api/v1/auth/user");
       setCurrentUser(res.data.user);
-      //   console.log(res);
     } catch (err) {
       console.log(err.response);
     }
@@ -47,20 +46,16 @@ export default function Groups(props) {
 
   const leaveGroup = async (groupId) => {
     try {
-      // const config = { headers: { "Content-Type": "application/json" } };
-      // const body = { members: memberIds };
       await API.patch(`api/v1/auth/group/${groupId}/leave`);
       loadAllGroups();
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
   };
 
   return (
     <div>
       <Popup
-        // closeOnDocumentClick
         modal
         nested
         trigger={<button> Create a group </button>}
@@ -87,15 +82,11 @@ export default function Groups(props) {
             <h3>{group.groupInfo.name}</h3>
             <p>{group.memberInfo.length} members</p>
             <ul>
-              {/* <li>
-                {currentUser.firstName} {currentUser.lastName} (Me)
-              </li> */}
               {group.memberInfo.map((member, index) => (
                 <li key={index}>{member.firstName + " " + member.lastName}</li>
               ))}
             </ul>
             <Popup
-              // closeOnDocumentClick
               modal
               nested
               trigger={<button> Add a member </button>}

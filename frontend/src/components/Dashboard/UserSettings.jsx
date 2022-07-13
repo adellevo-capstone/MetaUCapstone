@@ -8,8 +8,7 @@ export default function UserSettings() {
 
   const logoutUser = async () => {
     try {
-      const res = await API.get("api/v1/auth/logout");
-      console.log(res);
+      await API.get("api/v1/auth/logout");
       navigate("/");
     } catch (err) {
       console.log(err.response);

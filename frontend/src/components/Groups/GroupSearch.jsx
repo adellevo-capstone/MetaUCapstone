@@ -7,19 +7,6 @@ export default function GroupSearch(props) {
   const [displayedUsers, setDisplayedUsers] = useState([]);
   const [groupName, setGroupName] = useState("");
 
-  //   useEffect(() => {
-  //     getCurrentUserInfo();
-  //   }, []);
-
-  //   const getCurrentUserInfo = async () => {
-  //     try {
-  //       await API.get("api/v1/auth/user");
-  //       //   console.log(res);
-  //     } catch (err) {
-  //       console.log(err.response);
-  //     }
-  //   };
-
   const findUsers = async () => {
     try {
       const filteredUsers = props.allUsers.filter(
@@ -30,7 +17,6 @@ export default function GroupSearch(props) {
       setDisplayedUsers(filteredUsers);
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
   };
 
@@ -41,12 +27,10 @@ export default function GroupSearch(props) {
         return user.userId;
       });
       const body = { name: groupName, members: memberIds };
-      //   console.log(body);
       await API.patch("api/v1/auth/group/create", body, config);
       props.loadAllGroups();
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
   };
 
@@ -56,14 +40,11 @@ export default function GroupSearch(props) {
       const memberIds = usersToAdd.map((user) => {
         return user.userId;
       });
-      // let uniqueIds = new Set([...memberIds, props.currentUser]);
-      // const body = { members: [...uniqueIds] };
       const body = { members: memberIds };
       await API.patch(`api/v1/auth/group/${groupId}/addMembers`, body, config);
       props.loadAllGroups();
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
   };
 

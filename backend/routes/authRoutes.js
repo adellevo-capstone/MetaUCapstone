@@ -13,7 +13,6 @@ router.route("/logout").get(authController.logout);
 // ---- All users ----
 
 router.get("/allUsers", authController.checkUser, async (req, res) => {
-  // let options = { ...req.query };
   try {
     const allUsers = await User.find({ _id: { $ne: req.user._id } });
     res.status(201).json(allUsers);
@@ -56,7 +55,6 @@ router.get("/group", authController.checkUser, async (req, res) => {
 });
 
 router.get("/user/:id", async (req, res) => {
-  // let userId = req.params.id;
   try {
     const user = await User.findById(req.params.id);
     res.status(201).json(user);
@@ -190,7 +188,5 @@ router.patch("/dietaryProfile/addRestaurant", authController.checkUser, async (r
 });
 
 router.use(authController.secure);
-// router.use(authController.clearanceLevel("level 1"));
-// router.route("/secretcontent").get(authController.secretContent);
 
 module.exports = router;

@@ -18,13 +18,10 @@ const Auth = (props) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { firstName, lastName, email, password };
-      console.log("body: ", body);
-      const res = await API.post("api/v1/auth/signup", body, config);
-      console.log(res);
+      await API.post("api/v1/auth/signup", body, config);
       navigate("/dashboard/profile");
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
   };
 
@@ -32,14 +29,10 @@ const Auth = (props) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { email, password };
-      const res = await API.post("api/v1/auth/login", body, config);
-      // setAuthorized(true);
-      console.log(res);
+      await API.post("api/v1/auth/login", body, config);
       navigate("/dashboard/profile");
     } catch (err) {
       console.log(err);
-      console.log(err.response.data.message);
-      console.log(err.message);
     }
   };
 
@@ -48,7 +41,6 @@ const Auth = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     signup ? signupUser() : loginUser();
-    console.log("Button Clicked!!!");
   };
 
   const onChange = (e) => {
@@ -56,7 +48,6 @@ const Auth = (props) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    console.log(formData);
   };
 
   //CLASSES
