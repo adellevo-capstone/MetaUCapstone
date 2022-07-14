@@ -1,85 +1,30 @@
 import React, { useState, useEffect } from "react";
-import API from "../../utils/API";
-import "./Invitation.css";
+import TimeGrid from "./TimeGrid/TimeGrid";
 import Popup from "reactjs-popup";
-import TimeGrid from "./TimeGrid";
-import ResponseTimeGrid from "./ResponseTimeGrid";
 
-export default function InvitationResponse(props) {
-  const [going, setGoing] = useState([]);
-  const [notGoing, setNotGoing] = useState([]);
-  const [unconfirmed, setUnconfirmed] = useState([]);
-  const [groupName, setGroupName] = useState("");
+export default function InvitationResponseForm(props) {
   const [rsvpStatus, setRSVPStatus] = useState("unconfirmed");
 
-  useEffect(() => {
-    loadInviteResponses();
-    getGroupName();
-  }, []);
-
-  const loadInviteResponses = async () => {
-    try {
-      const res = await API.get(`api/v1/auth/inviteResponses/${props.event._id}`);
-      setGoing(res.data.going);
-      setNotGoing(res.data.notGoing);
-      setUnconfirmed(res.data.unconfirmed);
-    } catch (err) {
-      console.log(err.response);
-    }
-  };
-
-  const getGroupName = async () => {
-    try {
-      const res = await API.get(`api/v1/auth/group/${props.event.groupId}`);
-      setGroupName(res.data.groupName);
-    } catch (err) {
-      console.log(err.response);
-    }
-  };
-
   return (
-    <div className="invitation">
-      <h3>Title: {props.event.title}</h3>
-      <p>Group name: {groupName}</p>
-      <p>Description: {props.event.eventDetails.description}</p>
-      <p>RSVP deadline: {props.event.rsvpDeadline}</p>
-      <h3>Members: </h3>
-      <ul>
-        <b>Going:</b>
-        {going?.map((response) => (
-          <li>{response.name}</li>
-        ))}
-      </ul>
-      <ul>
-        <b>Not going:</b>
-        {notGoing?.map((response) => (
-          <li>{response.name}</li>
-        ))}
-      </ul>
-      <ul>
-        <b>Unconfirmed:</b>
-        {unconfirmed?.map((response) => (
-          <li>{response.name}</li>
-        ))}
-      </ul>
-      <Popup
-        closeOnDocumentClick
-        modal
-        nested
-        trigger={<button> Fill out RSVP </button>}
+    <Popup
+      closeOnDocumentClick
+      modal
+      nested
+      trigger={<button> Fill out RSVP </button>}
+    >
+      <div
+        style={{
+          backgroundColor: "white",
+          boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+          padding: "0.5em",
+          borderRadius: "2em",
+        }}
       >
-        <div
-          style={{
-            backgroundColor: "white",
-            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            padding: "0.5em",
-            borderRadius: "2em",
-          }}
-        >
+        <div>
           <button onClick={() => setRSVPStatus("accept")}>Accept</button>
           <button onClick={() => setRSVPStatus("decline")}>Decline</button>
           {rsvpStatus === "accept" && (
-            <form>
+            <form onClick={() => console.log("placeholder")}>
               <div className="content">
                 <div className="planning">
                   <fieldset className="time-slot-field">
@@ -159,7 +104,7 @@ export default function InvitationResponse(props) {
             </form>
           )}
         </div>
-      </Popup>
-    </div>
+      </div>
+    </Popup>
   );
 }

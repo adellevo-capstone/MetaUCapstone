@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import DateContainer from "./DateContainer";
-import "./EventForm.css";
-import TimeSlot from "./TimeSlot";
-// import Moment from "react-moment";
-// import "moment-timezone";
+// import "./CreateInvitation/EventForm.css";
 
 export default function TimeGrid(props) {
-  // const [startTime, setStartTime] = useState("00:00");
   const slotDates = [0, 2, 4, 6, 8, 10];
-  // const [availableTimes, props.setAvailableTimes] = useState(new Map());
-  // const [slotDays, setSlotDays] = useState(["", "", "", ""]);
 
   const addAvailability = (date, slotIndex) => {
     let currentTimesArray = props.availableTimes.get(date); // get array
@@ -51,13 +45,7 @@ export default function TimeGrid(props) {
       );
       deleteDate(prevDate);
     }
-    // console.log(availableTimes);
   };
-
-  //   let minutesToAdd = 30;
-  //   let currentDate = new Date();
-  //   let futureDate = new Date(currentDate.getTime() + minutesToAdd * 60000);
-  //   console.log(futureDate);
 
   const formatTime = (minuteOffset) => {
     let ending = "AM";
@@ -68,12 +56,6 @@ export default function TimeGrid(props) {
       ending = "PM";
     }
     return `${newHours}:${minutes} ${ending}`;
-    // let newHours = parseInt(startTime.substring(0, 2)) + parseInt(minuteOffset / 60);
-    // let newMinutes = parseInt(startTime.substring(2)) + parseInt(minuteOffset % 60);
-    // if (newMinutes === 0) {
-    //   newMinutes = "00";
-    // }
-    // return `${newHours}:${newMinutes} ${ending}`;
   };
 
   return (
@@ -84,14 +66,12 @@ export default function TimeGrid(props) {
           <input
             className="time"
             type="time"
-            // max="22:00"
             onChange={(e) => props.setStartTime(e.target.value)}
           />
         )}
 
         {props.startTime !== "00:00" && (
           <div className="times">
-            {/* {console.log(startTime.substring(0, 2))} */}
             {slotDates.map((index) => (
               <p>{formatTime(index * 30)}</p>
             ))}
@@ -108,8 +88,6 @@ export default function TimeGrid(props) {
             addAvailability={addAvailability}
             removeAvailability={removeAvailability}
             updateAvailability={updateAvailability}
-            // slotDays={slotDays}
-            // setSlotDays={setSlotDays}
           />
         ))}
       </div>

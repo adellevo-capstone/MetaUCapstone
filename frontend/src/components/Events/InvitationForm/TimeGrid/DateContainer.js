@@ -3,21 +3,13 @@ import TimeSlot from "./TimeSlot";
 
 export default function DateContainer(props) {
   const slotContainers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  // let prevDate;
   const [prevDate, setPrevDate] = useState("");
   const [currDate, setCurrDate] = useState("");
-  // const prevDate = useRef(null);
 
   useEffect(() => {
-    // prevDate.current = currDate;
-    // console.log(prevDate);
-    // console.log(currDate);
     if (prevDate && prevDate !== "") {
-      // console.log(prevDate);
-      // console.log(currDate);
       props.updateAvailability(prevDate, currDate);
     }
-    // props.updateAvailability(index, currDate);
   }, [currDate]);
 
   useEffect(() => {
@@ -34,13 +26,9 @@ export default function DateContainer(props) {
           type="date"
           className="date"
           onClick={(e) => {
-            // e.target.setAttribute("oldvalue", e.target.value);
-            // console.log(e.target.getAttribute("oldvalue"));
-            //  e.target.getAttribute("oldvalue");
             setPrevDate(e.target.value);
           }}
           onChange={(e) => {
-            // console.log(e);
             setCurrDate(e.target.value);
           }}
         />
@@ -55,11 +43,10 @@ export default function DateContainer(props) {
             addAvailability={props.addAvailability}
             removeAvailability={props.removeAvailability}
             updateAvailability={props.updateAvailability}
-            // slotDays={props.slotDays}
-            // setSlotDays={props.setSlotDays}
           />
         ))
       ) : (
+        // prevent people from being able to pick time slots when date isn't defined
         <p>Select a date </p>
       )}
     </div>

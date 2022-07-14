@@ -6,8 +6,11 @@ import "./assets/Dashboard.css";
 import "../Profile/assets/Profile.css";
 import UserSettings from "./UserSettings";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import EventForm from "../Events/EventForm";
+// import Event from "../Events/CreateInvitation/Event";
+// import Event from "../Events/InvitationForm/Event";
+import Event from "../Events/Event";
 import Groups from "../Groups/Groups";
+// import API from "../../utils/API";
 import API from "../../utils/API";
 
 export default function Dashboard() {
@@ -52,7 +55,7 @@ export default function Dashboard() {
         <Route
           path="/events"
           element={
-            <EventForm
+            <Event
               // events={events}
               // loadAllEvents={loadAllEvents}
               groups={groups}

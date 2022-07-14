@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import API from "../../utils/API";
-import "./Invitation.css";
+import API from "../../../utils/API";
+import "./InvitationCard.css";
+import InvitationResponseForm from "./InvitationResponseForm";
 
-export default function Invitation(props) {
+export default function InvitationCard(props) {
   const [going, setGoing] = useState([]);
   const [notGoing, setNotGoing] = useState([]);
   const [unconfirmed, setUnconfirmed] = useState([]);
@@ -58,6 +59,15 @@ export default function Invitation(props) {
           <li>{response.name}</li>
         ))}
       </ul>
+      {props.guest && (
+        <InvitationResponseForm
+          groups={props.groups}
+          startTime={props.startTime}
+          setStartTime={props.setStartTime}
+          availableTimes={props.availableTimes}
+          setAvailableTimes={props.setAvailableTimes}
+        />
+      )}
     </div>
   );
 }
