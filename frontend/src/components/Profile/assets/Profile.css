@@ -340,8 +340,11 @@
     width: var(--main-header-size);
   }
 
-  .profile {
-    width: 80vw;
+  .profile,
+  .events,
+  .groups {
+    padding: 2em;
+    width: 100%;
     /* background-color: blue; */
   }
 }

@@ -58,7 +58,7 @@ export default function Groups(props) {
   };
 
   return (
-    <div>
+    <div className="groups">
       <Popup
         // closeOnDocumentClick
         modal

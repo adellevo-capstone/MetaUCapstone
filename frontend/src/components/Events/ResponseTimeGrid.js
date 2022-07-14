@@ -5,7 +5,7 @@ import TimeSlot from "./TimeSlot";
 // import Moment from "react-moment";
 // import "moment-timezone";
 
-export default function TimeGrid(props) {
+export default function ResponseTimeGrid(props) {
   // const [startTime, setStartTime] = useState("00:00");
   const slotDates = [0, 2, 4, 6, 8, 10];
   // const [availableTimes, props.setAvailableTimes] = useState(new Map());
@@ -79,16 +79,6 @@ export default function TimeGrid(props) {
   return (
     <div className="time-grid">
       <div className="left-container">
-        {/* only display input for host */}
-        {!props.guest && (
-          <input
-            className="time"
-            type="time"
-            // max="22:00"
-            onChange={(e) => props.setStartTime(e.target.value)}
-          />
-        )}
-
         {props.startTime !== "00:00" && (
           <div className="times">
             {/* {console.log(startTime.substring(0, 2))} */}
@@ -102,7 +92,6 @@ export default function TimeGrid(props) {
       <div className="slots">
         {[1, 2, 3, 4].map((index) => (
           <DateContainer
-            guest={props.guest}
             key={index}
             availableTimes={props.availableTimes}
             addAvailability={addAvailability}

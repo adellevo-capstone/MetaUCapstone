@@ -3,7 +3,9 @@ import axios from "axios";
 import API from "../../utils/API";
 import TimeGrid from "./TimeGrid.js";
 import Invitation from "./Invitation.js";
+import Popup from "reactjs-popup";
 import "./EventForm.css";
+import InvitationResponse from "./InvitationResponse";
 
 export default function EventForm(props) {
   const [error, setError] = useState("");
@@ -62,122 +64,142 @@ export default function EventForm(props) {
   };
 
   return (
-    <div>
-      <h2>Create invitation</h2>
-      <form onSubmit={(event) => createEvent(event)}>
-        <div className="content">
-          <div className="planning">
-            <fieldset>
-              <legend>Choose a group</legend>
-              <select
-                name="groups"
-                id="group-member-ids"
-                required
-              >
-                {props.groups.map((group) => (
-                  <option
-                    key={group.groupInfo._id}
-                    value={group.groupInfo._id}
+    <div className="events">
+      <Popup
+        closeOnDocumentClick
+        modal
+        nested
+        trigger={<button> Create an invitation </button>}
+        // style={{
+        //   minWidth: "40em",
+        // }}
+      >
+        <div
+          style={{
+            backgroundColor: "white",
+            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+            padding: "0.5em",
+            borderRadius: "2em",
+          }}
+        >
+          <h2>Create invitation</h2>
+          <form onSubmit={(event) => createEvent(event)}>
+            <div className="content">
+              <div className="planning">
+                <fieldset>
+                  <legend>Choose a group</legend>
+                  <select
+                    name="groups"
+                    id="group-member-ids"
+                    required
                   >
-                    {group.groupInfo.name}
-                  </option>
-                ))}
-              </select>
-            </fieldset>
-            <fieldset>
-              <legend>Pick an RSVP deadline</legend>
-              <input
-                id="rsvp-deadline"
-                type="datetime-local"
-                required
-              />
-            </fieldset>
-            <fieldset className="time-slot-field">
-              <legend>Pick time slots</legend>
-
-              <TimeGrid
-                startTime={startTime}
-                setStartTime={setStartTime}
-                availableTimes={availableTimes}
-                setAvailableTimes={setAvailableTimes}
-              />
-            </fieldset>
-          </div>
-
-          <div className="filters">
-            <fieldset>
-              <legend>Extra categories</legend>
-              <input
-                id="extra-categories"
-                type="text"
-                required
-              />
-            </fieldset>
-
-            <fieldset>
-              <legend>Title</legend>
-              <textarea id="title" />
-            </fieldset>
-
-            <fieldset>
-              <legend>Description</legend>
-              <textarea id="description" />
-            </fieldset>
-
-            <fieldset>
-              <legend>Transportation</legend>
-              <select
-                id="transportation"
-                selected
-                required
-              >
-                <option
-                  value=""
-                  disabled
-                >
-                  Select carpool needs
-                </option>
-                <option value="driver">Driver</option>
-                <option value="rider">Rider</option>
-                <option value="none">N/A</option>
-              </select>
-            </fieldset>
-
-            <fieldset>
-              <legend>Price Level</legend>
-              {["<$10", "$11-30", "$31-60", "$61+"].map((label, index) => (
-                <div>
+                    {props.groups.map((group) => (
+                      <option
+                        key={group.groupInfo._id}
+                        value={group.groupInfo._id}
+                      >
+                        {group.groupInfo.name}
+                      </option>
+                    ))}
+                  </select>
+                </fieldset>
+                <fieldset>
+                  <legend>Pick an RSVP deadline</legend>
                   <input
-                    key={index}
-                    id={label}
-                    name="priceLevel"
-                    type="radio"
-                    value={index}
+                    id="rsvp-deadline"
+                    type="datetime-local"
+                    required
                   />
-                  <label htmlFor={label}>{label}</label>
-                </div>
-              ))}
-            </fieldset>
+                </fieldset>
+                <fieldset className="time-slot-field">
+                  <legend>Pick time slots</legend>
 
-            <fieldset>
-              <legend>Distance</legend>
-              {["level-1", "level-2", "level-3", "level-4"].map((label, index) => (
-                <div>
-                  <input
-                    key={index}
-                    id={label}
-                    name="distanceLevel"
-                    type="radio"
-                    value={index}
+                  <TimeGrid
+                    startTime={startTime}
+                    setStartTime={setStartTime}
+                    availableTimes={availableTimes}
+                    setAvailableTimes={setAvailableTimes}
                   />
-                  <label htmlFor={label}>{index + 1}</label>
-                </div>
-              ))}
-            </fieldset>
-          </div>
+                </fieldset>
+              </div>
+
+              <div className="filters">
+                <fieldset>
+                  <legend>Extra categories</legend>
+                  <input
+                    id="extra-categories"
+                    type="text"
+                    required
+                  />
+                </fieldset>
+
+                <fieldset>
+                  <legend>Title</legend>
+                  <textarea id="title" />
+                </fieldset>
+
+                <fieldset>
+                  <legend>Description</legend>
+                  <textarea id="description" />
+                </fieldset>
+
+                <fieldset>
+                  <legend>Transportation</legend>
+                  <select
+                    id="transportation"
+                    selected
+                    required
+                  >
+                    <option
+                      value=""
+                      disabled
+                    >
+                      Select carpool needs
+                    </option>
+                    <option value="driver">Driver</option>
+                    <option value="rider">Rider</option>
+                    <option value="none">N/A</option>
+                  </select>
+                </fieldset>
+
+                <fieldset>
+                  <legend>Price Level</legend>
+                  {["<$10", "$11-30", "$31-60", "$61+"].map((label, index) => (
+                    <div>
+                      <input
+                        key={index}
+                        id={label}
+                        name="priceLevel"
+                        type="radio"
+                        value={index}
+                      />
+                      <label htmlFor={label}>{label}</label>
+                    </div>
+                  ))}
+                </fieldset>
+
+                <fieldset>
+                  <legend>Distance</legend>
+                  {["level-1", "level-2", "level-3", "level-4"].map((label, index) => (
+                    <div>
+                      <input
+                        key={index}
+                        id={label}
+                        name="distanceLevel"
+                        type="radio"
+                        value={index}
+                      />
+                      <label htmlFor={label}>{index + 1}</label>
+                    </div>
+                  ))}
+                </fieldset>
+              </div>
+            </div>
+            <button type="submit">Submit</button>
+          </form>
         </div>
-        <button type="submit">Create an invitation</button>
-      </form>
+      </Popup>
+
       <div>
         <h2>Events I created</h2>
         {hosted.map((event, index) => (
@@ -190,9 +212,15 @@ export default function EventForm(props) {
       <div>
         <h2>Events I was invited to</h2>
         {invitedTo.map((event, index) => (
-          <Invitation
+          <InvitationResponse
             key={index}
             event={event}
+            createEvent={createEvent}
+            groups={props.groups}
+            startTime={startTime}
+            setStartTime={setStartTime}
+            availableTimes={availableTimes}
+            setAvailableTimes={setAvailableTimes}
           />
         ))}
       </div>

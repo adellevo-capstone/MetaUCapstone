@@ -13,30 +13,39 @@ export default function DateContainer(props) {
     // console.log(prevDate);
     // console.log(currDate);
     if (prevDate && prevDate !== "") {
-      console.log(prevDate);
-      console.log(currDate);
+      // console.log(prevDate);
+      // console.log(currDate);
       props.updateAvailability(prevDate, currDate);
     }
     // props.updateAvailability(index, currDate);
   }, [currDate]);
 
+  useEffect(() => {
+    if (props.guest) {
+      setCurrDate(props.currDate);
+    }
+  }, []);
+
   return (
     <div className="date-container">
-      <input
-        type="date"
-        className="date"
-        onClick={(e) => {
-          // e.target.setAttribute("oldvalue", e.target.value);
-          // console.log(e.target.getAttribute("oldvalue"));
-          //  e.target.getAttribute("oldvalue");
-          setPrevDate(e.target.value);
-        }}
-        onChange={(e) => {
-          // console.log(e);
-          setCurrDate(e.target.value);
-        }}
-      />
-      {currDate ? (
+      {/* only display input for host */}
+      {!props.guest && (
+        <input
+          type="date"
+          className="date"
+          onClick={(e) => {
+            // e.target.setAttribute("oldvalue", e.target.value);
+            // console.log(e.target.getAttribute("oldvalue"));
+            //  e.target.getAttribute("oldvalue");
+            setPrevDate(e.target.value);
+          }}
+          onChange={(e) => {
+            // console.log(e);
+            setCurrDate(e.target.value);
+          }}
+        />
+      )}
+      {currDate || props.guest ? (
         slotContainers.map((index) => (
           <TimeSlot
             key={index}
