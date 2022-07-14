@@ -1,0 +1,64 @@
+const [location, setLocation] = useState("");
+const [categories, setCategories] = useState("");
+
+const handleOnClick = async (event) => {
+  event.preventDefault();
+  try {
+    let savedCategories = "";
+    users.forEach((user) => {
+      savedCategories += user.preferences.likes.join(",") + ", ";
+    });
+    await axios
+      .get(
+        `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?location=${location}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+          },
+          params: {
+            categories: savedCategories + categories,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (err) {
+    setError(err);
+  }
+};
+
+const handleOnClick2 = async (event) => {
+  event.preventDefault();
+  try {
+    // aggregate group members' preferences
+    // ideas: use likes/dislikes/frequency as weights
+    let savedCategories = "";
+    users.forEach((user) => {
+      savedCategories += user.preferences.likes.join(",") + ", ";
+    });
+    await axios
+      .get(
+        `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?location=${location}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+          },
+          params: {
+            categories: savedCategories + categories,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (err) {
+    setError(err);
+  }
+};

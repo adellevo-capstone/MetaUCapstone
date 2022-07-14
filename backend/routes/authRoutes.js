@@ -15,7 +15,6 @@ router.route("/logout").get(authController.logout);
 // ---- All users ----
 
 router.get("/allUsers", authController.checkUser, async (req, res) => {
-  // let options = { ...req.query };
   try {
     const allUsers = await User.find({ _id: { $ne: req.user._id } });
     res.status(201).json(allUsers);
@@ -31,15 +30,11 @@ router.get("/allUsers", authController.checkUser, async (req, res) => {
 router.get("/events", authController.checkUser, async (req, res) => {
   try {
     const eventIds = req.user.events;
-    console.log(eventIds);
-    // let allEvents = [];
     let eventsHosted = [];
     let eventsInvitedTo = [];
 
     for (let i = 0; i < eventIds.length; i++) {
       const eventInfo = await Invite.findById(eventIds[i]);
-      // console.log(eventInfo);
-      // eventsHosted.push(eventInfo);
       if (eventInfo.hostId.equals(req.user._id)) {
         eventsHosted.push(eventInfo);
       } else {
@@ -58,9 +53,7 @@ router.get("/events", authController.checkUser, async (req, res) => {
 const updateMemberProfiles = async (arrayType, createdItemId, memberIds) => {
   for (let i = 0; i < memberIds.length; i++) {
     let member = await User.findById(memberIds[i]);
-    // console.log(member.firstName);
     member[arrayType].unshift(createdItemId);
-    // console.log(member[arrayType]);
     member.save();
   }
 };
@@ -71,6 +64,7 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     const { dateMap, startTime } = req.body.timeSlots;
 
     const hostResponse = await InviteResponse.create({
+      groupId: req.body.groupId,
       guestId: req.user._id,
       attending: true,
       priceLevel: parseInt(req.body.priceLevel),
@@ -80,21 +74,40 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     });
 
     const newEvent = await Invite.create({
+      groupId: req.body.groupId,
       hostId: req.user._id,
+      title: req.body.title,
       rsvpDeadline: new Date(req.body.rsvpDeadline),
       members: req.body.members,
-      responses: [hostResponse._id],
+      attendance: {
+        going: [hostResponse._id],
+        notGoing: [],
+      },
       timeSlots: { dateMap: dateMap, startTime: startTime },
       eventDetails: {
         description: req.body.description,
       },
     });
 
+    let unconfirmed = [];
+
+    for (let i = 0; i < newEvent.members.length; i++) {
+      if (newEvent.members[i] !== newEvent.hostId) {
+        const defaultGuestResponse = await InviteResponse.create({
+          groupId: req.body.groupId,
+          guestId: newEvent.members[i],
+        });
+
+        unconfirmed.push(defaultGuestResponse._id);
+      }
+    }
+
+    newEvent.attendance.unconfirmed = [...unconfirmed];
+    newEvent.save();
+
     await updateMemberProfiles("events", newEvent._id, newEvent.members);
 
-    // res.status(201).json({ createdEvent: hostResponse });
     res.status(201).json({ createdEvent: newEvent });
-    // res.status(201).json({ createdEvent: "hi" });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
@@ -133,8 +146,24 @@ router.get("/group", authController.checkUser, async (req, res) => {
   }
 });
 
+router.get("/group/:id", authController.checkUser, async (req, res) => {
+  try {
+    const groupInfo = await Group.findById(req.params.id);
+    let memberInfo = [];
+
+    for (let i = 0; i < groupInfo.members.length; i++) {
+      const member = await User.findById(groupInfo.members[i]);
+      memberInfo.push(member);
+    }
+
+    res.status(201).json({ groupName: groupInfo.name, groupId: groupInfo._id, groups: memberInfo });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
 router.get("/user/:id", async (req, res) => {
-  // let userId = req.params.id;
   try {
     const user = await User.findById(req.params.id);
     res.status(201).json(user);
@@ -144,11 +173,33 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 
-router.get("/user/info", async (req, res) => {
-  let userId = req.body.id;
+const getInviteResponseDetails = async (attendanceArray) => {
+  let details = [];
+  for (let i = 0; i < attendanceArray.length; i++) {
+    const inviteResponse = await InviteResponse.findById(attendanceArray[i]);
+    const { guestId, attending, priceLevel, distanceLevel, weightedLikes, availability } =
+      inviteResponse;
+    const guest = await User.findById(guestId);
+    details.push({
+      name: `${guest.firstName} ${guest.lastName}`,
+      attending,
+      priceLevel,
+      distanceLevel,
+      weightedLikes,
+      availability,
+    });
+  }
+  return details;
+};
+
+router.get("/inviteResponses/:eventId", async (req, res) => {
   try {
-    const user = await User.findById(userId);
-    res.status(201).json(user);
+    const event = await Invite.findOne({ eventId: req.params.eventId });
+    const going = await getInviteResponseDetails(event.attendance.going);
+    const notGoing = await getInviteResponseDetails(event.attendance.notGoing);
+    const unconfirmed = await getInviteResponseDetails(event.attendance.unconfirmed);
+
+    res.status(201).json({ going: going, notGoing: notGoing, unconfirmed: unconfirmed });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);

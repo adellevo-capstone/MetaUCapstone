@@ -1,40 +1,14 @@
 import React, { useState, useEffect } from "react";
-import users from "../users.js";
 import axios from "axios";
 import API from "../../utils/API";
-// import eventDetails from "../events.js";
-
-import DayTimePicker from "@mooncake-dev/react-day-time-picker";
-import DatePicker, { DateObject } from "react-multi-date-picker";
-import DatePanel from "react-multi-date-picker/plugins/date_panel";
-import { Calendar } from "react-multi-date-picker";
-import TimePicker from "react-multi-date-picker/plugins/time_picker";
-import InputIcon from "react-multi-date-picker/components/input_icon";
-import "./EventForm.css";
-import TimeSlot from "./TimeSlot.js";
 import TimeGrid from "./TimeGrid.js";
 import Invitation from "./Invitation.js";
-
-// import React, { useState } from "react";
-
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-
-// function App() {
-//   return <DayTimePicker timeSlotSizeMinutes={15} />;
-// }
-// const target = document.getElementById('root');
-// render(<App />, target);
+import "./EventForm.css";
 
 export default function EventForm(props) {
   const [error, setError] = useState("");
-  const [location, setLocation] = useState("");
-  const [categories, setCategories] = useState("");
-  // const [events, setEvents] = useState({});
   const [hosted, setHosted] = useState([]);
   const [invitedTo, setInvitedTo] = useState([]);
-  // const [numTimeSlots, setNumTimeSlots] = useState([]);
-
   const [startTime, setStartTime] = useState("00:00");
   const [availableTimes, setAvailableTimes] = useState(new Map());
 
@@ -45,84 +19,12 @@ export default function EventForm(props) {
   const loadAllEvents = async () => {
     try {
       const res = await API.get("api/v1/auth/events");
-      console.log(res.data);
       setHosted(res.data.hosted);
       setInvitedTo(res.data.invitedTo);
-      // console.log(events);
     } catch (err) {
-      console.log(err.response);
+      setError(error);
     }
   };
-
-  //   const handleOnChangeCategories = (event) => {
-  //     setLocation(event.target.value);
-  //   };
-
-  //   const handleOnChangeLocation = (event) => {
-  //     setLocation(event.target.value);
-  //   };
-
-  // const handleOnClick = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     let savedCategories = "";
-  //     users.forEach((user) => {
-  //       savedCategories += user.preferences.likes.join(",") + ", ";
-  //     });
-  //     await axios
-  //       .get(
-  //         `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?location=${location}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-  //           },
-  //           params: {
-  //             categories: savedCategories + categories,
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // };
-
-  // const handleOnClick2 = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     // aggregate group members' preferences
-  //     // ideas: use likes/dislikes/frequency as weights
-  //     let savedCategories = "";
-  //     users.forEach((user) => {
-  //       savedCategories += user.preferences.likes.join(",") + ", ";
-  //     });
-  //     await axios
-  //       .get(
-  //         `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?location=${location}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-  //           },
-  //           params: {
-  //             categories: savedCategories + categories,
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // };
 
   const createEvent = async (event) => {
     try {
@@ -135,16 +37,13 @@ export default function EventForm(props) {
         (group) => group.groupInfo._id === elements["group-member-ids"].value
       );
 
-      // const timeSlots = {
-      //   dateMap: availableTimes,
-      //   startTime: startTime,
-      // };
-      // console.log("timeSlots: ", timeSlots);
-      console.log(availableTimes);
+      console.log(elements.title.value);
 
       const body = {
+        groupId: intendedGroup.groupInfo._id,
         members: intendedGroup.groupInfo.members,
         description: elements.description.value,
+        title: elements.title.value,
         rsvpDeadline: elements["rsvp-deadline"].value,
         timeSlots: {
           dateMap: Object.fromEntries(availableTimes),
@@ -153,42 +52,14 @@ export default function EventForm(props) {
         priceLevel: elements.priceLevel.value,
         distanceLevel: elements.distanceLevel.value,
         weightedLikes: elements["extra-categories"].value.split(","),
-        // transportation: elements.transportation.value,
-        // timeSlot: elements.timeSlot.checked,
       };
 
-      // alert(`Here's your data: ${JSON.stringify(body, undefined, 2)}`);
-
-      await API.patch("api/v1/auth/event/create", body, config);
+      const res = await API.patch("api/v1/auth/event/create", body, config);
+      console.log(res);
     } catch (err) {
       console.log(err);
-      // console.log(err.message);
     }
   };
-
-  // const [values, setValues] = useState(
-  //   [1, 2, 3].map((number) =>
-  //     new DateObject().set({
-  //       day: number,
-  //       hour: number,
-  //       minute: number,
-  //       second: number,
-  //     })
-  //   )
-  // );
-
-  // const [timeSlots, setTimeSlots] = useState([]);
-
-  // const formatTime = (time) => {
-  //   const hour = parseInt(time.substring(0, 3));
-  //   if (hour > 12) {
-  //     return hour - 12 + ":" + time.substring(3) + " PM";
-  //   } else {
-  //     return time + " AM";
-  //   }
-  // };
-
-  // const [startDate, setStartDate] = useState(new Date());
 
   return (
     <div>
@@ -220,22 +91,9 @@ export default function EventForm(props) {
                 type="datetime-local"
                 required
               />
-              {/* <input
-            id="rsvp-date"
-            type="date"
-          />
-          <input
-            id="rsvp-time"
-            type="time"
-          /> */}
             </fieldset>
             <fieldset className="time-slot-field">
               <legend>Pick time slots</legend>
-              {/* <input
-            placeholder="length of event"
-            id="time-slot-num"
-            type="number"
-          /> */}
 
               <TimeGrid
                 startTime={startTime}
@@ -243,71 +101,12 @@ export default function EventForm(props) {
                 availableTimes={availableTimes}
                 setAvailableTimes={setAvailableTimes}
               />
-
-              {/* <input
-                className="time-slot"
-                id="date-1"
-                type="datetime-local"
-              />
-              <input
-                className="time-slot"
-                id="date-2"
-                type="datetime-local"
-              />
-              <input
-                className="time-slot"
-                id="date-3"
-                type="datetime-local"
-              /> */}
-
-              {/* <input
-            type="date"
-            id="start"
-            name="trip-start"
-            value="2018-07-22"
-            min="2018-01-01"
-            max="2018-12-31"
-          /> */}
-
-              {/* <TimeSlot />
-          <TimeSlot />
-          <TimeSlot /> */}
-
-              {/* <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            showTimeSelect
-            // isClearable
-            dateFormat="MMMM d, yyyy h:mm aa"
-          /> */}
-
-              {/* ------ other calendar ------ */}
-
-              {/* <Calendar
-                value={timeSlots}
-                onChange={setTimeSlots}
-                format="MM/DD/YY HH:mm"
-                multiple
-                plugins={[
-                  <TimePicker
-                    position="right"
-                    hideSeconds
-                  />,
-                  <DatePanel
-                    markFocused
-                    position="right"
-                  />,
-                ]}
-              /> */}
-
-              {/* ------ other calendar ------ */}
             </fieldset>
           </div>
 
           <div className="filters">
             <fieldset>
               <legend>Extra categories</legend>
-              {/* <label htmlFor="extra-categories">Extra categories</label> */}
               <input
                 id="extra-categories"
                 type="text"
@@ -316,14 +115,17 @@ export default function EventForm(props) {
             </fieldset>
 
             <fieldset>
+              <legend>Title</legend>
+              <textarea id="title" />
+            </fieldset>
+
+            <fieldset>
               <legend>Description</legend>
-              {/* <label htmlFor="comment">Comment</label> */}
               <textarea id="description" />
             </fieldset>
 
             <fieldset>
               <legend>Transportation</legend>
-              {/* <label htmlFor="transportation">Transportation</label> */}
               <select
                 id="transportation"
                 selected
@@ -343,83 +145,39 @@ export default function EventForm(props) {
 
             <fieldset>
               <legend>Price Level</legend>
-
-              <input
-                id="$"
-                name="priceLevel"
-                type="radio"
-                value={1}
-              />
-              <label htmlFor="$"> {"<$10"} </label>
-
-              <input
-                id="$$"
-                name="priceLevel"
-                type="radio"
-                value={2}
-              />
-              <label htmlFor="$$">$11-30</label>
-
-              <input
-                id="$$$"
-                name="priceLevel"
-                type="radio"
-                value={3}
-              />
-              <label htmlFor="$$$">$31-60</label>
-
-              <input
-                id="$$$$"
-                name="priceLevel"
-                type="radio"
-                value={4}
-              />
-              <label htmlFor="$$$$">$61+</label>
+              {["<$10", "$11-30", "$31-60", "$61+"].map((label, index) => (
+                <div>
+                  <input
+                    key={index}
+                    id={label}
+                    name="priceLevel"
+                    type="radio"
+                    value={index}
+                  />
+                  <label htmlFor={label}>{label}</label>
+                </div>
+              ))}
             </fieldset>
 
             <fieldset>
               <legend>Distance</legend>
-
-              <input
-                id="trash"
-                name="distanceLevel"
-                type="radio"
-                value={1}
-              />
-              <label htmlFor="level-1">1</label>
-
-              <input
-                id="okay"
-                name="distanceLevel"
-                type="radio"
-                value={2}
-              />
-              <label htmlFor="level-2">2</label>
-
-              <input
-                id="amazing"
-                name="distanceLevel"
-                type="radio"
-                value={3}
-              />
-              <label htmlFor="level-3">3</label>
-
-              <input
-                id="amazing"
-                name="distanceLevel"
-                type="radio"
-                value={4}
-              />
-              <label htmlFor="level-4">4</label>
+              {["level-1", "level-2", "level-3", "level-4"].map((label, index) => (
+                <div>
+                  <input
+                    key={index}
+                    id={label}
+                    name="distanceLevel"
+                    type="radio"
+                    value={index}
+                  />
+                  <label htmlFor={label}>{index + 1}</label>
+                </div>
+              ))}
             </fieldset>
           </div>
         </div>
-
         <button type="submit">Create an invitation</button>
       </form>
-      {/* <div>
-        <h2>Pending invitations</h2>
-      </div> */}
       <div>
         <h2>Events I created</h2>
         {hosted.map((event, index) => (
@@ -432,7 +190,10 @@ export default function EventForm(props) {
       <div>
         <h2>Events I was invited to</h2>
         {invitedTo.map((event, index) => (
-          <p key={index}>{event.eventDetails}</p>
+          <Invitation
+            key={index}
+            event={event}
+          />
         ))}
       </div>
     </div>
