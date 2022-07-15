@@ -5,14 +5,18 @@ export default function DateContainer(props) {
   const slotContainers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [prevDate, setPrevDate] = useState("");
   const [currDate, setCurrDate] = useState("");
+  // let hostAvailableSlots;
 
-  const checkValidSlot = (index) => {
+  const isValidSlot = (index) => {
     if (!props.guest) {
       return true;
     } else {
-      let hostAvailableSlots = props.hostAvailability[currDate];
-      // return hostAvailableSlots.includes(index);
-      return false;
+      // console.log(props.hostAvailability[currDate].includes(index));
+      console.log(props.hostAvailability[props.currDate]);
+      // console.log(index);
+      return props.hostAvailability[props.currDate].includes(index);
+      // return false;
+      // return false;
     }
   };
 
@@ -57,7 +61,7 @@ export default function DateContainer(props) {
         {currDate || props.guest ? (
           slotContainers.map((index) => (
             <TimeSlot
-              validSlot={checkValidSlot(index)}
+              validSlot={isValidSlot(index)}
               key={index}
               date={currDate}
               slotIndex={index}

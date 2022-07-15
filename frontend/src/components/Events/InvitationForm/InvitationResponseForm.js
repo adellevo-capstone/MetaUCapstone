@@ -1,9 +1,37 @@
 import React, { useState, useEffect } from "react";
 import TimeGrid from "./TimeGrid/TimeGrid";
 import Popup from "reactjs-popup";
+import API from "../../../utils/API";
 
 export default function InvitationResponseForm(props) {
   const [rsvpStatus, setRSVPStatus] = useState("unconfirmed");
+
+  const submitRSVP = async (event) => {
+    try {
+      // get form data
+      event.preventDefault();
+      const config = { headers: { "Content-Type": "application/json" } };
+      const elements = event.currentTarget.elements;
+
+      const intendedGroup = props.groups.find((group) => group.groupInfo.name === props.groupName);
+
+      console.log(props.eventId);
+
+      const body = {
+        eventId: props.eventId,
+        groupId: intendedGroup.groupInfo._id,
+        attending: rsvpStatus === "attending" ? true : false,
+        priceLevel: elements.priceLevel.value,
+        distanceLevel: elements.distanceLevel.value,
+        weightedLikes: elements["extra-categories"].value.split(","),
+        availability: props.availableTimes,
+      };
+
+      await API.patch("api/v1/auth/inviteResponse/update", body, config);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Popup
@@ -24,7 +52,7 @@ export default function InvitationResponseForm(props) {
           <button onClick={() => setRSVPStatus("accept")}>Accept</button>
           <button onClick={() => setRSVPStatus("decline")}>Decline</button>
           {rsvpStatus === "accept" && (
-            <form onClick={() => console.log("placeholder")}>
+            <form onSubmit={(event) => submitRSVP(event)}>
               <div className="content">
                 <div className="planning">
                   <fieldset className="time-slot-field">
@@ -49,6 +77,7 @@ export default function InvitationResponseForm(props) {
                       required
                     />
                   </fieldset>
+
                   <fieldset>
                     <legend>Transportation</legend>
                     <select

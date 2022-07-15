@@ -92,8 +92,8 @@ form > * {
 }
 
 .invalid {
-  background-color: rgb(224, 224, 224);
-  border: 2px solid rgb(224, 224, 224);
+  background-color: white;
+  border: 2px solid white;
 }
 
 .valid-unselected {

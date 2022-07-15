@@ -64,8 +64,10 @@ export default function InvitationCard(props) {
       {props.guest && (
         <div>
           <InvitationResponseForm
+            eventId={props.event._id}
             hostAvailability={props.event.timeSlots.dateMap}
             groups={props.groups}
+            groupName={groupName}
             startTime={props.event.timeSlots.startTime}
             setStartTime={props.setStartTime}
             availableTimes={props.availableTimes}

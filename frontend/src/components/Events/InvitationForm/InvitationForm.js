@@ -3,9 +3,6 @@ import API from "../../../utils/API.js";
 import TimeGrid from "./TimeGrid/TimeGrid.js";
 
 export default function InvitationForm(props) {
-  // const [startTime, setStartTime] = useState("00:00");
-  // const [availableTimes, setAvailableTimes] = useState(new Map());
-
   const createEvent = async (event) => {
     try {
       // get form data
@@ -71,7 +68,6 @@ export default function InvitationForm(props) {
             </fieldset>
             <fieldset className="time-slot-field">
               <legend>Pick time slots</legend>
-
               <TimeGrid
                 startTime={props.startTime}
                 setStartTime={props.setStartTime}

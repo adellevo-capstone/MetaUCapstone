@@ -5,6 +5,7 @@ export default function HostedEvents(props) {
   return (
     <div>
       <h2>Events I created</h2>
+      {console.log(props.hosted)}
       {props.hosted.map((event, index) => (
         <InvitationCard
           guest={false}

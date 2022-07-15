@@ -22,6 +22,7 @@ export default function Event(props) {
   const loadAllEvents = async () => {
     try {
       const res = await API.get("api/v1/auth/events");
+      console.log(res);
       setHosted(res.data.hosted);
       setInvitedTo(res.data.invitedTo);
     } catch (err) {

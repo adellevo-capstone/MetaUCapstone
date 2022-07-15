@@ -90,16 +90,20 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     });
 
     let unconfirmed = [];
+    // for (let i = 0; i < newEvent.members.length; i++) {
+    //   console.log(newEvent.hostId);
+    //   console.log(newEvent.members[i]);
+    //   console.log(newEvent.hostId.equals(newEvent.members[i]));
+    // }
+    const guests = newEvent.members.filter((memberId) => !memberId.equals(newEvent.hostId));
+    // console.log("guests: ", guests);
 
-    for (let i = 0; i < newEvent.members.length; i++) {
-      if (newEvent.members[i] !== newEvent.hostId) {
-        const defaultGuestResponse = await InviteResponse.create({
-          groupId: req.body.groupId,
-          guestId: newEvent.members[i],
-        });
-
-        unconfirmed.push(defaultGuestResponse._id);
-      }
+    for (let i = 0; i < guests.length; i++) {
+      const defaultGuestResponse = await InviteResponse.create({
+        groupId: req.body.groupId,
+        guestId: guests[i],
+      });
+      unconfirmed.push(defaultGuestResponse._id);
     }
 
     newEvent.attendance.unconfirmed = [...unconfirmed];
@@ -108,6 +112,69 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     await updateMemberProfiles("events", newEvent._id, newEvent.members);
 
     res.status(201).json({ createdEvent: newEvent });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+// ---- InviteResponse ----
+
+const getInviteResponseDetails = async (attendanceArray) => {
+  let details = [];
+  for (let i = 0; i < attendanceArray.length; i++) {
+    const inviteResponse = await InviteResponse.findById(attendanceArray[i]);
+    const { guestId, attending, priceLevel, distanceLevel, weightedLikes, availability } =
+      inviteResponse;
+    const guest = await User.findById(guestId);
+    details.push({
+      name: `${guest.firstName} ${guest.lastName}`,
+      attending,
+      priceLevel,
+      distanceLevel,
+      weightedLikes,
+      availability,
+    });
+  }
+  return details;
+};
+
+router.get("/inviteResponses/:eventId", async (req, res) => {
+  try {
+    const event = await Invite.findOne({ eventId: req.params.eventId });
+    const going = await getInviteResponseDetails(event.attendance.going);
+    const notGoing = await getInviteResponseDetails(event.attendance.notGoing);
+    const unconfirmed = await getInviteResponseDetails(event.attendance.unconfirmed);
+
+    res.status(201).json({ going: going, notGoing: notGoing, unconfirmed: unconfirmed });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+router.patch("/inviteResponse/update", authController.checkUser, async (req, res) => {
+  try {
+    // modify existing invite response
+    const filters = {
+      groupId: req.body.groupId,
+      guestId: req.user._id,
+    };
+    console.log("filters: ", filters);
+    const update = req.body;
+    console.log("update: ", update);
+    let inviteResponse = await InviteResponse.findOneAndUpdate(filters, update, { new: true });
+    console.log("inviteResponse: ", inviteResponse);
+
+    // update attendance arrays
+    let eventToUpdate = await Invite.findById(req.body.eventId);
+    const { going, notGoing, unconfirmed } = eventToUpdate.attendance;
+    const index = unconfirmed.find((id) => id.equals(req.user._id));
+    unconfirmed.splice(index, 1);
+    req.body.attending ? going.push(req.user._id) : notGoing.push(req.user._id);
+    eventToUpdate.save();
+
+    res.status(201).json({ inviteResponse: inviteResponse, eventToUpdate: eventToUpdate });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
@@ -167,39 +234,6 @@ router.get("/user/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(201).json(user);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error);
-  }
-});
-
-const getInviteResponseDetails = async (attendanceArray) => {
-  let details = [];
-  for (let i = 0; i < attendanceArray.length; i++) {
-    const inviteResponse = await InviteResponse.findById(attendanceArray[i]);
-    const { guestId, attending, priceLevel, distanceLevel, weightedLikes, availability } =
-      inviteResponse;
-    const guest = await User.findById(guestId);
-    details.push({
-      name: `${guest.firstName} ${guest.lastName}`,
-      attending,
-      priceLevel,
-      distanceLevel,
-      weightedLikes,
-      availability,
-    });
-  }
-  return details;
-};
-
-router.get("/inviteResponses/:eventId", async (req, res) => {
-  try {
-    const event = await Invite.findOne({ eventId: req.params.eventId });
-    const going = await getInviteResponseDetails(event.attendance.going);
-    const notGoing = await getInviteResponseDetails(event.attendance.notGoing);
-    const unconfirmed = await getInviteResponseDetails(event.attendance.unconfirmed);
-
-    res.status(201).json({ going: going, notGoing: notGoing, unconfirmed: unconfirmed });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
