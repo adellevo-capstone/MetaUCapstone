@@ -3,7 +3,11 @@ import DateContainer from "./DateContainer";
 // import "./CreateInvitation/EventForm.css";
 
 export default function TimeGrid(props) {
-  const slotDates = [0, 2, 4, 6, 8, 10];
+  let dateSlots = props.hostAvailability ? Object.keys(props.hostAvailability) : [1, 2, 3, 4];
+  // [1, 2, 3, 4];
+  // if (props.hostAvailability) {
+  //   dateSlots = Object.keys(props.hostAvailability);
+  // }
 
   const addAvailability = (date, slotIndex) => {
     let currentTimesArray = props.availableTimes.get(date); // get array
@@ -62,17 +66,18 @@ export default function TimeGrid(props) {
     <div className="time-grid">
       <div className="left-container">
         {/* only display input for host */}
-        {!props.guest && (
-          <input
-            className="time"
-            type="time"
-            onChange={(e) => props.setStartTime(e.target.value)}
-          />
-        )}
+
+        <input
+          className="time"
+          type={props.guest ? "hidden" : "time"}
+          onChange={(e) => props.setStartTime(e.target.value)}
+        />
+
+        {props.guest && <div className="spacer" />}
 
         {props.startTime !== "00:00" && (
           <div className="times">
-            {slotDates.map((index) => (
+            {[0, 2, 4, 6, 8, 10].map((index) => (
               <p>{formatTime(index * 30)}</p>
             ))}
           </div>
@@ -80,9 +85,12 @@ export default function TimeGrid(props) {
       </div>
 
       <div className="slots">
-        {[1, 2, 3, 4].map((index) => (
+        {/* {console.log(Object.keys(props.hostAvailability))} */}
+        {dateSlots.map((date, index) => (
           <DateContainer
+            hostAvailability={props.hostAvailability}
             guest={props.guest}
+            currDate={date}
             key={index}
             availableTimes={props.availableTimes}
             addAvailability={addAvailability}

@@ -12,8 +12,8 @@ export default function EventsInvitedTo(props) {
           key={index}
           event={event}
           groups={props.groups}
-          startTime={props.startTime}
-          setStartTime={props.setStartTime}
+          // startTime={props.startTime}
+          // setStartTime={props.setStartTime}
           availableTimes={props.availableTimes}
           setAvailableTimes={props.setAvailableTimes}
         />

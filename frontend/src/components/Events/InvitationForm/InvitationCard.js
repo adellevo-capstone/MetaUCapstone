@@ -8,6 +8,7 @@ export default function InvitationCard(props) {
   const [notGoing, setNotGoing] = useState([]);
   const [unconfirmed, setUnconfirmed] = useState([]);
   const [groupName, setGroupName] = useState("");
+  // const [startTime, setStartTime] = useState("00:00");
 
   useEffect(() => {
     loadInviteResponses();
@@ -36,6 +37,7 @@ export default function InvitationCard(props) {
 
   return (
     <div className="invitation">
+      {console.log(props.event)}
       <h3>Title: {props.event.title}</h3>
       <p>Group name: {groupName}</p>
       <p>Description: {props.event.eventDetails.description}</p>
@@ -60,13 +62,16 @@ export default function InvitationCard(props) {
         ))}
       </ul>
       {props.guest && (
-        <InvitationResponseForm
-          groups={props.groups}
-          startTime={props.startTime}
-          setStartTime={props.setStartTime}
-          availableTimes={props.availableTimes}
-          setAvailableTimes={props.setAvailableTimes}
-        />
+        <div>
+          <InvitationResponseForm
+            hostAvailability={props.event.timeSlots.dateMap}
+            groups={props.groups}
+            startTime={props.event.timeSlots.startTime}
+            setStartTime={props.setStartTime}
+            availableTimes={props.availableTimes}
+            setAvailableTimes={props.setAvailableTimes}
+          />
+        </div>
       )}
     </div>
   );

@@ -10,6 +10,8 @@ export default function Event(props) {
   const [error, setError] = useState("");
   const [hosted, setHosted] = useState([]);
   const [invitedTo, setInvitedTo] = useState([]);
+  // const [startTime, setStartTime] = useState("00:00");
+  // const [availableTimes, setAvailableTimes] = useState(new Map());
   const [startTime, setStartTime] = useState("00:00");
   const [availableTimes, setAvailableTimes] = useState(new Map());
 
@@ -44,7 +46,13 @@ export default function Event(props) {
             borderRadius: "2em",
           }}
         >
-          <InvitationForm groups={props.groups} />
+          <InvitationForm
+            groups={props.groups}
+            startTime={startTime}
+            setStartTime={setStartTime}
+            availableTimes={availableTimes}
+            setAvailableTimes={setAvailableTimes}
+          />
         </div>
       </Popup>
 

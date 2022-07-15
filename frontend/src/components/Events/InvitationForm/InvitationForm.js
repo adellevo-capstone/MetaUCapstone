@@ -3,8 +3,8 @@ import API from "../../../utils/API.js";
 import TimeGrid from "./TimeGrid/TimeGrid.js";
 
 export default function InvitationForm(props) {
-  const [startTime, setStartTime] = useState("00:00");
-  const [availableTimes, setAvailableTimes] = useState(new Map());
+  // const [startTime, setStartTime] = useState("00:00");
+  // const [availableTimes, setAvailableTimes] = useState(new Map());
 
   const createEvent = async (event) => {
     try {
@@ -24,8 +24,8 @@ export default function InvitationForm(props) {
         title: elements.title.value,
         rsvpDeadline: elements["rsvp-deadline"].value,
         timeSlots: {
-          dateMap: Object.fromEntries(availableTimes),
-          startTime: startTime,
+          dateMap: Object.fromEntries(props.availableTimes),
+          startTime: props.startTime,
         },
         priceLevel: elements.priceLevel.value,
         distanceLevel: elements.distanceLevel.value,
@@ -73,10 +73,10 @@ export default function InvitationForm(props) {
               <legend>Pick time slots</legend>
 
               <TimeGrid
-                startTime={startTime}
-                setStartTime={setStartTime}
-                availableTimes={availableTimes}
-                setAvailableTimes={setAvailableTimes}
+                startTime={props.startTime}
+                setStartTime={props.setStartTime}
+                availableTimes={props.availableTimes}
+                setAvailableTimes={props.setAvailableTimes}
               />
             </fieldset>
           </div>

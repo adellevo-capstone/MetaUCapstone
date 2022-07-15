@@ -30,6 +30,7 @@ export default function InvitationResponseForm(props) {
                   <fieldset className="time-slot-field">
                     <legend>Pick time slots</legend>
                     <TimeGrid
+                      hostAvailability={props.hostAvailability}
                       guest={true}
                       startTime={props.startTime}
                       setStartTime={props.setStartTime}

@@ -3,6 +3,13 @@ import React, { useState, useEffect } from "react";
 export default function TimeSlot(props) {
   const [selected, setSelected] = useState(false);
 
+  const setClassName = () => {
+    if (!props.valid) {
+      return "invalid";
+    }
+    return selected ? "valid-selected" : "valid-unselected";
+  };
+
   const handleClick = (event) => {
     // console.log(event.currentTarget.classList);
     // console.log(selected);
@@ -20,9 +27,16 @@ export default function TimeSlot(props) {
   };
 
   return (
-    <div
-      className={selected ? "selected-slot" : "time-slot"}
-      onClick={handleClick}
-    ></div>
+    <div>
+      {props.valid ? (
+        <div className={"invalid"}>N/A</div>
+      ) : (
+        <div
+          // className={selected ? "selected-slot" : "time-slot"}
+          className={selected ? "valid-selected" : "valid-unselected"}
+          onClick={handleClick}
+        />
+      )}
+    </div>
   );
 }

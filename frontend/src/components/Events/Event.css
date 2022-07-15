@@ -3,22 +3,16 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: aliceblue; */
 }
 
 form > * {
   min-width: 80%;
 }
 
-/* .rmdp-panel {
-  min-width: 10em;
-} */
-
 .planning,
 .filters {
   display: flex;
   flex-direction: column;
-  /* border: 1px solid black; */
   min-width: fit-content;
 }
 
@@ -46,12 +40,11 @@ form > * {
 }
 
 .time-grid {
-  /* background-color: aliceblue; */
   display: flex;
   flex-direction: row;
   gap: 0.3em;
   align-items: center;
-  height: 20em;
+  height: 30em;
   padding: 0.6em;
 }
 
@@ -62,63 +55,74 @@ form > * {
   gap: 0.3em;
 }
 
+/* ---- DateContainer ---- */
+
 .date-container {
   display: flex;
   flex-direction: column;
-  height: 110%;
-  margin-top: -2em;
-  gap: 0.3em;
+  justify-content: flex-start;
+  height: 100%;
+  gap: 0.1em;
+}
+
+.date-slots {
+  margin-top: 1.5em;
+  display: flex;
+  flex-direction: column;
+  height: 85%;
+  gap: 0.35em;
 }
 
 .times {
+  margin-top: 1em;
   display: flex;
   flex-direction: column;
-  height: 115%;
+  height: 100%;
   justify-content: space-between;
-  /* background-color: aliceblue; */
 }
 
-.time-slot,
-.selected-slot {
-  height: 2em;
+/* ---- TimeSlot ---- */
+
+.valid-selected,
+.valid-unselected,
+.invalid {
+  min-height: 2em;
   width: 7.3em;
   border-radius: 0.1em;
 }
 
-.time-slot {
+.invalid {
   background-color: rgb(224, 224, 224);
   border: 2px solid rgb(224, 224, 224);
-  /* border-bottom: 2px solid rgb(224, 224, 224); */
 }
 
-.selected-slot {
+.valid-unselected {
+  background-color: rgb(224, 224, 224);
+  border: 2px solid rgb(224, 224, 224);
+}
+
+.valid-selected {
   background-color: rgb(255, 215, 129) !important;
   border: 2px solid orange;
-  /* border-bottom: 2px solid orange; */
-}
-
-.dates {
-  display: flex;
-  flex-direction: row;
-}
-
-.date {
-  margin-top: -0.5em;
-  /* height: 3.5em; */
-  margin-bottom: 1.2em;
-}
-
-/* .time {
-
-  width: 8em;
-  margin-bottom: 0.2em;
-} */
-
-.time-slot-field {
-  padding-top: 3em;
 }
 
 .left-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   height: 100%;
-  margin-top: -6em;
+  /* border: 1px solid black; */
+}
+
+.time,
+.date {
+  margin-bottom: 1em;
+}
+
+.spacer {
+  height: 2.5em;
+}
+
+p {
+  margin: unset;
 }
