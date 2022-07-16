@@ -1,13 +1,8 @@
 import React from "react";
 import DateContainer from "./DateContainer";
-// import "./CreateInvitation/EventForm.css";
 
 export default function TimeGrid(props) {
   let dateSlots = props.hostAvailability ? Object.keys(props.hostAvailability) : [1, 2, 3, 4];
-  // [1, 2, 3, 4];
-  // if (props.hostAvailability) {
-  //   dateSlots = Object.keys(props.hostAvailability);
-  // }
 
   const addAvailability = (date, slotIndex) => {
     let currentTimesArray = props.availableTimes.get(date); // get array
@@ -29,15 +24,14 @@ export default function TimeGrid(props) {
 
   const removeAvailability = (date, slotIndex) => {
     let currentTimesArray = props.availableTimes.get(date);
-    if (currentTimesArray) {
-      // remove time slot from date's slot array
-      const index = currentTimesArray.indexOf(slotIndex);
-      props.setAvailableTimes((map) => new Map(map.set(date, currentTimesArray.splice(index, 1))));
 
-      // remove date if number of slots goes down to 0
-      if (currentTimesArray.length === 0) {
-        deleteDate(date);
-      }
+    // remove time slot from date's slot array
+    let updatedTimes = currentTimesArray.filter((timeSlot) => timeSlot !== slotIndex);
+    props.setAvailableTimes((map) => new Map(map.set(date, updatedTimes)));
+
+    // remove date if number of slots goes down to 0
+    if (currentTimesArray.length === 1) {
+      deleteDate(date);
     }
   };
 
@@ -85,7 +79,6 @@ export default function TimeGrid(props) {
       </div>
 
       <div className="slots">
-        {/* {console.log(Object.keys(props.hostAvailability))} */}
         {dateSlots.map((date, index) => (
           <DateContainer
             hostAvailability={props.hostAvailability}

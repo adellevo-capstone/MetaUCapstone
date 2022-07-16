@@ -5,18 +5,12 @@ export default function DateContainer(props) {
   const slotContainers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [prevDate, setPrevDate] = useState("");
   const [currDate, setCurrDate] = useState("");
-  // let hostAvailableSlots;
 
   const isValidSlot = (index) => {
     if (!props.guest) {
       return true;
     } else {
-      // console.log(props.hostAvailability[currDate].includes(index));
-      console.log(props.hostAvailability[props.currDate]);
-      // console.log(index);
       return props.hostAvailability[props.currDate].includes(index);
-      // return false;
-      // return false;
     }
   };
 
@@ -36,7 +30,6 @@ export default function DateContainer(props) {
     <div className="date-container">
       {/* only display input for host */}
       <div className="current-date">
-        {console.log(currDate)}
         {props.guest ? (
           <input
             type="date"

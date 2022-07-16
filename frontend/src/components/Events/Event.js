@@ -10,8 +10,6 @@ export default function Event(props) {
   const [error, setError] = useState("");
   const [hosted, setHosted] = useState([]);
   const [invitedTo, setInvitedTo] = useState([]);
-  // const [startTime, setStartTime] = useState("00:00");
-  // const [availableTimes, setAvailableTimes] = useState(new Map());
   const [startTime, setStartTime] = useState("00:00");
   const [availableTimes, setAvailableTimes] = useState(new Map());
 
@@ -22,7 +20,6 @@ export default function Event(props) {
   const loadAllEvents = async () => {
     try {
       const res = await API.get("api/v1/auth/events");
-      console.log(res);
       setHosted(res.data.hosted);
       setInvitedTo(res.data.invitedTo);
     } catch (err) {

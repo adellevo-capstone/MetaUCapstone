@@ -90,13 +90,7 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     });
 
     let unconfirmed = [];
-    // for (let i = 0; i < newEvent.members.length; i++) {
-    //   console.log(newEvent.hostId);
-    //   console.log(newEvent.members[i]);
-    //   console.log(newEvent.hostId.equals(newEvent.members[i]));
-    // }
     const guests = newEvent.members.filter((memberId) => !memberId.equals(newEvent.hostId));
-    // console.log("guests: ", guests);
 
     for (let i = 0; i < guests.length; i++) {
       const defaultGuestResponse = await InviteResponse.create({
@@ -124,6 +118,7 @@ const getInviteResponseDetails = async (attendanceArray) => {
   let details = [];
   for (let i = 0; i < attendanceArray.length; i++) {
     const inviteResponse = await InviteResponse.findById(attendanceArray[i]);
+    // if (inviteResponse) {
     const { guestId, attending, priceLevel, distanceLevel, weightedLikes, availability } =
       inviteResponse;
     const guest = await User.findById(guestId);
@@ -135,11 +130,12 @@ const getInviteResponseDetails = async (attendanceArray) => {
       weightedLikes,
       availability,
     });
+    // }
   }
   return details;
 };
 
-router.get("/inviteResponses/:eventId", async (req, res) => {
+router.get("/inviteResponses/:eventId", authController.checkUser, async (req, res) => {
   try {
     const event = await Invite.findOne({ eventId: req.params.eventId });
     const going = await getInviteResponseDetails(event.attendance.going);
@@ -160,18 +156,18 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       groupId: req.body.groupId,
       guestId: req.user._id,
     };
-    console.log("filters: ", filters);
-    const update = req.body;
-    console.log("update: ", update);
+    let update = req.body;
+    update.guestId = req.user._id;
     let inviteResponse = await InviteResponse.findOneAndUpdate(filters, update, { new: true });
-    console.log("inviteResponse: ", inviteResponse);
 
     // update attendance arrays
     let eventToUpdate = await Invite.findById(req.body.eventId);
     const { going, notGoing, unconfirmed } = eventToUpdate.attendance;
-    const index = unconfirmed.find((id) => id.equals(req.user._id));
+    const index = unconfirmed.find((inviteResponseId) =>
+      inviteResponseId.equals(inviteResponse._id)
+    );
     unconfirmed.splice(index, 1);
-    req.body.attending ? going.push(req.user._id) : notGoing.push(req.user._id);
+    req.body.attending ? going.push(inviteResponse._id) : notGoing.push(inviteResponse._id);
     eventToUpdate.save();
 
     res.status(201).json({ inviteResponse: inviteResponse, eventToUpdate: eventToUpdate });

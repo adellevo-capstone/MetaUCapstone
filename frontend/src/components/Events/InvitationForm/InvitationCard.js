@@ -37,7 +37,6 @@ export default function InvitationCard(props) {
 
   return (
     <div className="invitation">
-      {console.log(props.event)}
       <h3>Title: {props.event.title}</h3>
       <p>Group name: {groupName}</p>
       <p>Description: {props.event.eventDetails.description}</p>

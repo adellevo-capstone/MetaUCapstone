@@ -5,8 +5,9 @@ const InviteSchema = new mongoose.Schema({
   hostId: mongoose.ObjectId,
   title: String,
   rsvpDeadline: Date,
-  members: [mongoose.ObjectId],
+  members: [mongoose.ObjectId], // user ids
   attendance: {
+    // inviteResponse ids
     going: [mongoose.ObjectId],
     notGoing: [mongoose.ObjectId],
     unconfirmed: [mongoose.ObjectId],

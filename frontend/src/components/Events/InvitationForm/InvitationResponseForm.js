@@ -20,7 +20,7 @@ export default function InvitationResponseForm(props) {
       const body = {
         eventId: props.eventId,
         groupId: intendedGroup.groupInfo._id,
-        attending: rsvpStatus === "attending" ? true : false,
+        attending: rsvpStatus === "accept" ? true : false,
         priceLevel: elements.priceLevel.value,
         distanceLevel: elements.distanceLevel.value,
         weightedLikes: elements["extra-categories"].value.split(","),
