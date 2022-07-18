@@ -7,8 +7,6 @@ const InviteResponseSchema = new mongoose.Schema({
   priceLevel: Number,
   distanceLevel: Number,
   weightedLikes: [String],
-  //   weightedDislikes: [String],
-  //   carpoolStatus: String,
   availability: Object,
 });
 

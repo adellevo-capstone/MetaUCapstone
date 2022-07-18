@@ -12,8 +12,6 @@ const InviteSchema = new mongoose.Schema({
     notGoing: [mongoose.ObjectId],
     unconfirmed: [mongoose.ObjectId],
   },
-  // responses: [mongoose.ObjectId],
-  // unconfirmed: [mongoose.ObjectId],
   timeSlots: {
     dateMap: Object,
     startTime: String,
@@ -22,9 +20,6 @@ const InviteSchema = new mongoose.Schema({
     time: Date,
     location: String,
     description: String,
-    // carpool: {
-    //   drivers:
-    // }
   },
 });
 
