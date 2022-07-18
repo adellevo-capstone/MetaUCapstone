@@ -118,7 +118,6 @@ const getInviteResponseDetails = async (attendanceArray) => {
   let details = [];
   for (let i = 0; i < attendanceArray.length; i++) {
     const inviteResponse = await InviteResponse.findById(attendanceArray[i]);
-    // if (inviteResponse) {
     const { guestId, attending, priceLevel, distanceLevel, weightedLikes, availability } =
       inviteResponse;
     const guest = await User.findById(guestId);
@@ -130,7 +129,6 @@ const getInviteResponseDetails = async (attendanceArray) => {
       weightedLikes,
       availability,
     });
-    // }
   }
   return details;
 };

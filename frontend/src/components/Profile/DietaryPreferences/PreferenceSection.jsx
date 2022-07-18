@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Popup from "reactjs-popup";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 import editIcon from "../../Shared/assets/EditIcon.svg";
@@ -24,10 +23,8 @@ export default function PreferenceSection(props) {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { updatedArray: props.data, sectionType: props.header };
       await API.patch("api/v1/auth/dietaryProfile/modify", body, config);
-      // await API.patch("api/v1/auth/dietaryProfile/delete", body, config);
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
     setEditMode(false);
   };
@@ -38,12 +35,6 @@ export default function PreferenceSection(props) {
         <div className="section-label">
           <h1>{props.header}</h1>
           <h2>{props.subHeader}</h2>
-          {/* <Popup
-          trigger={<h2>Discover similar</h2>}
-          position="right center"
-        >
-          <div>blah</div>
-        </Popup> */}
         </div>
         <div className="tags-container">
           {props.data.length === 0 && !inEditMode ? (

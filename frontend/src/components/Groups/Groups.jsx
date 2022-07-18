@@ -8,7 +8,6 @@ export default function Groups(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
   const [allUsers, setAllUsers] = useState([]);
-  // const [groups, setGroups] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
@@ -16,15 +15,6 @@ export default function Groups(props) {
     props.loadAllGroups();
     loadAllUsers();
   }, []);
-
-  // const loadAllGroups = async () => {
-  //   try {
-  //     const res = await API.get("api/v1/auth/group");
-  //     setGroups(res.data.groups);
-  //   } catch (err) {
-  //     console.log(err.response);
-  //   }
-  // };
 
   const loadAllUsers = async () => {
     try {
@@ -39,7 +29,6 @@ export default function Groups(props) {
     try {
       const res = await API.get("api/v1/auth/user");
       setCurrentUser(res.data.user);
-      //   console.log(res);
     } catch (err) {
       console.log(err.response);
     }
@@ -47,20 +36,16 @@ export default function Groups(props) {
 
   const leaveGroup = async (groupId) => {
     try {
-      // const config = { headers: { "Content-Type": "application/json" } };
-      // const body = { members: memberIds };
       await API.patch(`api/v1/auth/group/${groupId}/leave`);
       props.loadAllGroups();
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
   };
 
   return (
     <div className="groups">
       <Popup
-        // closeOnDocumentClick
         modal
         nested
         trigger={<button> Create a group </button>}
@@ -87,15 +72,11 @@ export default function Groups(props) {
             <h3>{group.groupInfo.name}</h3>
             <p>{group.memberInfo.length} members</p>
             <ul>
-              {/* <li>
-                {currentUser.firstName} {currentUser.lastName} (Me)
-              </li> */}
               {group.memberInfo.map((member, index) => (
                 <li key={index}>{member.firstName + " " + member.lastName}</li>
               ))}
             </ul>
             <Popup
-              // closeOnDocumentClick
               modal
               nested
               trigger={<button> Add a member </button>}

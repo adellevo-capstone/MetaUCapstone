@@ -8,7 +8,6 @@ export default function InvitationCard(props) {
   const [notGoing, setNotGoing] = useState([]);
   const [unconfirmed, setUnconfirmed] = useState([]);
   const [groupName, setGroupName] = useState("");
-  // const [startTime, setStartTime] = useState("00:00");
 
   useEffect(() => {
     loadInviteResponses();

@@ -6,31 +6,16 @@ import "./assets/Dashboard.css";
 import "../Profile/assets/Profile.css";
 import UserSettings from "./UserSettings";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-// import Event from "../Events/CreateInvitation/Event";
-// import Event from "../Events/InvitationForm/Event";
 import Event from "../Events/Event";
 import Groups from "../Groups/Groups";
-// import API from "../../utils/API";
 import API from "../../utils/API";
 
 export default function Dashboard() {
   const [groups, setGroups] = useState([]);
-  // const [events, setEvents] = useState({});
 
   useEffect(() => {
     loadAllGroups();
-    // loadAllEvents();
   }, []);
-
-  // const loadAllEvents = async () => {
-  //   try {
-  //     const res = await API.get("api/v1/auth/events");
-  //     setEvents(res.data.events);
-  //     console.log(events);
-  //   } catch (err) {
-  //     console.log(err.response);
-  //   }
-  // };
 
   const loadAllGroups = async () => {
     try {
@@ -56,8 +41,6 @@ export default function Dashboard() {
           path="/events"
           element={
             <Event
-              // events={events}
-              // loadAllEvents={loadAllEvents}
               groups={groups}
               loadAllGroups={loadAllGroups}
             />
@@ -73,7 +56,6 @@ export default function Dashboard() {
           }
         />
       </Routes>
-      {/* <Navbar /> */}
     </div>
   );
 }

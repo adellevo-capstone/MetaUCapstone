@@ -3,10 +3,7 @@ import axios from "axios";
 import API from "../../../../utils/API";
 
 export default function Search(props) {
-  //   const [restaurant, setRestaurant] = useState("");
-
   const findRestaurant = async () => {
-    console.log("hello");
     try {
       await axios
         .get(
@@ -18,10 +15,7 @@ export default function Search(props) {
           }
         )
         .then((res) => {
-          console.log();
           addRestaurant(res.data.businesses[0]);
-          // setRestaurant(res.data.businesses[0]);
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -36,11 +30,10 @@ export default function Search(props) {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { restaurantToAdd: restaurantToAdd };
       await API.patch("api/v1/auth/dietaryProfile/addRestaurant", body, config);
-      // await API.patch("api/v1/auth/dietaryProfile/delete", body, config);
+
       props.loadFavoriteRestaurants();
     } catch (err) {
       console.log(err);
-      console.log(err.message);
     }
   };
 

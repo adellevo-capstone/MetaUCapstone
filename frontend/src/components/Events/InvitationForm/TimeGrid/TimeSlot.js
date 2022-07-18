@@ -12,7 +12,6 @@ export default function TimeSlot(props) {
     } else {
       props.removeAvailability(props.date, props.slotIndex);
     }
-    console.log(props.availableTimes);
   };
 
   return (

@@ -15,8 +15,6 @@ export default function InvitationResponseForm(props) {
 
       const intendedGroup = props.groups.find((group) => group.groupInfo.name === props.groupName);
 
-      console.log(props.eventId);
-
       const body = {
         eventId: props.eventId,
         groupId: intendedGroup.groupInfo._id,
