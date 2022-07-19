@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Popup from "reactjs-popup";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 import editIcon from "../../Shared/assets/EditIcon.svg";

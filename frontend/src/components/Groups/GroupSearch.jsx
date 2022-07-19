@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import API from "../../utils/API";
-import { useEffect } from "react";
 
 export default function GroupSearch(props) {
   const [usersToAdd, setUsersToAdd] = useState([]);

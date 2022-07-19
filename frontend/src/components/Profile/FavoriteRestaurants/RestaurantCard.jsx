@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import cardImg from "./assets/card-img.png";
+import React from "react";
 
 export default function RestaurantCard({ restaurant }) {
   return (
@@ -13,15 +12,17 @@ export default function RestaurantCard({ restaurant }) {
       </div>
       <div className="card-info">
         <h2>{restaurant.name}</h2>
-        {/* <h3>$$ | Open</h3> */}
         <div className="tag-list">
-          {restaurant.categories.map((category) => (
-            <p className="tag">{category.title} </p>
+          {restaurant.categories.map((category, index) => (
+            <p
+              className="tag"
+              key={index}
+            >
+              {category.title}{" "}
+            </p>
           ))}
         </div>
       </div>
     </div>
   );
 }
-
-// 9:50

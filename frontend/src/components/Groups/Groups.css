@@ -5,11 +5,12 @@
 }
 
 .groups > * {
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   width: 100%;
 }
 
 .group-content {
+  border: 1px solid grey;
   display: flex;
   flex-direction: column;
   width: 100%;

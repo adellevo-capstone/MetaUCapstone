@@ -1,27 +1,30 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import API from "../../../../utils/API";
 
 export default function Search(props) {
   const findRestaurant = async () => {
     try {
-      await axios
-        .get(
-          `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${props.searchQuery}&location=${props.location}`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-            },
-          }
-        )
-        .then((res) => {
-          addRestaurant(res.data.businesses[0]);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const config = { headers: { "Content-Type": "application/json" } };
+      const body = { location: props.location, searchQuery: props.searchQuery };
+
+      // add categories to likes
+      const res = await API.post("api/v1/auth/restaurantInfo", body, config);
+      const categories = res.data.categories.map((category) => category.title);
+
+      // save to database
+      await API.patch(
+        "api/v1/auth/dietaryProfile/modify",
+        { updatedArray: [...props.likes, ...categories], sectionType: "Likes" },
+        config
+      );
+
+      // add restaurant
+      addRestaurant(res.data);
+
+      // update with new items
+      props.loadDietaryProfile();
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   };
 
@@ -30,7 +33,6 @@ export default function Search(props) {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { restaurantToAdd: restaurantToAdd };
       await API.patch("api/v1/auth/dietaryProfile/addRestaurant", body, config);
-      props.loadFavoriteRestaurants();
     } catch (err) {
       console.log(err);
     }
