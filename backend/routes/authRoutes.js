@@ -360,7 +360,5 @@ router.patch("/dietaryProfile/addRestaurant", authController.checkUser, async (r
 });
 
 router.use(authController.secure);
-// router.use(authController.clearanceLevel("level 1"));
-// router.route("/secretcontent").get(authController.secretContent);
 
 module.exports = router;

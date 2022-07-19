@@ -36,7 +36,6 @@ function Home() {
       })
       .catch((error) => {
         console.log(error);
-        // window.location = "/spotify"
       });
   }, [code]);
 

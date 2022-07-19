@@ -26,7 +26,6 @@ export default function GroupSearch(props) {
         return user.userId;
       });
       const body = { name: groupName, members: memberIds };
-
       await API.patch("api/v1/auth/group/create", body, config);
       props.loadAllGroups();
     } catch (err) {

@@ -11,7 +11,6 @@ export default function FavoriteRestaurants(props) {
     <div className="favorite-restaurants">
       <div className="profile-header">
         <h1>Favorite Restaurants</h1>
-
         <Popup
           closeOnDocumentClick
           modal

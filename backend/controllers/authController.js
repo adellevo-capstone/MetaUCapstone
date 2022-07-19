@@ -78,13 +78,11 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const user = await User.findOne({ email }).select("+password");
     const compared = await bcrypt.compare(password, user.password);
     compared ? sendToken(user, 200, req, res) : res.status(400).json({ message: "Login Failed" });
   } catch (err) {
-    console.log(err);
     res.status(400).json(err.message);
   }
 };
