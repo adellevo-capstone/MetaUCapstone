@@ -5,12 +5,33 @@ const User = require("../models/user");
 const Group = require("../models/group");
 const Invite = require("../models/invite");
 const InviteResponse = require("../models/inviteResponse");
+const axios = require("axios");
 
 // ---- Authentication ----
 
 router.route("/signup").post(authController.signup);
 router.route("/login").post(authController.login);
 router.route("/logout").get(authController.logout);
+
+// ---- Yelp API ----
+
+router.post("/restaurantInfo", authController.checkUser, async (req, res) => {
+  try {
+    const { location, searchQuery } = req.body;
+    const response = await axios.get(
+      `https://api.yelp.com/v3/businesses/search?term=${searchQuery}&location=${location}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+        },
+      }
+    );
+    const restaurantData = response.data.businesses[0];
+    res.status(201).json(restaurantData);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
 // ---- All users ----
 
@@ -20,7 +41,6 @@ router.get("/allUsers", authController.checkUser, async (req, res) => {
     res.status(201).json(allUsers);
   } catch (error) {
     res.status(500).send(error.message);
-    console.log(error);
   }
 });
 
@@ -311,9 +331,12 @@ router.get("/dietaryProfile", authController.checkUser, async (req, res) => {
 router.patch("/dietaryProfile/modify", authController.checkUser, async (req, res) => {
   try {
     const sectionType = req.body.sectionType.toLowerCase();
-    req.user.dietaryProfile[sectionType] = req.body.updatedArray;
 
-    req.user.save();
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $addToSet: { ["dietaryProfile." + sectionType]: { $each: req.body.updatedArray } } },
+      { returnNewDocument: true }
+    );
 
     res.status(201).json({ user: req.user });
   } catch (error) {
