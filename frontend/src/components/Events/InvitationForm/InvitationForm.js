@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import API from "../../../utils/API.js";
 import TimeGrid from "./TimeGrid/TimeGrid.js";
 
@@ -24,9 +24,8 @@ export default function InvitationForm(props) {
           dateMap: Object.fromEntries(props.availableTimes),
           startTime: props.startTime,
         },
-        priceLevel: elements.priceLevel.value,
-        distanceLevel: elements.distanceLevel.value,
-        weightedLikes: elements["extra-categories"].value.split(","),
+        priceLevel: parseInt(elements.priceLevel.value),
+        distanceLevel: parseInt(elements.distanceLevel.value),
       };
 
       await API.patch("api/v1/auth/event/create", body, config);
@@ -79,15 +78,6 @@ export default function InvitationForm(props) {
 
           <div className="filters">
             <fieldset>
-              <legend>Extra categories</legend>
-              <input
-                id="extra-categories"
-                type="text"
-                required
-              />
-            </fieldset>
-
-            <fieldset>
               <legend>Title</legend>
               <textarea id="title" />
             </fieldset>
@@ -125,7 +115,8 @@ export default function InvitationForm(props) {
                     id={label}
                     name="priceLevel"
                     type="radio"
-                    value={index}
+                    value={index + 1}
+                    required
                   />
                   <label htmlFor={label}>{label}</label>
                 </div>
@@ -141,7 +132,8 @@ export default function InvitationForm(props) {
                     id={label}
                     name="distanceLevel"
                     type="radio"
-                    value={index}
+                    value={index + 1}
+                    required
                   />
                   <label htmlFor={label}>{index + 1}</label>
                 </div>

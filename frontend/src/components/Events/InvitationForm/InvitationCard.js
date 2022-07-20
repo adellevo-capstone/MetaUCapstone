@@ -43,20 +43,20 @@ export default function InvitationCard(props) {
       <h3>Members: </h3>
       <ul>
         <b>Going:</b>
-        {going?.map((response) => (
-          <li>{response.name}</li>
+        {going?.map((response, index) => (
+          <li key={index}>{response.name}</li>
         ))}
       </ul>
       <ul>
         <b>Not going:</b>
-        {notGoing?.map((response) => (
-          <li>{response.name}</li>
+        {notGoing?.map((response, index) => (
+          <li key={index}>{response.name}</li>
         ))}
       </ul>
       <ul>
         <b>Unconfirmed:</b>
-        {unconfirmed?.map((response) => (
-          <li>{response.name}</li>
+        {unconfirmed?.map((response, index) => (
+          <li key={index}>{response.name}</li>
         ))}
       </ul>
       {props.guest && (

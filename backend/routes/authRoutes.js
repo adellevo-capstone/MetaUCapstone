@@ -15,6 +15,133 @@ router.route("/logout").get(authController.logout);
 
 // ---- Yelp API ----
 
+router.get("/generateEventDetails/:eventId", authController.checkUser, async (req, res) => {
+  try {
+    const event = await Invite.findOne({ eventId: req.params.eventId });
+    const going = await getInviteResponseDetails(event.attendance.going);
+
+    const { startTime, dateMap } = event?.timeSlots;
+
+    // initialize hashmap: keys = dates, values = array of time slot frequency
+    let dates = Array.from(Object.keys(dateMap));
+    let map = new Map();
+    dates.forEach((date) => map.set(date, new Array(10).fill(0)));
+
+    // update hashmap
+    for (let i = 0; i < going.length; i++) {
+      console.log(going[i]);
+      let guestDates = Array.from(Object.keys(going[i].availability));
+      guestDates.forEach((date) => {
+        let times = going[i].availability[date];
+        times.forEach((time) => {
+          map.get(date)[time] += 1;
+        });
+      });
+      console.log(map);
+
+      // console.log(going[i].availability[guestDates[0]]);
+      // console.log(going[i].availability[guestDates[1]]);
+      // let guestDates = Array.from(Object.keys(going[i].availability));
+      // console.log(guestDates);
+
+      //   Object.keys(guestDates).forEach((key) => {
+      //     console.log(key);
+      //     console.log(guestDates.get(key));
+      //   });
+
+      // console.log(Object.keys(guestDates));
+      // console.log(Object.entries(guestDates));
+
+      // Object.keys(guestDates).forEach((date) => {
+      // });
+      // console.log(map);
+
+      // Object.keys(guestDates).forEach((value, key) => {
+      //   for (let i = 0; i < value.length; i++) {
+      //     // let currTimes = map.get(key);
+      //     console.log(value[i]);
+      //     // currTimes[value[i]] += 1;
+      //     // map.set(key, currTimes);
+      //   }
+      // });
+      // console.log(map);
+
+      // for (let i = 0; i < guestDates.length; i++) {
+      //   map.set(guestDate[i], )
+      // }
+      // guestDates.forEach((date) => {
+      //   let currTimes = map.get(date); // get current time slot frequencies in map
+      //   Object.entries(date).forEach((timeSlotIndex) => {
+      //     currTimes[timeSlotIndex] += 1;
+      //     map.set(date, currTimes);
+      //   });
+      // });
+    }
+
+    // console.log(map);
+
+    // let optimalTimes = [];
+    // Object.keys(map).forEach((timeSlotIndices, date) => {
+    //   let currMax = Math.max(timeSlotIndices);
+    //   let index = Object.keys(map).findIndex(currMax);
+    //   optimalTimes.push({
+    //     date: date,
+    //     timeSlot: index,
+    //     frequency: currMax,
+    //   });
+    // });
+
+    // const finalTimeDetails = optimalTimes.reduce((prev, current) => {
+    //   return prev.frequency > current.frequency ? prev : current;
+    // });
+
+    // const finalTime = finalTimeDetails.timeSlot;
+
+    // (finalTimeDetails.timeSlot*30) + startTime;
+
+    // const { priceLevel, distanceLevel, weightedLikes, availability } = going[i];
+
+    // for (let i = 0; i < going.length; i++) {
+    //   const { priceLevel, distanceLevel, weightedLikes, availability } = going[i];
+    //   const restaurantData = response.data.businesses.splice(0, 3);
+    // }
+
+    // for (let i = 0; i < going.length; i++) {
+    //   const { priceLevel, distanceLevel, weightedLikes, availability } = going[i];
+    //   const response = await axios.get(
+    //     `https://api.yelp.com/v3/businesses/search?location=${location}`,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+    //       },
+    //       params: {
+    //         categories: categories,
+    //       },
+    //     }
+    //   );
+    //   const restaurantData = response.data.businesses[0];
+    // }
+
+    // const response = await axios.get(
+    //   `https://api.yelp.com/v3/businesses/search?location=${location}`,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+    //     },
+    //     params: {
+    //       categories: categories,
+    //     },
+    //   }
+    // );
+    // const restaurantData = response.data.businesses[0];
+    // res.status(201).json(restaurantData);
+    res.status(201).json(map);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// get data on specific restaurant
 router.post("/restaurantInfo", authController.checkUser, async (req, res) => {
   try {
     const { location, searchQuery } = req.body;
@@ -89,7 +216,6 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
       attending: true,
       priceLevel: parseInt(req.body.priceLevel),
       distanceLevel: parseInt(req.body.distanceLevel),
-      weightedLikes: req.body.weightedLikes,
       availability: dateMap,
     });
 
@@ -138,15 +264,13 @@ const getInviteResponseDetails = async (attendanceArray) => {
   let details = [];
   for (let i = 0; i < attendanceArray.length; i++) {
     const inviteResponse = await InviteResponse.findById(attendanceArray[i]);
-    const { guestId, attending, priceLevel, distanceLevel, weightedLikes, availability } =
-      inviteResponse;
+    const { guestId, attending, priceLevel, distanceLevel, availability } = inviteResponse;
     const guest = await User.findById(guestId);
     details.push({
       name: `${guest.firstName} ${guest.lastName}`,
       attending,
       priceLevel,
       distanceLevel,
-      weightedLikes,
       availability,
     });
   }
@@ -178,17 +302,31 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
     update.guestId = req.user._id;
     let inviteResponse = await InviteResponse.findOneAndUpdate(filters, update, { new: true });
 
-    // update attendance arrays
-    let eventToUpdate = await Invite.findById(req.body.eventId);
-    const { going, notGoing, unconfirmed } = eventToUpdate.attendance;
-    const index = unconfirmed.find((inviteResponseId) =>
-      inviteResponseId.equals(inviteResponse._id)
+    // remove invite response id from unconfirmed array
+    let updatedEvent = await Invite.findByIdAndUpdate(
+      req.body.eventId,
+      { $pull: { ["attendance.unconfirmed"]: inviteResponse._id } },
+      { returnNewDocument: true }
     );
-    unconfirmed.splice(index, 1);
-    req.body.attending ? going.push(inviteResponse._id) : notGoing.push(inviteResponse._id);
-    eventToUpdate.save();
 
-    res.status(201).json({ inviteResponse: inviteResponse, eventToUpdate: eventToUpdate });
+    // add invite response id to going array
+    if (req.body.attending) {
+      updatedEvent = await Invite.findByIdAndUpdate(
+        req.body.eventId,
+        { $addToSet: { ["attendance.going"]: inviteResponse._id } },
+        { returnNewDocument: true }
+      );
+    }
+    // add invite response id to notGoing array
+    else {
+      updatedEvent = await Invite.findByIdAndUpdate(
+        req.body.eventId,
+        { $addToSet: { ["attendance.notGoing"]: inviteResponse._id } },
+        { returnNewDocument: true }
+      );
+    }
+
+    res.status(201).json({ inviteResponse: inviteResponse, updatedEvent: updatedEvent });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
