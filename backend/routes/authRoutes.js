@@ -15,6 +15,17 @@ router.route("/logout").get(authController.logout);
 
 // ---- Yelp API ----
 
+const formatTime = (minuteOffset, startTime) => {
+  let ending = "AM";
+  let newHours = parseInt(startTime.substring(0, 2)) + parseInt(minuteOffset / 60);
+  let minutes = startTime.substring(3);
+  if (newHours > 12) {
+    newHours -= 12;
+    ending = "PM";
+  }
+  return `${newHours}:${minutes} ${ending}`;
+};
+
 router.get("/generateEventDetails/:eventId", authController.checkUser, async (req, res) => {
   try {
     const event = await Invite.findOne({ eventId: req.params.eventId });
@@ -49,12 +60,15 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
 
     // get date and time
     const times = Object.keys(bestTimesByDate);
-    let optimalTime = { date: times[0], time: bestTimesByDate[times[0]] };
+    let optimalDateAndTime = { date: times[0], time: bestTimesByDate[times[0]] };
     for (let i = 1; i < times.length; i++) {
-      if (optimalTime.frequency > times[i].frequency) {
-        optimalTime = { date: times[i], time: bestTimesByDate[times[i]] };
+      if (optimalDateAndTime.frequency > times[i].frequency) {
+        optimalDateAndTime = { date: times[i], time: bestTimesByDate[times[i]] };
       }
     }
+
+    // calculate time
+    const formattedTime = formatTime(optimalDateAndTime.time.slotIndex * 30, startTime);
 
     // get min price & distance level (update to just driver later)
     const optimalPriceLevel = going.reduce((prev, current) => {
@@ -81,6 +95,9 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
         }
       });
     }
+
+    // unixtime
+    // Math.round(new Date("2013/09/05 15:34:00").getTime()/1000)
 
     let finalRestaurants = [];
     const location = "San Jose";
@@ -110,7 +127,11 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
       });
     }
 
-    res.status(201).json(finalRestaurants);
+    res.status(201).json({
+      options: [...new Set(finalRestaurants)],
+      date: optimalDateAndTime.date,
+      time: formattedTime,
+    });
   } catch (err) {
     res.status(500).send(err.message);
   }
