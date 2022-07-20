@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TimeGrid from "./TimeGrid/TimeGrid";
 import Popup from "reactjs-popup";
 import API from "../../../utils/API";
@@ -24,7 +24,6 @@ export default function InvitationResponseForm(props) {
         availability: Object.fromEntries(props.availableTimes),
       };
 
-      // console.log(body);
       await API.patch("api/v1/auth/inviteResponse/update", body, config);
     } catch (err) {
       console.log(err);

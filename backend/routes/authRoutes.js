@@ -24,118 +24,93 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
 
     // initialize hashmap: keys = dates, values = array of time slot frequency
     let dates = Array.from(Object.keys(dateMap));
-    let map = new Map();
-    dates.forEach((date) => map.set(date, new Array(10).fill(0)));
+    let groupAvailability = new Map();
+    dates.forEach((date) => groupAvailability.set(date, new Array(10).fill(0)));
 
-    // update hashmap
+    // update hashmap with appropriate time slot frequencies
     for (let i = 0; i < going.length; i++) {
-      console.log(going[i]);
       let guestDates = Array.from(Object.keys(going[i].availability));
       guestDates.forEach((date) => {
         let times = going[i].availability[date];
         times.forEach((time) => {
-          map.get(date)[time] += 1;
+          groupAvailability.get(date)[time] += 1;
         });
       });
-      console.log(map);
-
-      // console.log(going[i].availability[guestDates[0]]);
-      // console.log(going[i].availability[guestDates[1]]);
-      // let guestDates = Array.from(Object.keys(going[i].availability));
-      // console.log(guestDates);
-
-      //   Object.keys(guestDates).forEach((key) => {
-      //     console.log(key);
-      //     console.log(guestDates.get(key));
-      //   });
-
-      // console.log(Object.keys(guestDates));
-      // console.log(Object.entries(guestDates));
-
-      // Object.keys(guestDates).forEach((date) => {
-      // });
-      // console.log(map);
-
-      // Object.keys(guestDates).forEach((value, key) => {
-      //   for (let i = 0; i < value.length; i++) {
-      //     // let currTimes = map.get(key);
-      //     console.log(value[i]);
-      //     // currTimes[value[i]] += 1;
-      //     // map.set(key, currTimes);
-      //   }
-      // });
-      // console.log(map);
-
-      // for (let i = 0; i < guestDates.length; i++) {
-      //   map.set(guestDate[i], )
-      // }
-      // guestDates.forEach((date) => {
-      //   let currTimes = map.get(date); // get current time slot frequencies in map
-      //   Object.entries(date).forEach((timeSlotIndex) => {
-      //     currTimes[timeSlotIndex] += 1;
-      //     map.set(date, currTimes);
-      //   });
-      // });
     }
 
-    // console.log(map);
+    let bestTimesByDate = new Map();
+    groupAvailability.forEach((timeSlotIndices, date) => {
+      let maxFrequency = Math.max(...timeSlotIndices);
+      bestTimesByDate[date] = {
+        frequency: maxFrequency,
+        slotIndex: timeSlotIndices.indexOf(maxFrequency),
+      };
+    });
 
-    // let optimalTimes = [];
-    // Object.keys(map).forEach((timeSlotIndices, date) => {
-    //   let currMax = Math.max(timeSlotIndices);
-    //   let index = Object.keys(map).findIndex(currMax);
-    //   optimalTimes.push({
-    //     date: date,
-    //     timeSlot: index,
-    //     frequency: currMax,
-    //   });
-    // });
+    // get date and time
+    const times = Object.keys(bestTimesByDate);
+    let optimalTime = { date: times[0], time: bestTimesByDate[times[0]] };
+    for (let i = 1; i < times.length; i++) {
+      if (optimalTime.frequency > times[i].frequency) {
+        optimalTime = { date: times[i], time: bestTimesByDate[times[i]] };
+      }
+    }
 
-    // const finalTimeDetails = optimalTimes.reduce((prev, current) => {
-    //   return prev.frequency > current.frequency ? prev : current;
-    // });
+    // get min price & distance level (update to just driver later)
+    const optimalPriceLevel = going.reduce((prev, current) => {
+      return prev.priceLevel < current.priceLevel ? prev.priceLevel : current.priceLevel;
+    });
+    const optimalDistanceLevel = going.reduce((prev, current) => {
+      return prev.distanceLevel < current.distanceLevel
+        ? prev.distanceLevel
+        : current.distanceLevel;
+    });
 
-    // const finalTime = finalTimeDetails.timeSlot;
+    // establish weights based on frequency of category appearances in group
+    let categoryWeights = new Map();
+    for (let i = 0; i < event.attendance.going.length; i++) {
+      const { guestId } = await InviteResponse.findById(event.attendance.going[i]);
+      const groupMember = await User.findById(guestId);
+      const likes = groupMember?.dietaryProfile?.likes;
+      const categories = likes.length < 3 ? likes : likes.slice(0, 3); // pick user's 3 most recently added categories
+      categories.forEach((category) => {
+        if (categoryWeights[category]) {
+          categoryWeights[category] += 1;
+        } else {
+          categoryWeights[category] = 1;
+        }
+      });
+    }
 
-    // (finalTimeDetails.timeSlot*30) + startTime;
+    let finalRestaurants = [];
+    const location = "San Jose";
+    const open_at = "1658360817";
+    const categories = Object.keys(categoryWeights);
 
-    // const { priceLevel, distanceLevel, weightedLikes, availability } = going[i];
+    // make requests based on like weights
+    for (let i = 0; i < categories.length; i++) {
+      let limit = categoryWeights[categories[i]] * 2;
+      let response = await axios.get(`https://api.yelp.com/v3/businesses/search`, {
+        headers: {
+          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+        },
+        params: {
+          location: location,
+          limit: limit,
+          distance: optimalDistanceLevel,
+          price: optimalPriceLevel,
+          categories: categories[i].toLowerCase(),
+        },
+      });
 
-    // for (let i = 0; i < going.length; i++) {
-    //   const { priceLevel, distanceLevel, weightedLikes, availability } = going[i];
-    //   const restaurantData = response.data.businesses.splice(0, 3);
-    // }
+      const restaurants = response.data.businesses;
+      restaurants.forEach((restaurant) => {
+        const restaurantSummary = { id: restaurant.id, name: restaurant.name };
+        finalRestaurants.push(restaurantSummary);
+      });
+    }
 
-    // for (let i = 0; i < going.length; i++) {
-    //   const { priceLevel, distanceLevel, weightedLikes, availability } = going[i];
-    //   const response = await axios.get(
-    //     `https://api.yelp.com/v3/businesses/search?location=${location}`,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-    //       },
-    //       params: {
-    //         categories: categories,
-    //       },
-    //     }
-    //   );
-    //   const restaurantData = response.data.businesses[0];
-    // }
-
-    // const response = await axios.get(
-    //   `https://api.yelp.com/v3/businesses/search?location=${location}`,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-    //     },
-    //     params: {
-    //       categories: categories,
-    //     },
-    //   }
-    // );
-    // const restaurantData = response.data.businesses[0];
-    // res.status(201).json(restaurantData);
-    res.status(201).json(map);
+    res.status(201).json(finalRestaurants);
   } catch (err) {
     res.status(500).send(err.message);
   }
