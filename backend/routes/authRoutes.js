@@ -100,7 +100,7 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
     // Math.round(new Date("2013/09/05 15:34:00").getTime()/1000)
 
     let finalRestaurants = [];
-    const location = "San Jose";
+    // const location = "San Jose";
     const open_at = "1658360817";
     const categories = Object.keys(categoryWeights);
 
@@ -112,7 +112,7 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
           Authorization: `Bearer ${process.env.YELP_API_KEY}`,
         },
         params: {
-          location: location,
+          location: event.location,
           limit: limit,
           distance: optimalDistanceLevel,
           price: optimalPriceLevel,
@@ -216,18 +216,17 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     });
 
     const newEvent = await Invite.create({
-      groupId: req.body.groupId,
-      hostId: req.user._id,
       title: req.body.title,
+      hostId: req.user._id,
+      groupId: req.body.groupId,
+      description: req.body.description,
+      location: req.body.location,
       rsvpDeadline: new Date(req.body.rsvpDeadline),
+      timeSlots: { dateMap: dateMap, startTime: startTime },
       members: req.body.members,
       attendance: {
         going: [hostResponse._id],
         notGoing: [],
-      },
-      timeSlots: { dateMap: dateMap, startTime: startTime },
-      eventDetails: {
-        description: req.body.description,
       },
     });
 
@@ -260,11 +259,13 @@ const getInviteResponseDetails = async (attendanceArray) => {
   let details = [];
   for (let i = 0; i < attendanceArray.length; i++) {
     const inviteResponse = await InviteResponse.findById(attendanceArray[i]);
-    const { guestId, attending, priceLevel, distanceLevel, availability } = inviteResponse;
+    const { guestId, attending, location, priceLevel, distanceLevel, availability } =
+      inviteResponse;
     const guest = await User.findById(guestId);
     details.push({
       name: `${guest.firstName} ${guest.lastName}`,
       attending,
+      location,
       priceLevel,
       distanceLevel,
       availability,
@@ -289,7 +290,7 @@ router.get("/inviteResponses/:eventId", authController.checkUser, async (req, re
 
 router.patch("/inviteResponse/update", authController.checkUser, async (req, res) => {
   try {
-    // modify existing invite response
+    // update existing invite response
     const filters = {
       groupId: req.body.groupId,
       guestId: req.user._id,
