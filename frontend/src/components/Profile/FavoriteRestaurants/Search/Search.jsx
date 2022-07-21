@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import API from "../../../../utils/API";
+import SearchedRestaurantCard from "./SearchedRestaurantCard";
 
 export default function Search(props) {
+  const [restaurantsToAdd, setRestaurantsToAdd] = useState([]);
+  const [searchedRestaurants, setSearchedRestaurants] = useState([]);
+
   const findRestaurant = async () => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
@@ -9,20 +13,22 @@ export default function Search(props) {
 
       // add categories to likes
       const res = await API.post("api/v1/auth/restaurantInfo", body, config);
-      const categories = res.data.categories.map((category) => category.title);
+      // const categories = res.data.categories.map((category) => category.title);
+      setSearchedRestaurants(res.data);
+      console.log(searchedRestaurants);
 
       // save to database
-      await API.patch(
-        "api/v1/auth/dietaryProfile/modify",
-        { updatedArray: [...props.likes, ...categories], sectionType: "Likes" },
-        config
-      );
+      // await API.patch(
+      //   "api/v1/auth/dietaryProfile/modify",
+      //   { updatedArray: [...props.likes, ...categories], sectionType: "Likes" },
+      //   config
+      // );
 
       // add restaurant
-      addRestaurant(res.data);
+      // addRestaurant(res.data);
 
       // update with new items
-      props.loadDietaryProfile();
+      // props.loadDietaryProfile();
     } catch (err) {
       console.log(err.response);
     }
@@ -40,8 +46,20 @@ export default function Search(props) {
 
   return (
     <div className="search-popup">
-      <h1>Add a restaurant</h1>
+      <div>
+        <h1>Restaurants to add</h1>
+        {restaurantsToAdd.length > 0 && <p>{restaurantsToAdd.length}</p>}
+        <div>
+          {restaurantsToAdd?.length > 0 &&
+            restaurantsToAdd.map((restaurant) => (
+              <SearchedRestaurantCard restaurant={restaurant} />
+            ))}
+          <div>Confirm</div>
+        </div>
+      </div>
+
       <div className="search-popup-content">
+        <h1>Find a restaurant</h1>
         <input
           className="search"
           type="text"
@@ -56,8 +74,22 @@ export default function Search(props) {
           placeholder="Location"
           onChange={(e) => props.setLocation(e.target.value)}
         />
+        <button onClick={findRestaurant}>Search</button>
       </div>
-      <button onClick={findRestaurant}>Search</button>
+
+      {restaurantsToAdd.length > 0 && <p>{restaurantsToAdd.length}</p>}
+      <div>
+        <div className="searched-restaurants">
+          {searchedRestaurants?.length > 0 &&
+            searchedRestaurants.map((restaurant) => (
+              <SearchedRestaurantCard
+                restaurantsToAdd={restaurantsToAdd}
+                setRestaurantsToAdd={setRestaurantsToAdd}
+                restaurant={restaurant}
+              />
+            ))}
+        </div>
+      </div>
     </div>
   );
 }

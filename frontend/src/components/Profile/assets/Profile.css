@@ -152,13 +152,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 80%;
+  width: 85%;
 }
 
 .tag-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: -0.5em;
 }
 
 .tags-container {
@@ -187,19 +188,26 @@
 /* --- RestaurantSection --- */
 
 .search-popup {
-  background-color: white;
+  background-color: var(--dashboard-background);
   display: flex;
   flex-direction: column;
   padding: 3em;
   border-radius: 2em;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  font-family: Lexend;
 }
 
-.search-popup-content > * {
+.search-popup h1 {
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.search-popup-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   margin-bottom: 1em;
+  font-family: Lexend;
 }
 
 .profile-header {
@@ -266,7 +274,9 @@
 }
 
 .restaurant-card h2 {
-  font-size: 1.2em;
+  margin-top: 0.4em;
+  margin-bottom: 0.8em;
+  font-size: 1.25em;
   color: var(--header-color);
   font-weight: var(--header-font-weight);
 }
@@ -293,8 +303,6 @@
   object-fit: cover;
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
-  /* overflow-y: hidden; */
-  /* border-radius: 0.2em; */
 }
 
 .info-header {
@@ -331,10 +339,11 @@
 .restaurant-card .card-info {
   display: flex;
   flex-direction: column;
+  justify-content: left;
   align-content: flex-start;
-  padding: 2em;
-  margin-top: -1em;
-  width: 82%;
+  margin: 0.8em 0;
+  margin-bottom: 1.5em;
+  width: 86%;
 }
 
 /* -------- Web -------- */
@@ -352,7 +361,7 @@
   }
 
   .content {
-    width: 85%;
+    width: 88%;
   }
 
   .dietary-preferences {

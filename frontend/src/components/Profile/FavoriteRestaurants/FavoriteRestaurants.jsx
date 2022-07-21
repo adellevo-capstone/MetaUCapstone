@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Search from "./Search/Search";
 import Popup from "reactjs-popup";
-import "../FavoriteRestaurants/assets/FavoriteRestaurants.css";
+import "./assets/FavoriteRestaurants.css";
 
 export default function FavoriteRestaurants(props) {
   const [searchQuery, setSearchQuery] = useState("");

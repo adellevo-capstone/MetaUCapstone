@@ -141,15 +141,17 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
 router.post("/restaurantInfo", authController.checkUser, async (req, res) => {
   try {
     const { location, searchQuery } = req.body;
-    const response = await axios.get(
-      `https://api.yelp.com/v3/businesses/search?term=${searchQuery}&location=${location}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-        },
-      }
-    );
-    const restaurantData = response.data.businesses[0];
+    const response = await axios.get(`https://api.yelp.com/v3/businesses/search`, {
+      headers: {
+        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+      },
+      params: {
+        term: searchQuery,
+        location: location,
+        limit: 5,
+      },
+    });
+    const restaurantData = response.data.businesses;
     res.status(201).json(restaurantData);
   } catch (err) {
     res.status(500).send(err.message);

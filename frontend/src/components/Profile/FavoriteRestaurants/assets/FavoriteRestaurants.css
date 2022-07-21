@@ -20,3 +20,51 @@
   margin: 0 0.5em 0.5em 0;
   letter-spacing: 0.05em;
 }
+
+/* ---- SearchedRestaurantCard ---- */
+
+.searched-restaurants {
+  height: 20em;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.searched-restaurant-card {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid black;
+}
+
+.searched-restaurant-card h2 {
+  padding: 0.1em;
+  font-weight: 400;
+  font-size: 1.2em;
+  margin-bottom: -1em;
+}
+
+.searched-restaurant-card:last-child {
+  border-bottom: 1px solid black;
+}
+
+.searched-restaurant-card .content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.searched-restaurant-card .location {
+  display: inline-flex;
+}
+
+.searched-restaurant-card .location .marker {
+  transform: scale(2.8);
+  margin-left: 0.5em;
+  margin-right: 0.8em;
+  margin-top: -0.22em;
+}
+
+.searched-restaurant-card .checkmark {
+  transform: scale(2.8);
+  margin-top: 4.5em;
+  margin-left: -4em;
+}
