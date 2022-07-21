@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Search from "./Search/Search";
 import Popup from "reactjs-popup";
+import "../FavoriteRestaurants/assets/FavoriteRestaurants.css";
 
 export default function FavoriteRestaurants(props) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,12 +11,12 @@ export default function FavoriteRestaurants(props) {
   return (
     <div className="favorite-restaurants">
       <div className="profile-header">
-        <h1>Favorite Restaurants</h1>
+        <h1>Favorite restaurants</h1>
         <Popup
           closeOnDocumentClick
           modal
           nested
-          trigger={<button> Add a restaurant </button>}
+          trigger={<span className="button"> Add a restaurant </span>}
           style={{
             minWidth: "40em",
           }}

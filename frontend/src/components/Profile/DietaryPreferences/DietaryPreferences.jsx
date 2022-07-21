@@ -20,7 +20,7 @@ export default function DietaryPreferences(props) {
 
   return (
     <div className="dietary-preferences">
-      <h1 className="profile-header">Dietary Preferences</h1>
+      <h1 className="profile-header">Dietary preferences</h1>
       {profileSections.map((section, index) => (
         <PreferenceSection
           key={index}

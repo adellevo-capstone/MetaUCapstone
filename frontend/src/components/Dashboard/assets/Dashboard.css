@@ -1,8 +1,8 @@
 :root {
-  --nav-background-color: #262626;
-  --nav-selected: white;
-  --nav-non-selected: #aaaaaa;
-  --dashboard-background: white;
+  --nav-background-color: #191919;
+  --nav-selected: 333333;
+  --nav-non-selected: #a9a9a9;
+  --dashboard-background: #f3f2ef;
   --border-bottom-color: orange;
 }
 
@@ -13,56 +13,61 @@
 .dashboard {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: left;
   background-color: var(--dashboard-background);
-  height: 100%;
-  width: 96vw;
-}
-
-.actions {
-  display: flex;
-  flex-direction: row;
   width: 100%;
-  height: 3.8em;
+  align-items: center;
+  height: fit-content;
 }
 
-/* --- UserSettings --- */
+/* --- Logo & UserSettings --- */
+
+.logo {
+  font-family: "Satisfy", sans-serif;
+  color: white;
+  font-size: 1.6em;
+}
 
 .user-settings {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  align-content: center;
-
-  justify-items: center;
-  justify-content: center;
-  height: 85%;
-  margin-left: 1em;
-  margin-top: 0.2em;
   border-radius: 2em;
+  transform: scale(1.8);
+  cursor: pointer;
+  z-index: 30;
+  /* margin-left: -20em; */
 }
 
 /* --- Navbar --- */
 
 .navbar {
+  position: fixed;
+  top: 0;
   display: flex;
   flex-direction: row;
   background-color: var(--nav-background-color);
   justify-items: center;
-  justify-content: center;
-
+  justify-content: space-around;
+  align-items: center;
   width: 100%;
+  height: 5em;
+  border-radius: var(--border-radius);
+  z-index: 20;
+  padding: 0 2em;
+}
 
-  border-radius: 0.5em;
-  height: 98%;
+.tabs {
+  display: flex;
+  flex-direction: row;
+}
+
+a {
+  color: whitesmoke;
+  text-decoration: none; /* no underline */
 }
 
 .navbar p {
-  margin: 0 1em;
-  padding-top: 1em;
+  margin: 1em;
+  font-size: 1.1em;
   font-weight: 400;
-  font-size: 1.15em;
   cursor: pointer;
 }
 
@@ -71,16 +76,20 @@
   cursor: pointer;
 }
 
+.navbar a {
+  font-style: normal;
+}
+
 .navbar .selected {
   color: var(--nav-selected);
-  border-bottom: 5px solid var(--border-bottom-color);
+  /* border-bottom: 5px solid var(--border-bottom-color); */
   margin-bottom: unset;
   padding-bottom: 0.7em;
 }
 
 /* --------- Web --------- */
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 1300px) {
   /* --- Dashboard --- */
 
   .dashboard {
@@ -98,20 +107,10 @@
     height: 100vh;
     border-radius: unset;
     margin: unset;
-    width: 100%;
+    width: fit-content;
   }
 
-  /* --- Actions --- */
-
-  .actions {
+  .tabs {
     flex-direction: column;
-    height: 100vh;
-    width: 25%;
-  }
-
-  /* --- Actions --- */
-
-  .user-settings {
-    display: none;
   }
 }

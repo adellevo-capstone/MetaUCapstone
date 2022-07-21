@@ -30,7 +30,7 @@ export default function Profile() {
 
   return (
     <div className="profile">
-      <Header header="Profile" />
+      {/* <Header header="Profile" /> */}
       <FavoriteRestaurants
         likes={likes}
         setLikes={setLikes}

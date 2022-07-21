@@ -34,7 +34,7 @@ form > * {
   align-items: center;
   justify-items: center;
   align-content: center;
-  justify-content: center;
+  /* justify-content: center; */
   padding: 2em;
   gap: 30px;
 }

@@ -28,10 +28,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard">
-      <div className="actions">
-        <Navbar />
-        <UserSettings />
-      </div>
+      <Navbar />
       <Routes>
         <Route
           path="/profile"
