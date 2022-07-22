@@ -315,7 +315,7 @@
   box-shadow: rgba(0, 0, 0, 0.058) 0px 4px 12px;
   border-radius: var(--border-radius);
   height: 18.5em;
-  min-width: 50%;
+  min-width: 22em;
 }
 
 .restaurant-card h2 {
@@ -324,20 +324,21 @@
   font-size: 1.25em;
   color: var(--header-color);
   font-weight: var(--header-font-weight);
+  width: 75%;
 }
 
 .bookmark {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 0.5em;
   margin-top: -0.2em;
+  margin-right: 0.2em;
 }
 
 .bookmark img {
-  transform: scale(0.9);
-  min-width: 2em;
-  margin-right: -0.2em;
+  transform: scale(0.8);
+  width: 0.5em;
+  margin-right: -0.5em;
 }
 
 .bookmark p {

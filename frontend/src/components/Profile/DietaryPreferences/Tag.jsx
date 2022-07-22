@@ -6,7 +6,9 @@ export default function Tag(props) {
 
   // add food to likes array and reset state
   const deleteFromPreferenceSection = () => {
-    props.setData(props.data.filter((item) => item !== props.text));
+    const updatedArray = props.data.filter((item) => item !== props.text);
+    props.setData(updatedArray);
+    console.log(props.data);
   };
 
   return (

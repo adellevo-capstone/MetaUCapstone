@@ -471,7 +471,7 @@ router.patch("/dietaryProfile/modify", authController.checkUser, async (req, res
 
     await User.findByIdAndUpdate(
       req.user._id,
-      { $addToSet: { ["dietaryProfile." + sectionType]: { $each: req.body.updatedArray } } },
+      { $set: { ["dietaryProfile." + sectionType]: req.body.updatedArray } },
       { returnNewDocument: true }
     );
 

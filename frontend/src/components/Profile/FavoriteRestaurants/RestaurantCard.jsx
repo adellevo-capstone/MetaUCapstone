@@ -13,7 +13,7 @@ export default function RestaurantCard({ restaurant }) {
         />
       </div>
       <div className="card-info">
-        <span className="info-header">
+        <div className="info-header">
           <h2>{restaurant.name}</h2>
           <span className="bookmark">
             <img
@@ -22,7 +22,7 @@ export default function RestaurantCard({ restaurant }) {
             />
             <p>{restaurant.rating.toFixed(1)}</p>
           </span>
-        </span>
+        </div>
         <div className="tag-list">
           {restaurant.categories.map((category, index) => (
             <p
