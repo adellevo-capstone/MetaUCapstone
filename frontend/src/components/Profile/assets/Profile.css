@@ -190,21 +190,53 @@
 .search-popup {
   background-color: var(--dashboard-background);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 3em;
   border-radius: 2em;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   font-family: Lexend;
+  gap: 5em;
+}
+
+.popup-header {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2em;
 }
 
 .search-popup h1 {
-  font-size: 1.3em;
+  font-size: 1.4em;
   font-weight: 500;
+  margin-right: 0.5em;
 }
 
-.search-popup-content {
+.search-popup p {
+  font-size: medium;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding: 0.25em;
+  width: 0.8em;
+  height: 1.35em;
+}
+
+.added-restaurants {
+  height: 28.5em;
+  overflow-x: scroll;
+  background-color: white;
+  width: 100%;
+  margin-bottom: 3.4em;
+}
+
+.popup-content {
+  width: 100vw;
+  height: 100vh;
+  background-color: #191919c3;
+}
+
+.find-a-restaurant {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   margin-bottom: 1em;
   font-family: Lexend;
@@ -251,12 +283,26 @@
   padding: 1.5em 0;
 }
 
+.popup-header p {
+  background-color: #191919;
+  border-radius: 10em;
+  color: white;
+  width: 1.4em;
+}
+
 .restaurant-card-container > * {
   margin-right: 1.2em;
 }
 
 .restaurant-card-container::after {
   flex: auto;
+}
+
+.added-restaurants,
+.searched-restaurants {
+  width: 30em;
+  padding-bottom: 0;
+  background-color: white;
 }
 
 /* --- RestaurantCard --- */
@@ -269,8 +315,7 @@
   box-shadow: rgba(0, 0, 0, 0.058) 0px 4px 12px;
   border-radius: var(--border-radius);
   height: 18.5em;
-  min-width: 24em;
-  width: fit-content;
+  min-width: 50%;
 }
 
 .restaurant-card h2 {
@@ -282,10 +327,23 @@
 }
 
 .bookmark {
-  transform: scale(1);
-  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 0.5em;
+  margin-top: -0.2em;
+}
+
+.bookmark img {
+  transform: scale(0.9);
   min-width: 2em;
-  margin-right: -0.8em;
+  margin-right: -0.2em;
+}
+
+.bookmark p {
+  transform: scale(1.2);
+  z-index: 20;
+  color: #d27e00;
 }
 
 .bookmark svg {
@@ -315,7 +373,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* transform: scale(0.9); */
   font-size: 0.8em;
 }
 
@@ -327,7 +384,6 @@
   display: flex;
   flex-direction: wrap;
   flex-wrap: wrap;
-  /* color: grey; */
 }
 
 .photo-container {

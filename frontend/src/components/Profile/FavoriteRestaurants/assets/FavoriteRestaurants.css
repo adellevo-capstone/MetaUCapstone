@@ -24,15 +24,19 @@
 /* ---- SearchedRestaurantCard ---- */
 
 .searched-restaurants {
-  height: 20em;
+  height: 32em;
   overflow-x: hidden;
   overflow-y: scroll;
+}
+
+.searched-restaurant-card:last-child {
+  border-bottom: 1px solid #191919;
 }
 
 .searched-restaurant-card {
   display: flex;
   flex-direction: row;
-  border-top: 1px solid black;
+  border-top: 1px solid #191919;
 }
 
 .searched-restaurant-card h2 {
@@ -40,10 +44,6 @@
   font-weight: 400;
   font-size: 1.2em;
   margin-bottom: -1em;
-}
-
-.searched-restaurant-card:last-child {
-  border-bottom: 1px solid black;
 }
 
 .searched-restaurant-card .content {
@@ -64,7 +64,7 @@
 }
 
 .searched-restaurant-card .checkmark {
-  transform: scale(2.8);
-  margin-top: 4.5em;
-  margin-left: -4em;
+  transform: scale(2.4);
+  margin-top: 4.8em;
+  margin-left: -2.5em;
 }

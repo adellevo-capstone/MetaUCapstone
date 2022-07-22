@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from "react";
 import marker from "../../../Shared/assets/marker.svg";
-import unfilledCheckmark from "../../../Shared/assets/UnfilledCheck.svg";
-import filledCheckmark from "../../../Shared/assets/FilledCheck.svg";
+import addButton from "../../../Shared/assets/AddButton.svg";
+import deleteButton from "../../../Shared/assets/DeleteButton.svg";
 
 export default function SearchedRestaurantCard({
   restaurant,
   setRestaurantsToAdd,
   restaurantsToAdd,
+  inAdded,
 }) {
-  const [selected, setSelected] = useState(false);
-
   const handleClick = () => {
-    setSelected(!selected);
-    setRestaurantsToAdd([...restaurantsToAdd, restaurant]);
+    let updated = new Set([...restaurantsToAdd]);
+
+    if (inAdded) {
+      updated.delete(restaurant);
+    } else {
+      if (updated.has(restaurant)) {
+        alert("You've already added this restaurant to your list :)");
+      }
+      updated.add(restaurant);
+    }
+
+    setRestaurantsToAdd([...updated]);
   };
 
   return (
@@ -31,7 +40,7 @@ export default function SearchedRestaurantCard({
       <div className="checkmark">
         <img
           onClick={handleClick}
-          src={selected ? filledCheckmark : unfilledCheckmark}
+          src={!inAdded ? addButton : deleteButton}
           alt="checkmark"
         />
       </div>

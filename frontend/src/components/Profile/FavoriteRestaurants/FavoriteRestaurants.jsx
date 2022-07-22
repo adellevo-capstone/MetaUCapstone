@@ -16,7 +16,7 @@ export default function FavoriteRestaurants(props) {
           closeOnDocumentClick
           modal
           nested
-          trigger={<span className="button"> Add a restaurant </span>}
+          trigger={<span className="button"> Add restaurants </span>}
           style={{
             minWidth: "40em",
           }}

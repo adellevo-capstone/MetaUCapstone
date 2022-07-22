@@ -14,15 +14,15 @@ export default function Profile() {
 
   useEffect(() => {
     loadDietaryProfile();
-  }, [likes, dislikes, restrictions]);
+  }, []);
 
   const loadDietaryProfile = async () => {
     try {
       const res = await API.get("api/v1/auth/dietaryProfile");
-      setLikes(res.data.dietaryProfile.likes);
-      setDislikes(res.data.dietaryProfile.dislikes);
-      setRestrictions(res.data.dietaryProfile.restrictions);
-      setFavorites(res.data.dietaryProfile.favoriteRestaurants);
+      setLikes(res.data.dietaryProfile.likes.reverse());
+      setDislikes(res.data.dietaryProfile.dislikes.reverse());
+      setRestrictions(res.data.dietaryProfile.restrictions.reverse());
+      setFavorites(res.data.dietaryProfile.favoriteRestaurants.reverse());
     } catch (err) {
       console.log(err.response);
     }

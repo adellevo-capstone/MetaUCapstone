@@ -482,12 +482,42 @@ router.patch("/dietaryProfile/modify", authController.checkUser, async (req, res
   }
 });
 
-router.patch("/dietaryProfile/addRestaurant", authController.checkUser, async (req, res) => {
+router.patch("/dietaryProfile/addRestaurants", authController.checkUser, async (req, res) => {
   try {
-    const newRestaurant = req.body.restaurantToAdd;
+    const newRestaurants = req.body.restaurantsToAdd;
 
-    req.user.dietaryProfile.favoriteRestaurants.unshift(newRestaurant);
-    req.user.save();
+    // ---- update favorite restaurants ----
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $addToSet: {
+          ["dietaryProfile.favoriteRestaurants"]: {
+            $each: newRestaurants,
+          },
+        },
+      },
+      { returnNewDocument: true }
+    );
+
+    // ---- update likes category ----
+
+    let categories = [];
+    for (let i = 0; i < newRestaurants.length; i++) {
+      newRestaurants[i].categories.forEach((category) => categories.push(category.title));
+    }
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $addToSet: {
+          ["dietaryProfile.likes"]: {
+            $each: categories,
+          },
+        },
+      },
+      { returnNewDocument: true }
+    );
 
     res.status(201).json({ user: req.user });
   } catch (error) {
