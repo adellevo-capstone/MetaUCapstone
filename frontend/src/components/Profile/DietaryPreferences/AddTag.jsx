@@ -5,8 +5,6 @@ import API from "../../../utils/API";
 export default function AddTag(props) {
   const [newItem, setNewItem] = useState("");
 
-  // ---- Modify user's dietary profile ----
-
   // add food to likes array and reset state
   const addToPreferenceSection = () => {
     props.setData([...props.data, newItem]);

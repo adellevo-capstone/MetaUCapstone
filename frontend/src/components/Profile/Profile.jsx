@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Shared/Header";
 import DietaryPreferences from "./DietaryPreferences/DietaryPreferences";
 import FavoriteRestaurants from "./FavoriteRestaurants/FavoriteRestaurants";
 import API from "../../utils/API";
@@ -30,7 +29,6 @@ export default function Profile() {
 
   return (
     <div className="profile">
-      {/* <Header header="Profile" /> */}
       <FavoriteRestaurants
         likes={likes}
         setLikes={setLikes}

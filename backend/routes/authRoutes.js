@@ -467,7 +467,10 @@ router.get("/dietaryProfile", authController.checkUser, async (req, res) => {
 
 router.patch("/dietaryProfile/modify", authController.checkUser, async (req, res) => {
   try {
-    const sectionType = req.body.sectionType.toLowerCase();
+    const sectionType =
+      req.body.sectionType === "favoriteRestaurants"
+        ? "favoriteRestaurants"
+        : req.body.sectionType.toLowerCase();
 
     await User.findByIdAndUpdate(
       req.user._id,
@@ -475,7 +478,7 @@ router.patch("/dietaryProfile/modify", authController.checkUser, async (req, res
       { returnNewDocument: true }
     );
 
-    res.status(201).json({ user: req.user });
+    res.status(201).json({ favoriteRestaurants: req.user.dietaryProfile.favoriteRestaurants });
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);

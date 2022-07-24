@@ -40,6 +40,8 @@ export default function FavoriteRestaurants(props) {
             <RestaurantCard
               key={index}
               restaurant={restaurant}
+              favorites={props.favorites}
+              setFavorites={props.setFavorites}
             />
           ))
         )}

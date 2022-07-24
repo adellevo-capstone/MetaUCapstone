@@ -1,10 +1,33 @@
 import React from "react";
 import bookmark from "./assets/save.svg";
+import deleteButton from "../../Shared/assets/DeleteButtonWhite.svg";
+import API from "../../../utils/API";
 
-export default function RestaurantCard({ restaurant }) {
+export default function RestaurantCard({ restaurant, favorites, setFavorites }) {
+  const removeFavorite = async () => {
+    const updatedArray = favorites.filter((item) => item.id !== restaurant.id);
+    try {
+      // console.log(props.data);
+      const config = { headers: { "Content-Type": "application/json" } };
+      const body = { updatedArray: updatedArray, sectionType: "favoriteRestaurants" };
+      console.log(body);
+      const res = await API.patch("api/v1/auth/dietaryProfile/modify", body, config);
+      setFavorites(updatedArray);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="restaurant-card">
       <div className="photo-container">
+        <img
+          onClick={removeFavorite}
+          className="delete-button"
+          src={deleteButton}
+          alt="delete"
+        />
         <img
           className="cover"
           src={restaurant.image_url}

@@ -159,13 +159,14 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-bottom: -0.5em;
+  margin-bottom: 2em;
 }
 
 .tags-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: -0.5em;
 }
 
 .tags-container > * {
@@ -351,17 +352,32 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.cover {
-  position: relative;
+.photo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.photo-container .cover {
   height: 10em;
+}
+
+.photo-container .delete-button {
+  transform: scale(4);
+  z-index: 100;
+  height: 1.5em;
+  width: 1.5em;
+  margin: 1em 1em 0 0;
+  margin-bottom: -2.5em;
+  cursor: pointer;
 }
 
 .restaurant-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-top-left-radius: 0.5em;
-  border-top-right-radius: 0.5em;
+  border-top-left-radius: 0.8em;
+  border-top-right-radius: 0.8em;
 }
 
 .info-header {
@@ -398,8 +414,7 @@
   flex-direction: column;
   justify-content: left;
   align-content: flex-start;
-  margin: 0.8em 0;
-  margin-bottom: 1.5em;
+  margin-top: 1.6em;
   width: 86%;
 }
 
