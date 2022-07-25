@@ -7,7 +7,6 @@ export default function RestaurantCard({ restaurant, favorites, setFavorites }) 
   const removeFavorite = async () => {
     const updatedArray = favorites.filter((item) => item.id !== restaurant.id);
     try {
-      // console.log(props.data);
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { updatedArray: updatedArray, sectionType: "favoriteRestaurants" };
       console.log(body);

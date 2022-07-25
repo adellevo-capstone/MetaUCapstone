@@ -4,11 +4,8 @@ import Popup from "reactjs-popup";
 import HostedEvents from "./HostedSection/HostedEvents";
 import EventsInvitedTo from "./InvitedToSection/EventsInvitedTo";
 import InvitationForm from "./InvitationForm/InvitationForm";
-import FullCalendar from "@fullcalendar/react"; // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-// import interactionPlugin from "@fullcalendar/interaction";
-// import { Calendar } from '@fullcalendar/core';
-// import interactionPlugin from '@fullcalendar/interaction';
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import "./Event.css";
 
 export default function Event(props) {
@@ -40,16 +37,12 @@ export default function Event(props) {
     <div className="events">
       <FullCalendar
         plugins={[dayGridPlugin]}
-        // dateClick={(info) => {
-        //   alert("Clicked on: " + info.dateStr);
-        // }}
         initialView="dayGridMonth"
         events={[
           { title: "event 1", date: "2022-07-10" },
           { title: "event 2", date: "2022-07-02" },
         ]}
         eventClick={handleEventClick}
-        // dateClick={(arg) => alert(arg.dateStr)}
       />
       {/* Popup for creating an invitation */}
       <Popup

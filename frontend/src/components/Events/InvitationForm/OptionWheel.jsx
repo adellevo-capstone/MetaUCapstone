@@ -22,7 +22,6 @@ export default function OptionWheel({ eventId }) {
     <div>
       <p>{currentOption}</p>
       <button onClick={() => spinningWheelRef.current.startSpinning(20, 2)}>Start</button>
-      {/* <button onClick={() => spinningWheelRef.current.stopSpinning()}>Stop</button> */}
       <div className="spinning-wheel">
         <div className="triangle" />
         <div className="options">

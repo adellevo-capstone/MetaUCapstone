@@ -82,7 +82,6 @@ a {
 
 .navbar .selected {
   color: var(--nav-selected);
-  /* border-bottom: 5px solid var(--border-bottom-color); */
   margin-bottom: unset;
   padding-bottom: 0.7em;
 }

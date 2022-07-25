@@ -96,11 +96,8 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
       });
     }
 
-    // unixtime
-    // Math.round(new Date("2013/09/05 15:34:00").getTime()/1000)
-
     let finalRestaurants = [];
-    // const location = "San Jose";
+    const unixTime = Math.round(new Date("2013/09/05 15:34:00").getTime() / 1000); // for expiration
     const open_at = "1658360817";
     const categories = Object.keys(categoryWeights);
 

@@ -44,7 +44,6 @@ export default function Dashboard(props) {
         />
         <Route
           path="/groups/:name"
-          // element={<button onClick={findGroupByName} />}
           element={
             <GroupDetail
               groups={props.groups}

@@ -53,7 +53,6 @@ export default function App() {
 
   return (
     <div className="App">
-      {/* <button onClick={findGroupByName}>hahah hi</button> */}
       <BrowserRouter>
         <main>
           <div className="dashboard">

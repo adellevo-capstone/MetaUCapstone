@@ -23,7 +23,6 @@ export default function GroupDetail(props) {
           <h1>{groupName}</h1>
           <p>{members.length} members</p>
         </div>
-        {/* <div className="actions"> */}
         <Popup
           modal
           nested
@@ -52,7 +51,6 @@ export default function GroupDetail(props) {
           Leave group
         </span>
       </div>
-      {/* </div> */}
 
       <div>
         <div className="group-members">
