@@ -21,15 +21,17 @@ export default function DietaryPreferences(props) {
   return (
     <div className="dietary-preferences">
       <h1 className="profile-header">Dietary preferences</h1>
-      {profileSections.map((section, index) => (
-        <PreferenceSection
-          key={index}
-          header={section.header}
-          subHeader={section.subHeader}
-          data={section.data}
-          setData={section.setData}
-        />
-      ))}
+      <div className="preferences-container">
+        {profileSections.map((section, index) => (
+          <PreferenceSection
+            key={index}
+            header={section.header}
+            subHeader={section.subHeader}
+            data={section.data}
+            setData={section.setData}
+          />
+        ))}
+      </div>
     </div>
   );
 }
