@@ -164,6 +164,10 @@
 /* -------- Web -------- */
 
 @media only screen and (min-width: 1300px) {
+  .group-section {
+    margin-left: -3em;
+  }
+
   .group-detail {
     display: flex;
     flex-direction: row;
