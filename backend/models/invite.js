@@ -8,6 +8,7 @@ const InviteSchema = new mongoose.Schema({
   location: String,
   rsvpDeadline: Date,
   time: String,
+  date: String,
   timeSlots: {
     dateMap: Object,
     startTime: String,

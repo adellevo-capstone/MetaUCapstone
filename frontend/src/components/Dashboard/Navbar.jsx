@@ -9,7 +9,9 @@ export default function Navbar() {
 
   return (
     <div className="navbar">
-      <h1 className="logo">tangerine</h1>
+      <Link to="/dashboard/profile">
+        <h1 className="logo">tangerine</h1>
+      </Link>
       <div className="tabs">
         <Link to="/dashboard/profile">
           {selected === "Profile" ? (

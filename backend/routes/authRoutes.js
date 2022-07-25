@@ -26,6 +26,12 @@ const formatTime = (minuteOffset, startTime) => {
   return `${newHours}:${minutes} ${ending}`;
 };
 
+const formatMilitaryTime = (minuteOffset, startTime) => {
+  let newHours = parseInt(startTime.substring(0, 2)) + parseInt(minuteOffset / 60);
+  let minutes = startTime.substring(3);
+  return `${newHours}:${minutes}`;
+};
+
 router.get("/generateEventDetails/:eventId", authController.checkUser, async (req, res) => {
   try {
     const event = await Invite.findOne({ eventId: req.params.eventId });
@@ -123,6 +129,23 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
         finalRestaurants.push(restaurantSummary);
       });
     }
+
+    // update invite
+    await Invite.findOneAndUpdate(
+      { _id: req.params.eventId },
+      {
+        $set: {
+          date: optimalDateAndTime.date,
+          time: formatMilitaryTime(optimalDateAndTime.time.slotIndex * 30, startTime),
+          //  details: { model: "14Q3", make: "xyz" },
+          //  tags: [ "coats", "outerwear", "clothing" ]
+        },
+      }
+    );
+
+    // event.date = optimalDateAndTime.date;
+    // event.time = formatMilitaryTime(optimalDateAndTime.time.slotIndex * 30, startTime);
+    // req.user.save();
 
     res.status(201).json({
       options: [...new Set(finalRestaurants)],
@@ -246,6 +269,18 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     await updateMemberProfiles("events", newEvent._id, newEvent.members);
 
     res.status(201).json({ createdEvent: newEvent });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
+// get group name based on event id
+router.get("/groupName/:eventId", authController.checkUser, async (req, res) => {
+  try {
+    const eventInfo = await Invite.findById(req.params.eventId);
+    const group = await Group.findById(eventInfo.groupId);
+    res.status(201).json(group);
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error);
