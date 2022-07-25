@@ -24,6 +24,7 @@ export default function Dashboard(props) {
             <Event
               groups={props.groups}
               loadAllGroups={props.loadAllGroups}
+              currentUser={props.currentUser}
             />
           }
         />

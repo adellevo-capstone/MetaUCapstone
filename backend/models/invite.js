@@ -5,7 +5,8 @@ const InviteSchema = new mongoose.Schema({
   hostId: mongoose.ObjectId,
   groupId: mongoose.ObjectId,
   description: String,
-  location: String,
+  location: String, // for restaurant
+  restaurant: String, // name of restaurant
   rsvpDeadline: Date,
   time: String,
   date: String,

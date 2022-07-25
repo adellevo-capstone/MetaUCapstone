@@ -4,6 +4,7 @@ import Popup from "reactjs-popup";
 import HostedEvents from "./HostedSection/HostedEvents";
 import EventsInvitedTo from "./InvitedToSection/EventsInvitedTo";
 import InvitationForm from "./InvitationForm/InvitationForm";
+import InvitationCard from "./InvitationForm/InvitationCard";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import map from "../Shared/assets/Map.svg";
@@ -47,7 +48,6 @@ export default function Event(props) {
       const originalEvent = allEvents.find((e) => e._id === clickInfo.event.extendedProps._id);
       const res = await API.get(`api/v1/auth/groupName/${originalEvent._id}`);
       const newEvent = { ...originalEvent, groupName: res.data.name };
-      console.log(newEvent.start);
       setSelectedEvent(newEvent);
     } catch (err) {
       setError(error);
@@ -74,9 +74,11 @@ export default function Event(props) {
             <p>
               {selectedEvent.title} with {selectedEvent.groupName}
             </p>
+            {console.log(selectedEvent)}
+            <p>{selectedEvent.restaurant}</p>
             <p>{selectedEvent.description}</p>
-            <p>Time: {selectedEvent.time}</p>
-            <p>Date: {selectedEvent.date}</p>
+            <p>{selectedEvent.time}</p>
+            <p>{selectedEvent.date}</p>
           </div>
 
           <div className="card-actions">
@@ -131,15 +133,32 @@ export default function Event(props) {
       </Popup>
 
       {/* Sections for created events */}
-      <HostedEvents hosted={hosted} />
-      <EventsInvitedTo
-        invitedTo={invitedTo}
-        groups={props.groups}
-        startTime={startTime}
-        setStartTime={setStartTime}
-        availableTimes={availableTimes}
-        setAvailableTimes={setAvailableTimes}
-      />
+      <div>
+        <h2>Pending events</h2>
+        {/* only display nonfinalized events */}
+        {allEvents
+          .filter((item) => !item.restaurant)
+          .map((event, index) =>
+            props.currentUser._id === event.hostId ? (
+              // hosted events
+              <InvitationCard
+                guest={false}
+                key={index}
+                event={event}
+              />
+            ) : (
+              // events invited to
+              <InvitationCard
+                guest={true}
+                key={index}
+                event={event}
+                groups={props.groups}
+                availableTimes={availableTimes}
+                setAvailableTimes={setAvailableTimes}
+              />
+            )
+          )}
+      </div>
     </div>
   );
 }

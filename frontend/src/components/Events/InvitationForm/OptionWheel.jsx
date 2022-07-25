@@ -10,13 +10,24 @@ export default function OptionWheel({ eventId }) {
 
   const loadSpinnerOptions = async () => {
     const res = await API.get(`api/v1/auth/generateEventDetails/${eventId}`);
-    console.log(res.data);
     const restaurantNames = res.data.options;
     const updatedSegments = restaurantNames.map((option) => {
       return { title: option.name };
     });
 
     setSegments(updatedSegments);
+  };
+
+  const confirmLocation = async () => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const body = {
+        restaurant: currentOption,
+      };
+      await API.patch(`api/v1/auth/event/${eventId}/update`, body, config);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -38,6 +49,7 @@ export default function OptionWheel({ eventId }) {
       </div>
 
       <button onClick={loadSpinnerOptions}>Get options</button>
+      <button onClick={confirmLocation}>Confirm location</button>
     </div>
   );
 }

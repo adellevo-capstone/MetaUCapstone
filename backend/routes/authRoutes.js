@@ -137,15 +137,9 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
         $set: {
           date: optimalDateAndTime.date,
           time: formatMilitaryTime(optimalDateAndTime.time.slotIndex * 30, startTime),
-          //  details: { model: "14Q3", make: "xyz" },
-          //  tags: [ "coats", "outerwear", "clothing" ]
         },
       }
     );
-
-    // event.date = optimalDateAndTime.date;
-    // event.time = formatMilitaryTime(optimalDateAndTime.time.slotIndex * 30, startTime);
-    // req.user.save();
 
     res.status(201).json({
       options: [...new Set(finalRestaurants)],
@@ -154,6 +148,18 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
     });
   } catch (err) {
     res.status(500).send(err.message);
+  }
+});
+
+router.patch("/event/:eventId/update", authController.checkUser, async (req, res) => {
+  try {
+    let update = req.body;
+    let event = await Invite.findByIdAndUpdate(req.params.eventId, update, { new: true });
+
+    res.status(201).json(event);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
   }
 });
 

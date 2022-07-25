@@ -73,6 +73,7 @@ export default function App() {
                       setLocation={setLocation}
                       loadAllUsers={loadAllUsers}
                       allUsers={allUsers}
+                      currentUser={currentUser}
                     />
                   }
                 />
