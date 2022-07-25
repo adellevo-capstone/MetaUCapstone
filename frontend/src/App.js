@@ -3,7 +3,6 @@ import Auth from "./components/AuthPage/Auth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard/Dashboard";
 import API from "./utils/API";
-import GroupDetail from "./components/Groups/GroupDetail";
 import "./components/Dashboard/assets/Dashboard.css";
 import "./components/Shared/assets/Shared.css";
 import "./components/Profile/assets/Profile.css";

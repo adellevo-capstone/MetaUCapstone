@@ -16,6 +16,17 @@ export default function GroupDetail(props) {
   const groupId = findGroupByName().groupInfo._id;
   const members = findGroupByName().memberInfo;
 
+  const leaveGroup = async () => {
+    try {
+      if (window.confirm(`Are you sure you want to leave "${groupName}"?`)) {
+        await API.patch(`api/v1/auth/group/${groupId}/leave`);
+        window.location = "/dashboard/groups";
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="group-detail">
       <div className="header-actions-container">
@@ -46,7 +57,7 @@ export default function GroupDetail(props) {
         </Popup>
         <span
           className="button"
-          onClick={() => props.leaveGroup(groupId)}
+          onClick={() => leaveGroup(groupId)}
         >
           Leave group
         </span>
