@@ -26,6 +26,10 @@
   margin-bottom: 10em;
 }
 
+.card-actions p {
+  cursor: pointer;
+}
+
 /* ---- TimeGrid ---- */
 
 form {

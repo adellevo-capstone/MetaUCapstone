@@ -54,6 +54,40 @@ export default function Event(props) {
     }
   };
 
+  // const findRestaurant = async () => {
+  //   try {
+  //     const config = { headers: { "Content-Type": "application/json" } };
+  //     const body = { location: props.location, searchQuery: props.searchQuery };
+
+  //     // add categories to likes
+  //     const res = await API.post("api/v1/auth/restaurantInfo", body, config);
+  //     setSearchedRestaurants(res.data);
+  //   } catch (err) {
+  //     console.log(err.response);
+  //   }
+  // };
+
+  const sendText = async () => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+
+      // get restaurant details
+      const res = await API.post(
+        "api/v1/auth/restaurantInfo",
+        { location: selectedEvent.location, searchQuery: selectedEvent.restaurant },
+        config
+      );
+
+      // get address
+      const { display_address } = res.data[0].location;
+      const address = display_address.join(", ");
+      await API.post("api/v1/auth/sendText", { address: address }, config);
+      alert("Address sent! Check your texts to find it.");
+    } catch (err) {
+      setError(error);
+    }
+  };
+
   return (
     <div className="events">
       <div className="calendar-container">
@@ -69,42 +103,43 @@ export default function Event(props) {
             eventClick={handleEventClick}
           />
         </div>
-        <div className="selected-event">
-          <div className="description">
-            <p>
-              {selectedEvent.title} with {selectedEvent.groupName}
-            </p>
-            {console.log(selectedEvent)}
-            <p>{selectedEvent.restaurant}</p>
-            <p>{selectedEvent.description}</p>
-            <p>{selectedEvent.time}</p>
-            <p>{selectedEvent.date}</p>
-          </div>
+        {Object.keys(selectedEvent).length > 0 && (
+          <div className="selected-event">
+            <div className="description">
+              <p>
+                {selectedEvent.title} with {selectedEvent.groupName}
+              </p>
+              <p>{selectedEvent.restaurant}</p>
+              <p>{selectedEvent.description}</p>
+              <p>{selectedEvent.time}</p>
+              <p>{selectedEvent.date}</p>
+            </div>
 
-          <div className="card-actions">
-            <p>
-              <img
-                src={map}
-                alt="map"
-              />
-              Text me the directions
-            </p>
-            <p>
-              <img
-                src={car}
-                alt="map"
-              />
-              View carpool details
-            </p>
-            <p>
-              <img
-                src={people}
-                alt="map"
-              />
-              See who's coming
-            </p>
+            <div className="card-actions">
+              <p onClick={sendText}>
+                <img
+                  src={map}
+                  alt="map"
+                />
+                Text me the address
+              </p>
+              <p>
+                <img
+                  src={car}
+                  alt="map"
+                />
+                View carpool details
+              </p>
+              <p>
+                <img
+                  src={people}
+                  alt="map"
+                />
+                See who's coming
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Popup for creating an invitation */}

@@ -200,11 +200,14 @@
   background-color: var(--dashboard-background);
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
   padding: 3em;
   border-radius: 2em;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   font-family: Lexend;
-  gap: 5em;
+  gap: 3em;
+  width: fit-content;
+  min-height: 50vh;
 }
 
 .popup-header {
@@ -216,7 +219,7 @@
 .search-popup h1 {
   font-size: 1.4em;
   font-weight: 500;
-  margin-right: 0.5em;
+  margin-right: 2.5em;
 }
 
 .search-popup p {
@@ -232,9 +235,11 @@
 .added-restaurants {
   height: 28.5em;
   overflow-x: scroll;
-  background-color: white;
-  width: 100%;
   margin-bottom: 3.4em;
+}
+
+.restaurants-to-add {
+  width: 100%;
 }
 
 .popup-content {
@@ -305,9 +310,99 @@
 
 .added-restaurants,
 .searched-restaurants {
-  width: 30em;
+  width: 100%;
   padding-bottom: 0;
+}
+
+p.no-searched-results {
+  width: fit-content;
+  margin-bottom: 3em;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: row;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  height: 2.5em;
+  /* padding: 1.2em; */
+  font-size: 0.9em;
+  border-radius: 0.3em;
   background-color: white;
+  padding: 0.2em;
+}
+
+.inputs > *:first-child {
+  border: none;
+  background-color: none;
+  border-top-left-radius: 0.3em;
+  border-bottom-left-radius: 0.3em;
+  /* box-shadow: 10px 10px 8px #888888; */
+}
+
+.inputs > * {
+  margin-left: 1em;
+  /* box-shadow: 10px 10px 8px #888888; */
+}
+
+/* ---- disable default input styles ---- */
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+.inputs > *:sel {
+  margin-left: 1em;
+  /* box-shadow: 10px 10px 8px #888888; */
+}
+
+.inputs > *:nth-child(3) {
+  border: none;
+  background-color: none;
+  border-top-right-radius: 0.3em;
+  border-bottom-right-radius: 0.3em;
+  /* box-shadow: 10px 10px 8px #888888; */
+}
+
+.popup-divider {
+  height: 100%;
+  width: 3em;
+  background-color: #191919;
+  border-radius: var(--border-radius);
+  /* margin: 0.2em; */
+}
+
+.search-popup > *:last-child {
+  width: 10%;
+}
+
+img.button.search {
+  border: 0.22em solid #191919;
+  margin-top: -0.2em;
+  margin-right: -0.2em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+img.close {
+  width: fit-content;
+  margin-top: -1.5em;
+  margin-right: -1.5em;
+  cursor: pointer;
+}
+
+.search-divider {
+  height: 100%;
+  width: 0.1em;
+  margin: 0 0.5em;
+  background-color: #dcdcdc;
+  border-radius: var(--border-radius);
+  /* margin: 0.2em; */
 }
 
 /* --- RestaurantCard --- */
@@ -430,9 +525,9 @@
     margin-top: unset;
   }
 
-  .content {
+  /* .content {
     width: 88%;
-  }
+  } */
 
   .dietary-preferences {
     margin-bottom: 7em;

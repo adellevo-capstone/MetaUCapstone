@@ -35,12 +35,17 @@ export default function InvitationCard(props) {
     }
   };
 
+  const deadlinePassed = (rsvpDeadline) => {
+    const deadline = new Date(rsvpDeadline);
+    const current = Date.now();
+    return deadline <= current;
+  };
+
   return (
     <div>
       {/* only display cards when the deadline hasn't passed */}
-      {+props.event.rsvpDeadline >= +Date.now() && (
+      {!deadlinePassed(props.event.rsvpDeadline) && (
         <div className="invitation">
-          display invitation card for guests if they aren't finalized
           {/* display option wheel for hosts */}
           {!props.guest && <OptionWheel eventId={props.event._id} />}
           <h3>Title: {props.event.title}</h3>
