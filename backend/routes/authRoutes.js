@@ -7,6 +7,29 @@ const Invite = require("../models/invite");
 const InviteResponse = require("../models/inviteResponse");
 const axios = require("axios");
 
+const accountSid = process.env.accountSid;
+const authToken = process.env.authToken;
+const client = require("twilio")(accountSid, authToken);
+
+// ---- Twilio ----
+
+router.post("/sendText", (req, res) => {
+  const message = req.body.message;
+  client.messages
+    .create({
+      body: message,
+      from: process.env.TWILIO_SENDER,
+      to: process.env.TWILIO_RECEIVER,
+    })
+    .then((message) => {
+      res.json({ message: message });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    });
+});
+
 // ---- Authentication ----
 
 router.route("/signup").post(authController.signup);
