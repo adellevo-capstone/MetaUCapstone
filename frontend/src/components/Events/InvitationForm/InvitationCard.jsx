@@ -37,46 +37,51 @@ export default function InvitationCard(props) {
 
   return (
     <div>
-      <div className="invitation">
-        {!props.guest && <OptionWheel eventId={props.event._id} />}
-        <h3>Title: {props.event.title}</h3>
-        <p>Group name: {groupName}</p>
-        <p>Description: {props.event.description}</p>
-        <p>RSVP deadline: {props.event.rsvpDeadline}</p>
-        <h3>Members: </h3>
-        <ul>
-          <b>Going:</b>
-          {going?.map((response, index) => (
-            <li key={index}>{response.name}</li>
-          ))}
-        </ul>
-        <ul>
-          <b>Not going:</b>
-          {notGoing?.map((response, index) => (
-            <li key={index}>{response.name}</li>
-          ))}
-        </ul>
-        <ul>
-          <b>Unconfirmed:</b>
-          {unconfirmed?.map((response, index) => (
-            <li key={index}>{response.name}</li>
-          ))}
-        </ul>
-        {props.guest && (
-          <div>
-            <InvitationResponseForm
-              eventId={props.event._id}
-              hostAvailability={props.event.timeSlots.dateMap}
-              groups={props.groups}
-              groupName={groupName}
-              startTime={props.event.timeSlots.startTime}
-              setStartTime={props.setStartTime}
-              availableTimes={props.availableTimes}
-              setAvailableTimes={props.setAvailableTimes}
-            />
-          </div>
-        )}
-      </div>
+      {/* only display cards when the deadline hasn't passed */}
+      {+props.event.rsvpDeadline >= +Date.now() && (
+        <div className="invitation">
+          display invitation card for guests if they aren't finalized
+          {/* display option wheel for hosts */}
+          {!props.guest && <OptionWheel eventId={props.event._id} />}
+          <h3>Title: {props.event.title}</h3>
+          <p>Group name: {groupName}</p>
+          <p>Description: {props.event.description}</p>
+          <p>RSVP deadline: {props.event.rsvpDeadline}</p>
+          <h3>Members: </h3>
+          <ul>
+            <b>Going:</b>
+            {going?.map((response, index) => (
+              <li key={index}>{response.name}</li>
+            ))}
+          </ul>
+          <ul>
+            <b>Not going:</b>
+            {notGoing?.map((response, index) => (
+              <li key={index}>{response.name}</li>
+            ))}
+          </ul>
+          <ul>
+            <b>Unconfirmed:</b>
+            {unconfirmed?.map((response, index) => (
+              <li key={index}>{response.name}</li>
+            ))}
+          </ul>
+          {props.guest && (
+            <div>
+              <InvitationResponseForm
+                eventId={props.event._id}
+                hostAvailability={props.event.timeSlots.dateMap}
+                groups={props.groups}
+                groupName={groupName}
+                startTime={props.event.timeSlots.startTime}
+                setStartTime={props.setStartTime}
+                availableTimes={props.availableTimes}
+                setAvailableTimes={props.setAvailableTimes}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
