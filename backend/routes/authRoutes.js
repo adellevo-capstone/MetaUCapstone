@@ -27,16 +27,16 @@ const formatTime = (minuteOffset, startTime) => {
 };
 
 const formatMilitaryTime = (minuteOffset, startTime) => {
-  let newHours = parseInt(startTime.substring(0, 2)) + parseInt(minuteOffset / 60);
-  let minutes = startTime.substring(3);
-  return `${newHours}:${minutes}`;
+  const formattedStart = startTime.length === 4 ? `0${startTime}` : startTime;
+  let newHours = parseInt(formattedStart.substring(0, 2)) + parseInt(minuteOffset / 60);
+  let minutes = formattedStart.substring(3);
+  return newHours.toString().length == 1 ? `0${newHours}:${minutes}` : `${newHours}:${minutes}`;
 };
 
 router.get("/generateEventDetails/:eventId", authController.checkUser, async (req, res) => {
   try {
     const event = await Invite.findOne({ eventId: req.params.eventId });
     const going = await getInviteResponseDetails(event.attendance.going);
-
     const { startTime, dateMap } = event?.timeSlots;
 
     // initialize hashmap: keys = dates, values = array of time slot frequency
@@ -117,8 +117,8 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
         params: {
           location: event.location,
           limit: limit,
-          distance: optimalDistanceLevel,
-          price: optimalPriceLevel,
+          distance: optimalDistanceLevel.distanceLevel,
+          price: optimalPriceLevel.priceLevel,
           categories: categories[i].toLowerCase(),
         },
       });
@@ -140,6 +140,10 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
         },
       }
     );
+
+    // res.status(201).json({
+    //   hi: "hi",
+    // });
 
     res.status(201).json({
       options: [...new Set(finalRestaurants)],

@@ -131,7 +131,6 @@ export default function Event(props) {
           />
         </div>
       </Popup>
-
       {/* Sections for created events */}
       <div>
         <h2>Pending events</h2>

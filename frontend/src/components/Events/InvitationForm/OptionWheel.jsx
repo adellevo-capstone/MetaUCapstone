@@ -10,6 +10,7 @@ export default function OptionWheel({ eventId }) {
 
   const loadSpinnerOptions = async () => {
     const res = await API.get(`api/v1/auth/generateEventDetails/${eventId}`);
+    console.log(res);
     const restaurantNames = res.data.options;
     const updatedSegments = restaurantNames.map((option) => {
       return { title: option.name };
