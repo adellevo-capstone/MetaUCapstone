@@ -1,20 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
+const axios = require("axios");
+
+// models
 const User = require("../models/user");
 const Group = require("../models/group");
 const Invite = require("../models/invite");
 const InviteResponse = require("../models/inviteResponse");
-const axios = require("axios");
+
+// ---- Twilio ----
 
 const accountSid = process.env.accountSid;
 const authToken = process.env.authToken;
 const client = require("twilio")(accountSid, authToken);
 
-// ---- Twilio ----
-
 router.post("/sendText", (req, res) => {
-  const message = req.body.message;
+  const message = req.body.address;
   client.messages
     .create({
       body: message,
