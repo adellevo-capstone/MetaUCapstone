@@ -1,6 +1,85 @@
 .invitation {
-  border: 1px solid grey;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: var(--border-radius);
   margin: 2em;
+  background-color: white;
+  height: fit-content;
+}
+
+.invitation h1 {
+  font-size: var(--header-size);
+  font-weight: var(--header-font-weight);
+  color: var(--header-color);
+  width: 100%;
+}
+
+.invitation p {
+  font-weight: 400;
+  color: rgb(95, 98, 100);
+  letter-spacing: 0.05em;
+}
+
+.invitation .left-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  margin: 2em;
+  margin-right: unset;
+  justify-content: center;
+  align-content: center;
+  max-width: 15em;
+  text-align: center;
+}
+
+.invitation .right-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  font-weight: 500;
+  max-width: 26em;
+  margin: 2em 1em;
+  text-align: left;
+  justify-content: center;
+  transform: scale(0.95);
+  margin-left: unset;
+}
+
+.invitation .right-container .header p {
+  font-weight: 400;
+  color: #191919;
+  letter-spacing: 0.05em;
+}
+
+.invitation .actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: unset;
+  margin-left: -0.5em;
+}
+
+.invitation .actions > * {
+  border-radius: 5em;
+  padding: 0.5em 0.8em;
+  transform: scale(0.9);
+  border: 0.2em solid black;
+}
+
+h2.countdown {
+  font-size: 1.8em;
+  margin: 0.5em 0;
+}
+
+.invitation-divider {
+  width: 0.5em;
+  height: 17em;
+  margin: 0 1.5em;
+  background-color: var(--dashboard-background);
 }
 
 .spinning-wheel {

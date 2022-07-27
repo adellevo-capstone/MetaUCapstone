@@ -12,6 +12,12 @@ import car from "../Shared/assets/Car.svg";
 import people from "../Shared/assets/People.svg";
 import "./Event.css";
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDrag } from "react-dnd";
+import { Basket } from "./Basket";
+import TaskBoard from "./InvitationForm/DND/TaskBoard";
+
 export default function Event(props) {
   const [error, setError] = useState("");
   const [hosted, setHosted] = useState([]);
@@ -20,6 +26,22 @@ export default function Event(props) {
   const [availableTimes, setAvailableTimes] = useState(new Map());
   const [selectedEvent, setSelectedEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
+
+  let tasks = [];
+  if (Object.keys(selectedEvent).length > 0) {
+    tasks.push({
+      title: "Passengers",
+      tasks: selectedEvent?.carpool?.passengers,
+    });
+    const carpoolData = selectedEvent?.carpool?.groups;
+    for (let i = 0; i < carpoolData.length; i++) {
+      tasks.push({
+        ...carpoolData[i],
+        title: carpoolData[i].driver.name,
+        tasks: carpoolData[i].passengers,
+      });
+    }
+  }
 
   useEffect(() => {
     loadAllEvents();
@@ -53,19 +75,6 @@ export default function Event(props) {
       setError(error);
     }
   };
-
-  // const findRestaurant = async () => {
-  //   try {
-  //     const config = { headers: { "Content-Type": "application/json" } };
-  //     const body = { location: props.location, searchQuery: props.searchQuery };
-
-  //     // add categories to likes
-  //     const res = await API.post("api/v1/auth/restaurantInfo", body, config);
-  //     setSearchedRestaurants(res.data);
-  //   } catch (err) {
-  //     console.log(err.response);
-  //   }
-  // };
 
   const sendText = async () => {
     try {
@@ -123,13 +132,36 @@ export default function Event(props) {
                 />
                 Text me the address
               </p>
-              <p>
-                <img
-                  src={car}
-                  alt="map"
-                />
-                View carpool details
-              </p>
+              <Popup
+                closeOnDocumentClick
+                modal
+                nested
+                trigger={
+                  <p>
+                    <img
+                      src={car}
+                      alt="map"
+                    />
+                    View carpool details
+                  </p>
+                }
+              >
+                <DndProvider backend={HTML5Backend}>
+                  <div
+                    className="carpool-details"
+                    style={{
+                      backgroundColor: "white",
+                      boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                      padding: "0.5em",
+                      borderRadius: "2em",
+                      minWidth: "60%",
+                      minHeight: "60%",
+                    }}
+                  >
+                    <TaskBoard tasks={tasks} />
+                  </div>
+                </DndProvider>
+              </Popup>
               <p>
                 <img
                   src={people}
@@ -141,7 +173,6 @@ export default function Event(props) {
           </div>
         )}
       </div>
-
       {/* Popup for creating an invitation */}
       <Popup
         closeOnDocumentClick

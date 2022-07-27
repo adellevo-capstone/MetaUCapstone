@@ -24,11 +24,11 @@ export default function InvitationForm(props) {
           dateMap: Object.fromEntries(props.availableTimes),
           startTime: props.startTime,
         },
+        carpoolStatus: elements.transportation.value,
         members: intendedGroup.groupInfo.members,
         priceLevel: parseInt(elements.priceLevel.value),
         distanceLevel: parseInt(elements.distanceLevel.value),
       };
-
       await API.patch("api/v1/auth/event/create", body, config);
     } catch (err) {
       console.log(err);
@@ -110,7 +110,7 @@ export default function InvitationForm(props) {
                   Select carpool needs
                 </option>
                 <option value="driver">Driver</option>
-                <option value="rider">Rider</option>
+                <option value="passenger">Passenger</option>
                 <option value="none">N/A</option>
               </select>
             </fieldset>

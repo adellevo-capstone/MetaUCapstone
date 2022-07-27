@@ -115,7 +115,7 @@ export default function EventForm() {
           Select carpool needs
         </option>
         <option value="driver">Driver</option>
-        <option value="rider">Rider</option>
+        <option value="passenger">Passenger</option>
         <option value="none">N/A</option>
       </select>
 

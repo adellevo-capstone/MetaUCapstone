@@ -22,6 +22,7 @@ export default function InvitationResponseForm(props) {
         priceLevel: parseInt(elements.priceLevel.value),
         distanceLevel: parseInt(elements.distanceLevel.value),
         availability: Object.fromEntries(props.availableTimes),
+        carpoolStatus: elements.transportation.value,
       };
 
       await API.patch("api/v1/auth/inviteResponse/update", body, config);
@@ -80,7 +81,7 @@ export default function InvitationResponseForm(props) {
                         Select carpool needs
                       </option>
                       <option value="driver">Driver</option>
-                      <option value="rider">Rider</option>
+                      <option value="passenger">Passenger</option>
                       <option value="none">N/A</option>
                     </select>
                   </fieldset>
