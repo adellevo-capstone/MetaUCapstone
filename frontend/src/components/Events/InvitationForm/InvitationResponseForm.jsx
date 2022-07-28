@@ -13,7 +13,10 @@ export default function InvitationResponseForm(props) {
       const config = { headers: { "Content-Type": "application/json" } };
       const elements = event.currentTarget.elements;
 
-      const intendedGroup = props.groups.find((group) => group.groupInfo.name === props.groupName);
+      console.log(props.groups);
+      const intendedGroup = await props.groups.find(
+        (group) => group.groupInfo.name === props.groupName
+      );
 
       let body = {
         attending: rsvpStatus === "accept" ? true : false,

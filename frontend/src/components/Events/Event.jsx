@@ -34,7 +34,7 @@ export default function Event(props) {
     for (let i = 0; i < carpoolData.length; i++) {
       passengers.push({
         ...carpoolData[i],
-        title: carpoolData[i].driver.name,
+        title: carpoolData[i].driver,
         passengers: carpoolData[i].passengers,
       });
     }
@@ -99,6 +99,43 @@ export default function Event(props) {
 
   return (
     <div className="events">
+      {/* Popup for creating an invitation */}
+      <span
+        className="button"
+        onClick={() => setOpen((o) => !o)}
+      >
+        Create an invitation
+      </span>
+      <Popup
+        open={open}
+        closeOnDocumentClick
+        onClose={closeModal}
+        modal
+        nested
+      >
+        <div
+          style={{
+            backgroundColor: "white",
+            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+            padding: "0.5em",
+            borderRadius: "2em",
+          }}
+        >
+          <img
+            className="close"
+            src={deleteButton}
+            onClick={closeModal}
+            alt="delete button"
+          />
+          <InvitationForm
+            groups={props.groups}
+            startTime={startTime}
+            setStartTime={setStartTime}
+            availableTimes={availableTimes}
+            setAvailableTimes={setAvailableTimes}
+          />
+        </div>
+      </Popup>
       <div className="calendar-container">
         <div className="calendar">
           <FullCalendar
@@ -173,69 +210,33 @@ export default function Event(props) {
           </div>
         )}
       </div>
-      {/* Popup for creating an invitation */}
-      <span
-        className="button"
-        onClick={() => setOpen((o) => !o)}
-      >
-        Create an invitation
-      </span>
-      <Popup
-        open={open}
-        closeOnDocumentClick
-        onClose={closeModal}
-        modal
-        nested
-      >
-        <div
-          style={{
-            backgroundColor: "white",
-            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            padding: "0.5em",
-            borderRadius: "2em",
-          }}
-        >
-          <img
-            className="close"
-            src={deleteButton}
-            onClick={closeModal}
-            alt="delete button"
-          />
-          <InvitationForm
-            groups={props.groups}
-            startTime={startTime}
-            setStartTime={setStartTime}
-            availableTimes={availableTimes}
-            setAvailableTimes={setAvailableTimes}
-          />
-        </div>
-      </Popup>
       {/* Sections for created events */}
       <div>
-        <h2>Pending events</h2>
         {/* only display nonfinalized events */}
-        {allEvents
+        <h2>Pending events</h2>
+        <h3>Hosted by me</h3>
+        {hosted
           .filter((item) => !item.restaurant)
-          .map((event, index) =>
-            props.currentUser._id === event.hostId ? (
-              // hosted events
-              <InvitationCard
-                guest={false}
-                key={index}
-                event={event}
-              />
-            ) : (
-              // events invited to
-              <InvitationCard
-                guest={true}
-                key={index}
-                event={event}
-                groups={props.groups}
-                availableTimes={availableTimes}
-                setAvailableTimes={setAvailableTimes}
-              />
-            )
-          )}
+          .map((event, index) => (
+            <InvitationCard
+              guest={false}
+              key={index}
+              event={event}
+            />
+          ))}
+        <h3>I was invited to</h3>
+        {invitedTo
+          .filter((item) => !item.restaurant)
+          .map((event, index) => (
+            <InvitationCard
+              guest={true}
+              key={index}
+              event={event}
+              groups={props.groups}
+              availableTimes={availableTimes}
+              setAvailableTimes={setAvailableTimes}
+            />
+          ))}
       </div>
     </div>
   );

@@ -241,7 +241,6 @@ router.get("/events", authController.checkUser, async (req, res) => {
         eventsInvitedTo.push(eventInfo);
       }
     }
-
     res.status(201).json({ hosted: eventsHosted, invitedTo: eventsInvitedTo });
   } catch (error) {
     res.status(500).send(error.message);
@@ -262,6 +261,7 @@ const updateMemberProfiles = async (arrayType, createdItemId, memberIds) => {
 router.patch("/event/create", authController.checkUser, async (req, res) => {
   try {
     const { dateMap, startTime } = req.body.timeSlots;
+    const { status, capacity, startingPoint } = req.body.carpool;
 
     const hostResponse = await InviteResponse.create({
       groupId: req.body.groupId,
@@ -270,6 +270,7 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
       priceLevel: parseInt(req.body.priceLevel),
       distanceLevel: parseInt(req.body.distanceLevel),
       availability: dateMap,
+      carpoolStatus: status,
     });
 
     const newEvent = await Invite.create({
@@ -285,6 +286,7 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
         going: [hostResponse._id],
         notGoing: [],
       },
+      carpool: {},
     });
 
     let unconfirmed = [];
@@ -301,7 +303,6 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     newEvent.attendance.unconfirmed = [...unconfirmed];
 
     // update carpool status
-    const { status, capacity, startingPoint } = req.body.carpool;
     const userName = `${req.user.firstName} ${req.user.lastName}`;
 
     if (status === "driver") {
@@ -379,9 +380,8 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       groupId: req.body.groupId,
       guestId: req.user._id,
     };
-    let update = req.body;
-    update.guestId = req.user._id;
-    update.carpoolStatus = req.body.carpool.status;
+    console.log(req.body.carpool.status);
+    let update = { ...req.body, guestId: req.user._id, carpoolStatus: req.body.carpool.status };
     let inviteResponse = await InviteResponse.findOneAndUpdate(filters, update, { new: true });
 
     // ---- Update attendance ----
