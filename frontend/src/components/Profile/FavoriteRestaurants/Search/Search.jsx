@@ -52,7 +52,6 @@ export default function Search(props) {
         onClose={closeModal}
         modal
         nested
-        // trigger={<span className="button"> Add restaurants </span>}
         style={{
           minWidth: "40em",
         }}

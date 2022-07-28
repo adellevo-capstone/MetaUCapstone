@@ -25,6 +25,7 @@ export default function InvitationForm(props) {
           startTime: props.startTime,
         },
         carpoolStatus: elements.transportation.value,
+        carCapacity: elements.carCapacity.value,
         members: intendedGroup.groupInfo.members,
         priceLevel: parseInt(elements.priceLevel.value),
         distanceLevel: parseInt(elements.distanceLevel.value),
@@ -98,6 +99,7 @@ export default function InvitationForm(props) {
 
             <fieldset>
               <legend>Transportation</legend>
+              <p>Status</p>
               <select
                 id="transportation"
                 selected
@@ -113,6 +115,13 @@ export default function InvitationForm(props) {
                 <option value="passenger">Passenger</option>
                 <option value="none">N/A</option>
               </select>
+              <div>
+                <p>How many passengers can you drive?</p>
+                <textarea
+                  id="carCapacity"
+                  required
+                />
+              </div>
             </fieldset>
 
             <fieldset>

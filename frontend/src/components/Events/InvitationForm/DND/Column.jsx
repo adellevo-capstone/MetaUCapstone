@@ -5,12 +5,12 @@ import DraggableCard from "./DraggableCard";
 import Card from "./Card";
 import { ItemTypes } from "./Constants";
 
-const Column = ({ tasks: { title, tasks }, columnIndex, handleMoveMyTask }) => {
-  const cards = tasks.map((task, index) => {
-    const propsToDraggbleCard = { task, columnIndex, index };
+const Column = ({ passengers: { title, passengers }, columnIndex, handleMoveMyPassenger }) => {
+  const cards = passengers.map((passenger, index) => {
+    const propsToDraggbleCard = { passenger, columnIndex, index };
     return (
       <DraggableCard
-        key={`${columnIndex} ${index} ${task}`}
+        key={`${columnIndex} ${index} ${passenger}`}
         {...propsToDraggbleCard}
       />
     );
@@ -21,7 +21,7 @@ const Column = ({ tasks: { title, tasks }, columnIndex, handleMoveMyTask }) => {
     drop: (item) => {
       const from = item;
       const to = { columnIndex };
-      handleMoveMyTask(from, to);
+      handleMoveMyPassenger(from, to);
     },
     canDrop: (item) => item.columnIndex !== columnIndex,
     collect: (monitor) => ({
@@ -40,7 +40,6 @@ const Column = ({ tasks: { title, tasks }, columnIndex, handleMoveMyTask }) => {
         {cards}
         {isOver && canDrop ? <Card empty /> : ""}
       </div>
-      <div className="column__add-task-input"></div>
     </div>
   );
 };

@@ -21,6 +21,10 @@ const InviteSchema = new mongoose.Schema({
     notGoing: [mongoose.ObjectId],
     unconfirmed: [mongoose.ObjectId],
   },
+  carpool: {
+    groups: [Object],
+    passengers: [mongoose.ObjectId], // user ids
+  },
 });
 
 const Invite = mongoose.model("Invite", InviteSchema);

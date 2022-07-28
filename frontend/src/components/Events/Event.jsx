@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import Popup from "reactjs-popup";
-import HostedEvents from "./HostedSection/HostedEvents";
-import EventsInvitedTo from "./InvitedToSection/EventsInvitedTo";
 import InvitationForm from "./InvitationForm/InvitationForm";
 import InvitationCard from "./InvitationForm/InvitationCard";
 import FullCalendar from "@fullcalendar/react";
@@ -11,11 +9,10 @@ import map from "../Shared/assets/Map.svg";
 import car from "../Shared/assets/Car.svg";
 import people from "../Shared/assets/People.svg";
 import "./Event.css";
+import deleteButton from "../Shared/assets/DeleteButton.svg";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useDrag } from "react-dnd";
-import { Basket } from "./Basket";
 import TaskBoard from "./InvitationForm/DND/TaskBoard";
 
 export default function Event(props) {
@@ -27,18 +24,18 @@ export default function Event(props) {
   const [selectedEvent, setSelectedEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
 
-  let tasks = [];
+  let passengers = [];
   if (Object.keys(selectedEvent).length > 0) {
-    tasks.push({
+    passengers.push({
       title: "Passengers",
-      tasks: selectedEvent?.carpool?.passengers,
+      passengers: selectedEvent?.carpool?.passengers,
     });
     const carpoolData = selectedEvent?.carpool?.groups;
     for (let i = 0; i < carpoolData.length; i++) {
-      tasks.push({
+      passengers.push({
         ...carpoolData[i],
         title: carpoolData[i].driver.name,
-        tasks: carpoolData[i].passengers,
+        passengers: carpoolData[i].passengers,
       });
     }
   }
@@ -96,6 +93,9 @@ export default function Event(props) {
       setError(error);
     }
   };
+
+  const [open, setOpen] = useState(false);
+  const closeModal = () => setOpen(false);
 
   return (
     <div className="events">
@@ -158,7 +158,7 @@ export default function Event(props) {
                       minHeight: "60%",
                     }}
                   >
-                    <TaskBoard tasks={tasks} />
+                    <TaskBoard passengers={passengers} />
                   </div>
                 </DndProvider>
               </Popup>
@@ -174,11 +174,18 @@ export default function Event(props) {
         )}
       </div>
       {/* Popup for creating an invitation */}
+      <span
+        className="button"
+        onClick={() => setOpen((o) => !o)}
+      >
+        Create an invitation
+      </span>
       <Popup
+        open={open}
         closeOnDocumentClick
+        onClose={closeModal}
         modal
         nested
-        trigger={<button> Create an invitation </button>}
       >
         <div
           style={{
@@ -188,6 +195,12 @@ export default function Event(props) {
             borderRadius: "2em",
           }}
         >
+          <img
+            className="close"
+            src={deleteButton}
+            onClick={closeModal}
+            alt="delete button"
+          />
           <InvitationForm
             groups={props.groups}
             startTime={startTime}

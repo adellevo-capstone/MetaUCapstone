@@ -16,7 +16,7 @@ const DraggableCard = (props) => {
 
   return (
     <div ref={dragRef}>
-      <Card task={props.task} />
+      <Card passenger={props.passenger} />
     </div>
   );
 };

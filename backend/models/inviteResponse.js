@@ -7,6 +7,7 @@ const InviteResponseSchema = new mongoose.Schema({
   priceLevel: Number,
   distanceLevel: Number,
   availability: Object,
+  carpoolStatus: String,
 });
 
 const InviteResponse = mongoose.model("InviteResponse", InviteResponseSchema);

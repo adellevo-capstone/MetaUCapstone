@@ -299,8 +299,24 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     }
 
     newEvent.attendance.unconfirmed = [...unconfirmed];
-    newEvent.save();
 
+    // update carpool status
+    const capacity = parseInt(req.body.carCapacity);
+    const startingPoint = req.body.location;
+
+    if (req.body.carpoolStatus === "driver") {
+      newEvent.carpool.groups.push({
+        driver: {
+          name: `${req.user.firstName} ${req.user.lastName}`,
+          capacity: capacity,
+          startingPoint: startingPoint,
+        },
+        passengers: [],
+      });
+    } else if (req.body.carpoolStatus === "passenger") {
+      newEvent.carpool.passengers.push(req.user._id);
+    }
+    newEvent.save();
     await updateMemberProfiles("events", newEvent._id, newEvent.members);
 
     res.status(201).json({ createdEvent: newEvent });
@@ -368,6 +384,8 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
     update.guestId = req.user._id;
     let inviteResponse = await InviteResponse.findOneAndUpdate(filters, update, { new: true });
 
+    // ---- update attendance ----
+
     // remove invite response id from unconfirmed array
     let updatedEvent = await Invite.findByIdAndUpdate(
       req.body.eventId,
@@ -388,6 +406,32 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
         { $addToSet: { ["attendance.notGoing"]: inviteResponse._id } },
+        { returnNewDocument: true }
+      );
+    }
+
+    // ---- Update carpool ----
+    const capacity = 3;
+    const startingPoint = "Canyon Crest Academy";
+
+    if (req.body.carpoolStatus === "driver") {
+      const newGroup = {
+        driver: {
+          name: `${req.user.firstName} ${req.user.lastName}`,
+          capacity: capacity,
+          startingPoint: startingPoint,
+        },
+        passengers: [],
+      };
+      updatedEvent = await Invite.findByIdAndUpdate(
+        req.body.eventId,
+        { $addToSet: { ["carpool.groups"]: newGroup } },
+        { returnNewDocument: true }
+      );
+    } else if (req.body.carpoolStatus === "passenger") {
+      updatedEvent = await Invite.findByIdAndUpdate(
+        req.body.eventId,
+        { $addToSet: { ["carpool.passengers"]: req.user._id } },
         { returnNewDocument: true }
       );
     }
