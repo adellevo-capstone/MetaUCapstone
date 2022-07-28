@@ -147,8 +147,8 @@ form > * {
 }
 
 .invalid {
-  background-color: white;
-  border: 2px solid white;
+  background-color: var(--dashboard-background);
+  border: 2px solid var(--dashboard-background);
 }
 
 .valid-unselected {

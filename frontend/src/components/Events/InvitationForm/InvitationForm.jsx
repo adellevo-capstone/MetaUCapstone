@@ -24,8 +24,11 @@ export default function InvitationForm(props) {
           dateMap: Object.fromEntries(props.availableTimes),
           startTime: props.startTime,
         },
-        carpoolStatus: elements.transportation.value,
-        carCapacity: elements.carCapacity.value,
+        carpool: {
+          status: elements.transportation.value,
+          capacity: elements.carCapacity.value,
+          startingPoint: elements.startingLocation.value,
+        },
         members: intendedGroup.groupInfo.members,
         priceLevel: parseInt(elements.priceLevel.value),
         distanceLevel: parseInt(elements.distanceLevel.value),
@@ -122,11 +125,18 @@ export default function InvitationForm(props) {
                   required
                 />
               </div>
+              <div>
+                <p>Enter start or pickup location</p>
+                <textarea
+                  id="startingLocation"
+                  required
+                />
+              </div>
             </fieldset>
 
             <fieldset>
               <legend>Location</legend>
-              <p>Starting location</p>
+              <p>Location</p>
               <textarea
                 id="location"
                 required

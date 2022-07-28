@@ -69,7 +69,7 @@ export default function InvitationCard(props) {
             </div>
             <div className="invitation-divider" />
             <div className="right-container">
-              <p>Adelle Vo invited you to</p>
+              {props.guest && <p>{props.event.hostId} invited you to</p>}
               <div className="header">
                 <h1>{props.event.title}</h1>
                 <p>with {groupName}</p>
@@ -129,12 +129,15 @@ export default function InvitationCard(props) {
                   )}
                 </Popup>
                 {/* Edit RSVP */}
-                <span
-                  className="button"
-                  onClick={() => setOpen((o) => !o)}
-                >
-                  Edit RSVP
-                </span>
+                {props.guest && (
+                  <span
+                    className="button"
+                    onClick={() => setOpen((o) => !o)}
+                  >
+                    Edit RSVP
+                  </span>
+                )}
+
                 <Popup
                   open={open}
                   closeOnDocumentClick

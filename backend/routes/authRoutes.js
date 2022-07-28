@@ -301,21 +301,20 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     newEvent.attendance.unconfirmed = [...unconfirmed];
 
     // update carpool status
-    const capacity = parseInt(req.body.carCapacity);
-    const startingPoint = req.body.location;
+    const { status, capacity, startingPoint } = req.body.carpool;
+    const userName = `${req.user.firstName} ${req.user.lastName}`;
 
-    if (req.body.carpoolStatus === "driver") {
+    if (status === "driver") {
       newEvent.carpool.groups.push({
-        driver: {
-          name: `${req.user.firstName} ${req.user.lastName}`,
-          capacity: capacity,
-          startingPoint: startingPoint,
-        },
+        driver: userName,
+        capacity: parseInt(capacity),
+        startingPoint: startingPoint,
         passengers: [],
       });
-    } else if (req.body.carpoolStatus === "passenger") {
+    } else if (status === "passenger") {
       newEvent.carpool.passengers.push(req.user._id);
     }
+
     newEvent.save();
     await updateMemberProfiles("events", newEvent._id, newEvent.members);
 
@@ -382,9 +381,10 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
     };
     let update = req.body;
     update.guestId = req.user._id;
+    update.carpoolStatus = req.body.carpool.status;
     let inviteResponse = await InviteResponse.findOneAndUpdate(filters, update, { new: true });
 
-    // ---- update attendance ----
+    // ---- Update attendance ----
 
     // remove invite response id from unconfirmed array
     let updatedEvent = await Invite.findByIdAndUpdate(
@@ -411,16 +411,31 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
     }
 
     // ---- Update carpool ----
-    const capacity = 3;
-    const startingPoint = "Canyon Crest Academy";
 
-    if (req.body.carpoolStatus === "driver") {
+    const { status, capacity, startingPoint } = req.body.carpool;
+    const userName = `${req.user.firstName} ${req.user.lastName}`;
+
+    // ---- Remove old data ----
+
+    updatedEvent = await Invite.findByIdAndUpdate(
+      req.body.eventId,
+      { $pull: { ["carpool.passengers"]: req.user._id } },
+      { returnNewDocument: true }
+    );
+
+    updatedEvent = await Invite.findByIdAndUpdate(
+      req.body.eventId,
+      { $pull: { "carpool.groups": { driver: userName } } },
+      { returnNewDocument: true }
+    );
+
+    // ---- Update data in event ----
+
+    if (status === "driver") {
       const newGroup = {
-        driver: {
-          name: `${req.user.firstName} ${req.user.lastName}`,
-          capacity: capacity,
-          startingPoint: startingPoint,
-        },
+        driver: userName,
+        capacity: parseInt(capacity),
+        startingPoint: startingPoint,
         passengers: [],
       };
       updatedEvent = await Invite.findByIdAndUpdate(
@@ -428,12 +443,13 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
         { $addToSet: { ["carpool.groups"]: newGroup } },
         { returnNewDocument: true }
       );
-    } else if (req.body.carpoolStatus === "passenger") {
+    } else if (status === "passenger") {
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
         { $addToSet: { ["carpool.passengers"]: req.user._id } },
         { returnNewDocument: true }
       );
+    } else {
     }
 
     res.status(201).json({ inviteResponse: inviteResponse, updatedEvent: updatedEvent });
