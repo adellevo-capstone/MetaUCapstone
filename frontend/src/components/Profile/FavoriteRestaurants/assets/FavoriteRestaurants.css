@@ -1,0 +1,71 @@
+.button {
+  background-color: #191919;
+  color: white;
+  padding: 0.7em 1em;
+  border-radius: 0.4em;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.tag {
+  font-weight: 400;
+  font-size: 0.85em;
+  color: rgb(95, 98, 100);
+  background-color: rgb(239, 242, 244);
+  border-radius: 2em;
+  padding: 0.3em 0.8em;
+  margin: 0 0.5em 0.5em 0;
+  letter-spacing: 0.05em;
+}
+
+/* ---- SearchedRestaurantCard ---- */
+
+.searched-restaurants {
+  height: 32em;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.searched-restaurant-card:last-child {
+  border-bottom: 1px solid #191919;
+}
+
+.searched-restaurant-card {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid #191919;
+  min-width: 30em;
+}
+
+.searched-restaurant-card h2 {
+  padding: 0.1em;
+  font-weight: 400;
+  font-size: 1.2em;
+  margin-bottom: -1em;
+}
+
+.searched-restaurant-card .content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 86%;
+}
+
+.searched-restaurant-card .location {
+  display: inline-flex;
+}
+
+.searched-restaurant-card .location .marker {
+  transform: scale(2.8);
+  margin-left: 0.5em;
+  margin-right: 0.8em;
+  margin-top: -0.22em;
+}
+
+.searched-restaurant-card .checkmark {
+  transform: scale(2.4);
+  margin-top: 4.8em;
+  margin-left: -2.5em;
+}

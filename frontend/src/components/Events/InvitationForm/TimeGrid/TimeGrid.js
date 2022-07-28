@@ -72,7 +72,7 @@ export default function TimeGrid(props) {
         {props.startTime !== "00:00" && (
           <div className="times">
             {[0, 2, 4, 6, 8, 10].map((index) => (
-              <p>{formatTime(index * 30)}</p>
+              <span>{formatTime(index * 30)}</span>
             ))}
           </div>
         )}

@@ -1,6 +1,6 @@
 :root {
-  --text-color: #3b3b3b;
-  --background-color: #eaeaea;
+  --text-color: #393939;
+  --background-color: #f2f2f2;
 }
 
 /* --- Tag --- */
@@ -11,12 +11,14 @@
   align-items: center;
   width: fit-content;
   height: 2em;
-  padding: 0em 0.6em;
-  border-radius: 0.5em;
-  font-weight: 500;
-  background: var(--background-color);
-  color: var(--text-color);
+  padding: 0em 0.8em;
+  border-radius: 2em;
+  font-size: 0.9em;
+  font-weight: 400;
+  background: #f0efec;
+  color: #353434;
   margin-bottom: 0.6em;
+  letter-spacing: 0.05em;
 }
 
 .tag-img {

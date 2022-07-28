@@ -1,0 +1,17 @@
+.task-board {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  padding: 1em;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+}
+
+.column__title {
+  font-size: large;
+  font-weight: bold;
+}

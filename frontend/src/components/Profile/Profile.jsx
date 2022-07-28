@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Shared/Header";
 import DietaryPreferences from "./DietaryPreferences/DietaryPreferences";
 import FavoriteRestaurants from "./FavoriteRestaurants/FavoriteRestaurants";
 import API from "../../utils/API";
@@ -14,7 +13,7 @@ export default function Profile() {
 
   useEffect(() => {
     loadDietaryProfile();
-  }, [likes, dislikes, restrictions]);
+  }, []);
 
   const loadDietaryProfile = async () => {
     try {
@@ -22,7 +21,7 @@ export default function Profile() {
       setLikes(res.data.dietaryProfile.likes);
       setDislikes(res.data.dietaryProfile.dislikes);
       setRestrictions(res.data.dietaryProfile.restrictions);
-      setFavorites(res.data.dietaryProfile.favoriteRestaurants);
+      setFavorites(res.data.dietaryProfile.favoriteRestaurants.reverse());
     } catch (err) {
       console.log(err.response);
     }
@@ -30,7 +29,6 @@ export default function Profile() {
 
   return (
     <div className="profile">
-      <Header header="Profile" />
       <FavoriteRestaurants
         likes={likes}
         setLikes={setLikes}

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Search from "./Search/Search";
-import Popup from "reactjs-popup";
+import "./assets/FavoriteRestaurants.css";
 
 export default function FavoriteRestaurants(props) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,26 +10,16 @@ export default function FavoriteRestaurants(props) {
   return (
     <div className="favorite-restaurants">
       <div className="profile-header">
-        <h1>Favorite Restaurants</h1>
-        <Popup
-          closeOnDocumentClick
-          modal
-          nested
-          trigger={<button> Add a restaurant </button>}
-          style={{
-            minWidth: "40em",
-          }}
-        >
-          <Search
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            location={location}
-            setLocation={setLocation}
-            loadFavoriteRestaurants={props.loadFavoriteRestaurants}
-            likes={props.likes}
-            setLikes={props.setLikes}
-          />
-        </Popup>
+        <h1>Favorite restaurants</h1>
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          location={location}
+          setLocation={setLocation}
+          loadFavoriteRestaurants={props.loadFavoriteRestaurants}
+          likes={props.likes}
+          setLikes={props.setLikes}
+        />
       </div>
       <div className="restaurant-card-container">
         {!props.favorites ? (
@@ -39,6 +29,8 @@ export default function FavoriteRestaurants(props) {
             <RestaurantCard
               key={index}
               restaurant={restaurant}
+              favorites={props.favorites}
+              setFavorites={props.setFavorites}
             />
           ))
         )}

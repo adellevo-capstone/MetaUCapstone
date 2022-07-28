@@ -1,10 +1,19 @@
 const mongoose = require("mongoose");
 
 const InviteSchema = new mongoose.Schema({
-  groupId: mongoose.ObjectId,
-  hostId: mongoose.ObjectId,
   title: String,
+  hostId: mongoose.ObjectId,
+  groupId: mongoose.ObjectId,
+  description: String,
+  location: String, // for restaurant
+  restaurant: String, // name of restaurant
   rsvpDeadline: Date,
+  time: String,
+  date: String,
+  timeSlots: {
+    dateMap: Object,
+    startTime: String,
+  },
   members: [mongoose.ObjectId], // user ids
   attendance: {
     // inviteResponse ids
@@ -12,14 +21,9 @@ const InviteSchema = new mongoose.Schema({
     notGoing: [mongoose.ObjectId],
     unconfirmed: [mongoose.ObjectId],
   },
-  timeSlots: {
-    dateMap: Object,
-    startTime: String,
-  },
-  eventDetails: {
-    time: Date,
-    location: String,
-    description: String,
+  carpool: {
+    groups: [Object],
+    passengers: [mongoose.ObjectId], // user ids
   },
 });
 
