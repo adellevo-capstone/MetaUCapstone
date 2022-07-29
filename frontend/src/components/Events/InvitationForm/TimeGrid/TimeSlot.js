@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 export default function TimeSlot(props) {
-  // console.log(props.previouslySelected);
   const [selected, setSelected] = useState(false);
 
   useEffect(() => {

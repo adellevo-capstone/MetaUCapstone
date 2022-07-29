@@ -42,7 +42,6 @@ export default function Event(props) {
 
   useEffect(() => {
     loadAllEvents();
-    // loadPreviousResponse();
   }, []);
 
   const loadAllEvents = async () => {

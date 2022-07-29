@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import TimeGrid from "./TimeGrid/TimeGrid";
-import Popup from "reactjs-popup";
 import API from "../../../utils/API";
 
 export default function InvitationResponseForm(props) {
   const [rsvpStatus, setRSVPStatus] = useState("unconfirmed");
-
-  // const inputs = document.getElementsByName("priceLevel");
-  // console.log(inputs);
 
   const submitRSVP = async (event) => {
     try {
@@ -103,7 +99,6 @@ export default function InvitationResponseForm(props) {
         id="rsvp-form"
         onSubmit={(event) => submitRSVP(event)}
       >
-        {/* {rsvpStatus === "accept" && ( */}
         <>
           {" "}
           <div className="content">
@@ -144,10 +139,7 @@ export default function InvitationResponseForm(props) {
                 </select>
                 <div>
                   <p style={{ width: "20em" }}>How many passengers can you drive?</p>
-                  <textarea
-                    id="carCapacity"
-                    // defaultValue={"hi"}
-                  />
+                  <textarea id="carCapacity" />
                 </div>
 
                 <div>
@@ -192,7 +184,7 @@ export default function InvitationResponseForm(props) {
             </div>
           </div>
         </>
-        {/* )} */}
+
         <button type="submit">Submit</button>
       </form>
     </div>
