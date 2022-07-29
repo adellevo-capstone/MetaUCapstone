@@ -13,7 +13,7 @@ export default function TimeGrid(props) {
     }
   };
 
-  // helper function to remove map keys
+  // helper function to remove map key
   const deleteDate = (date) => {
     props.setAvailableTimes((map) => {
       let mapCopy = new Map(map);

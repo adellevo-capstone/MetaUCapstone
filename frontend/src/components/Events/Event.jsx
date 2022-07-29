@@ -219,6 +219,7 @@ export default function Event(props) {
           .filter((item) => !item.restaurant)
           .map((event, index) => (
             <InvitationCard
+              currentUser={props.currentUser}
               guest={false}
               key={index}
               event={event}
@@ -229,6 +230,7 @@ export default function Event(props) {
           .filter((item) => !item.restaurant)
           .map((event, index) => (
             <InvitationCard
+              currentUser={props.currentUser}
               guest={true}
               key={index}
               event={event}

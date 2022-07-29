@@ -129,14 +129,25 @@ export default function InvitationCard(props) {
                   )}
                 </Popup>
                 {/* Edit RSVP */}
-                {props.guest && (
-                  <span
-                    className="button"
-                    onClick={() => setOpen((o) => !o)}
-                  >
-                    Edit RSVP
-                  </span>
-                )}
+                {props.guest &&
+                  (unconfirmed
+                    .map((person) => person.name)
+                    .includes(`${props.currentUser.firstName} ${props.currentUser.lastName}`) ? (
+                    <span
+                      className="button"
+                      onClick={() => setOpen((o) => !o)}
+                    >
+                      Submit RSVP
+                    </span>
+                  ) : (
+                    <span
+                      className="button"
+                      onClick={() => setOpen((o) => !o)}
+                    >
+                      Edit RSVP
+                    </span>
+                  ))}
+
                 <Popup
                   open={open}
                   closeOnDocumentClick

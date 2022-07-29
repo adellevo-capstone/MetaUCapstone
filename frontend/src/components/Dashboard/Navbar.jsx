@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UserSettings from "./UserSettings";
 import { Link } from "react-router-dom";
-import logo from "./assets/logo.svg";
+// import logo from "./assets/logo.svg";
 
 export default function Navbar() {
   const [selected, setSelected] = useState("Profile");
