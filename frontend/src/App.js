@@ -44,7 +44,6 @@ export default function App() {
   const loadAllGroups = async () => {
     try {
       const res = await API.get("api/v1/auth/group");
-      console.log(res.data);
       setGroups(res.data.groups);
     } catch (err) {
       console.log(err.response);

@@ -195,7 +195,10 @@ export default function Event(props) {
                       minHeight: "60%",
                     }}
                   >
-                    <TaskBoard passengers={passengers} />
+                    <TaskBoard
+                      currentUserId={props.currentUser._id}
+                      passengers={passengers}
+                    />
                   </div>
                 </DndProvider>
               </Popup>

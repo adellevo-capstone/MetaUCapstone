@@ -26,6 +26,7 @@ const TaskBoard = (props) => {
       <Column
         key={`column ${columnIndex}`}
         {...propsToColumn}
+        currentUserId={props.currentUserId}
       />
     );
   });

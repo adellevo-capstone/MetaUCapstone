@@ -1,17 +1,27 @@
 import React from "react";
 import { useDrop } from "react-dnd";
-// import "./Column.styles.scss";
 import DraggableCard from "./DraggableCard";
 import Card from "./Card";
 import { ItemTypes } from "./Constants";
 
-const Column = ({ passengers: { title, passengers }, columnIndex, handleMoveMyPassenger }) => {
+const Column = ({
+  passengers: { title, passengers },
+  columnIndex,
+  handleMoveMyPassenger,
+  currentUserId,
+}) => {
   const cards = passengers.map((passenger, index) => {
-    const propsToDraggbleCard = { passenger, columnIndex, index };
-    return (
+    const propsToDraggableCard = { passenger, columnIndex, index };
+    console.log(passenger);
+    return currentUserId !== passenger ? (
+      <Card
+        key={`${columnIndex} ${index} ${passenger}`}
+        {...propsToDraggableCard}
+      />
+    ) : (
       <DraggableCard
         key={`${columnIndex} ${index} ${passenger}`}
-        {...propsToDraggbleCard}
+        {...propsToDraggableCard}
       />
     );
   });
