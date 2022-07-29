@@ -55,6 +55,10 @@ export default function DateContainer(props) {
           slotContainers.map((index) => (
             <TimeSlot
               validSlot={isValidSlot(index)}
+              previouslySelected={
+                props.availableTimes.has(currDate) &&
+                props.availableTimes.get(currDate).includes(index)
+              }
               key={index}
               date={currDate}
               slotIndex={index}
@@ -62,6 +66,8 @@ export default function DateContainer(props) {
               addAvailability={props.addAvailability}
               removeAvailability={props.removeAvailability}
               updateAvailability={props.updateAvailability}
+              rsvpStatus={props.rsvpStatus}
+              rsvpOpen={props.rsvpOpen}
             />
           ))
         ) : (

@@ -3,9 +3,15 @@ import React, { useState, useEffect } from "react";
 export default function TimeSlot(props) {
   const [selected, setSelected] = useState(false);
 
-  const handleClick = (event) => {
+  useEffect(() => {
+    if (props.rsvpStatus === "accept") {
+      setSelected(props.previouslySelected);
+    }
+    console.log(selected);
+  }, [props.rsvpStatus]);
+
+  const handleClick = () => {
     setSelected((prevSelected) => !prevSelected);
-    event.currentTarget.classList.toggle(".selected-slot");
 
     if (!selected) {
       props.addAvailability(props.date, props.slotIndex);

@@ -289,11 +289,15 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
       carpool: {},
     });
 
+    hostResponse.eventId = newEvent._id;
+    hostResponse.save();
+
     let unconfirmed = [];
     const guests = newEvent.members.filter((memberId) => !memberId.equals(newEvent.hostId));
 
     for (let i = 0; i < guests.length; i++) {
       const defaultGuestResponse = await InviteResponse.create({
+        eventId: newEvent._id,
         groupId: req.body.groupId,
         guestId: guests[i],
       });
@@ -373,6 +377,19 @@ router.get("/inviteResponses/:eventId", authController.checkUser, async (req, re
   }
 });
 
+router.get("/inviteResponse/:eventId/:userId", authController.checkUser, async (req, res) => {
+  try {
+    const inviteResponse = await InviteResponse.findOne({
+      eventId: req.params.eventId,
+      guestId: req.params.userId,
+    });
+    res.status(201).json(inviteResponse);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
 router.patch("/inviteResponse/update", authController.checkUser, async (req, res) => {
   try {
     // update existing invite response
@@ -380,7 +397,6 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       groupId: req.body.groupId,
       guestId: req.user._id,
     };
-    console.log(req.body.carpool.status);
     let update = { ...req.body, guestId: req.user._id, carpoolStatus: req.body.carpool.status };
     let inviteResponse = await InviteResponse.findOneAndUpdate(filters, update, { new: true });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DateContainer from "./DateContainer";
 
 export default function TimeGrid(props) {
@@ -13,7 +13,7 @@ export default function TimeGrid(props) {
     }
   };
 
-  // helper function to remove map keys
+  // helper function to remove map key
   const deleteDate = (date) => {
     props.setAvailableTimes((map) => {
       let mapCopy = new Map(map);
@@ -56,6 +56,10 @@ export default function TimeGrid(props) {
     return `${newHours}:${minutes} ${ending}`;
   };
 
+  useEffect(() => {
+    props.loadPreviousRSVP();
+  }, []);
+
   return (
     <div className="time-grid">
       <div className="left-container">
@@ -72,7 +76,7 @@ export default function TimeGrid(props) {
         {props.startTime !== "00:00" && (
           <div className="times">
             {[0, 2, 4, 6, 8, 10].map((index) => (
-              <span>{formatTime(index * 30)}</span>
+              <span key={index}>{formatTime(index * 30)}</span>
             ))}
           </div>
         )}
@@ -89,6 +93,8 @@ export default function TimeGrid(props) {
             addAvailability={addAvailability}
             removeAvailability={removeAvailability}
             updateAvailability={updateAvailability}
+            rsvpStatus={props.rsvpStatus}
+            rsvpOpen={props.rsvpOpen}
           />
         ))}
       </div>
