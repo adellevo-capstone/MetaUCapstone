@@ -72,11 +72,13 @@ export default function TimeGrid(props) {
         {props.startTime !== "00:00" && (
           <div className="times">
             {[0, 2, 4, 6, 8, 10].map((index) => (
-              <span>{formatTime(index * 30)}</span>
+              <span key={index}>{formatTime(index * 30)}</span>
             ))}
           </div>
         )}
       </div>
+
+      {console.log(props.availableTimes)}
 
       <div className="slots">
         {dateSlots.map((date, index) => (

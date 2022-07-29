@@ -51,10 +51,15 @@ export default function DateContainer(props) {
         )}
       </div>
       <div className="date-slots">
+        {console.log(props.availableTimes.has(currDate))}
         {currDate || props.guest ? (
           slotContainers.map((index) => (
             <TimeSlot
               validSlot={isValidSlot(index)}
+              previouslySelected={
+                props.availableTimes.has(currDate) &&
+                props.availableTimes.get(currDate).includes(index)
+              }
               key={index}
               date={currDate}
               slotIndex={index}

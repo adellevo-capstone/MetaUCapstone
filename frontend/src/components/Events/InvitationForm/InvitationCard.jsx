@@ -171,6 +171,7 @@ export default function InvitationCard(props) {
                         alt="delete button"
                       />
                       <InvitationResponseForm
+                        currentUserId={props.currentUser._id}
                         eventId={props.event._id}
                         hostAvailability={props.event.timeSlots.dateMap}
                         groups={props.groups}

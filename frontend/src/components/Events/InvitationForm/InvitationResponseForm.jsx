@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TimeGrid from "./TimeGrid/TimeGrid";
 import Popup from "reactjs-popup";
 import API from "../../../utils/API";
@@ -39,6 +39,28 @@ export default function InvitationResponseForm(props) {
       }
 
       await API.patch("api/v1/auth/inviteResponse/update", body, config);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    loadPreviousRSVP();
+  }, [rsvpStatus]);
+
+  const loadPreviousRSVP = async () => {
+    try {
+      const res = await API.get(
+        `api/v1/auth/inviteResponse/${props.eventId}/${props.currentUserId}`
+      );
+      // console.log(Object.entries(res.data.availability));
+      let map = new Map();
+      let mapData = Object.entries(res.data.availability);
+      for (let i = 0; i < mapData.length; i++) {
+        map.set(mapData[i][0], mapData[i][1]);
+      }
+      // console.log(map);
+      props.setAvailableTimes(map);
     } catch (err) {
       console.log(err);
     }
@@ -99,7 +121,7 @@ export default function InvitationResponseForm(props) {
                 <fieldset>
                   <legend>Price Level</legend>
                   {["<$10", "$11-30", "$31-60", "$61+"].map((label, index) => (
-                    <div>
+                    <div key={index}>
                       <input
                         key={index}
                         id={label}
@@ -116,7 +138,7 @@ export default function InvitationResponseForm(props) {
                 <fieldset>
                   <legend>Distance</legend>
                   {["level-1", "level-2", "level-3", "level-4"].map((label, index) => (
-                    <div>
+                    <div key={index}>
                       <input
                         key={index}
                         id={label}
