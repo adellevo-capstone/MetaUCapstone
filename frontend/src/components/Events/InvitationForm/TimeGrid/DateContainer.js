@@ -51,7 +51,6 @@ export default function DateContainer(props) {
         )}
       </div>
       <div className="date-slots">
-        {console.log(props.availableTimes.has(currDate))}
         {currDate || props.guest ? (
           slotContainers.map((index) => (
             <TimeSlot
@@ -67,6 +66,8 @@ export default function DateContainer(props) {
               addAvailability={props.addAvailability}
               removeAvailability={props.removeAvailability}
               updateAvailability={props.updateAvailability}
+              rsvpStatus={props.rsvpStatus}
+              rsvpOpen={props.rsvpOpen}
             />
           ))
         ) : (

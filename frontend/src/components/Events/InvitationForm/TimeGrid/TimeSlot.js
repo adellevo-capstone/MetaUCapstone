@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 
 export default function TimeSlot(props) {
-  console.log(props.previouslySelected);
-  const [selected, setSelected] = useState(props.previouslySelected);
+  // console.log(props.previouslySelected);
+  const [selected, setSelected] = useState(false);
 
-  const handleClick = (event) => {
+  useEffect(() => {
+    if (props.rsvpStatus === "accept") {
+      setSelected(props.previouslySelected);
+    }
+    console.log(selected);
+  }, [props.rsvpStatus]);
+
+  const handleClick = () => {
     setSelected((prevSelected) => !prevSelected);
-    event.currentTarget.classList.toggle(".selected-slot");
 
     if (!selected) {
       props.addAvailability(props.date, props.slotIndex);

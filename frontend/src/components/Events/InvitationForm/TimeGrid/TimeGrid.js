@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DateContainer from "./DateContainer";
 
 export default function TimeGrid(props) {
@@ -56,6 +56,10 @@ export default function TimeGrid(props) {
     return `${newHours}:${minutes} ${ending}`;
   };
 
+  useEffect(() => {
+    props.loadPreviousRSVP();
+  }, []);
+
   return (
     <div className="time-grid">
       <div className="left-container">
@@ -78,8 +82,6 @@ export default function TimeGrid(props) {
         )}
       </div>
 
-      {console.log(props.availableTimes)}
-
       <div className="slots">
         {dateSlots.map((date, index) => (
           <DateContainer
@@ -91,6 +93,8 @@ export default function TimeGrid(props) {
             addAvailability={addAvailability}
             removeAvailability={removeAvailability}
             updateAvailability={updateAvailability}
+            rsvpStatus={props.rsvpStatus}
+            rsvpOpen={props.rsvpOpen}
           />
         ))}
       </div>

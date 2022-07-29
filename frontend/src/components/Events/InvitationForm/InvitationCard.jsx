@@ -48,8 +48,8 @@ export default function InvitationCard(props) {
   const closeGuestListModal = () => setGuestListOpen(false);
 
   // Editing RSVP
-  const [open, setOpen] = useState(false);
-  const closeModal = () => setOpen(false);
+  const [rsvpOpen, setRSVPOpen] = useState(false);
+  const closeModal = () => setRSVPOpen(false);
 
   return (
     <div>
@@ -135,20 +135,20 @@ export default function InvitationCard(props) {
                     .includes(`${props.currentUser.firstName} ${props.currentUser.lastName}`) ? (
                     <span
                       className="button"
-                      onClick={() => setOpen((o) => !o)}
+                      onClick={() => setRSVPOpen((o) => !o)}
                     >
                       Submit RSVP
                     </span>
                   ) : (
                     <span
                       className="button"
-                      onClick={() => setOpen((o) => !o)}
+                      onClick={() => setRSVPOpen((o) => !o)}
                     >
                       Edit RSVP
                     </span>
                   ))}
                 <Popup
-                  open={open}
+                  open={rsvpOpen}
                   closeOnDocumentClick
                   onClose={closeModal}
                   modal
@@ -171,8 +171,9 @@ export default function InvitationCard(props) {
                         alt="delete button"
                       />
                       <InvitationResponseForm
-                        currentUserId={props.currentUser._id}
-                        eventId={props.event._id}
+                        rsvpOpen={rsvpOpen}
+                        currentUser={props.currentUser}
+                        event={props.event}
                         hostAvailability={props.event.timeSlots.dateMap}
                         groups={props.groups}
                         groupName={groupName}
