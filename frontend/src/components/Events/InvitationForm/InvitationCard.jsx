@@ -147,7 +147,6 @@ export default function InvitationCard(props) {
                       Edit RSVP
                     </span>
                   ))}
-
                 <Popup
                   open={open}
                   closeOnDocumentClick
