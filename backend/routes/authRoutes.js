@@ -166,10 +166,6 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
       }
     );
 
-    // res.status(201).json({
-    //   hi: "hi",
-    // });
-
     res.status(201).json({
       options: [...new Set(finalRestaurants)],
       date: optimalDateAndTime.date,
@@ -183,7 +179,9 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
 router.patch("/event/:eventId/update", authController.checkUser, async (req, res) => {
   try {
     let update = req.body;
-    let event = await Invite.findByIdAndUpdate(req.params.eventId, update, { new: true });
+    let event = await Invite.findByIdAndUpdate(req.params.eventId, update, {
+      new: true,
+    });
 
     res.status(201).json(event);
   } catch (error) {
@@ -330,6 +328,29 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
   }
 });
 
+// update carpool
+router.patch("/event/:id/carpool", authController.checkUser, async (req, res) => {
+  try {
+    const { groups, passengers } = req.body;
+
+    const updatedEvent = await Invite.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          "carpool.groups": groups,
+          "carpool.passengers": passengers,
+        },
+      },
+      { new: true }
+    );
+
+    res.status(201).json({ updatedCarpool: updatedEvent.carpool });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
+});
+
 // get group name based on event id
 router.get("/groupName/:eventId", authController.checkUser, async (req, res) => {
   try {
@@ -406,7 +427,7 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
     let updatedEvent = await Invite.findByIdAndUpdate(
       req.body.eventId,
       { $pull: { ["attendance.unconfirmed"]: inviteResponse._id } },
-      { returnNewDocument: true }
+      { new: true }
     );
 
     // add invite response id to going array
@@ -414,7 +435,7 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
         { $addToSet: { ["attendance.going"]: inviteResponse._id } },
-        { returnNewDocument: true }
+        { new: true }
       );
     }
     // add invite response id to notGoing array
@@ -422,7 +443,7 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
         { $addToSet: { ["attendance.notGoing"]: inviteResponse._id } },
-        { returnNewDocument: true }
+        { new: true }
       );
     }
 
@@ -436,13 +457,13 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
     updatedEvent = await Invite.findByIdAndUpdate(
       req.body.eventId,
       { $pull: { ["carpool.passengers"]: req.user._id } },
-      { returnNewDocument: true }
+      { new: true }
     );
 
     updatedEvent = await Invite.findByIdAndUpdate(
       req.body.eventId,
       { $pull: { "carpool.groups": { driver: userName } } },
-      { returnNewDocument: true }
+      { new: true }
     );
 
     // ---- Update data in event ----
@@ -457,13 +478,13 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
         { $addToSet: { ["carpool.groups"]: newGroup } },
-        { returnNewDocument: true }
+        { new: true }
       );
     } else if (status === "passenger") {
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
         { $addToSet: { ["carpool.passengers"]: req.user._id } },
-        { returnNewDocument: true }
+        { new: true }
       );
     } else {
     }
@@ -618,7 +639,7 @@ router.patch("/dietaryProfile/modify", authController.checkUser, async (req, res
     await User.findByIdAndUpdate(
       req.user._id,
       { $set: { ["dietaryProfile." + sectionType]: req.body.updatedArray } },
-      { returnNewDocument: true }
+      { new: true }
     );
 
     res.status(201).json({ favoriteRestaurants: req.user.dietaryProfile.favoriteRestaurants });
@@ -643,7 +664,7 @@ router.patch("/dietaryProfile/addRestaurants", authController.checkUser, async (
           },
         },
       },
-      { returnNewDocument: true }
+      { new: true }
     );
 
     // ---- update likes category ----
@@ -662,7 +683,7 @@ router.patch("/dietaryProfile/addRestaurants", authController.checkUser, async (
           },
         },
       },
-      { returnNewDocument: true }
+      { new: true }
     );
 
     res.status(201).json({ user: req.user });

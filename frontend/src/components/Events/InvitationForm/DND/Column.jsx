@@ -12,7 +12,6 @@ const Column = ({
 }) => {
   const cards = passengers.map((passenger, index) => {
     const propsToDraggableCard = { passenger, columnIndex, index };
-    console.log(passenger);
     return currentUserId !== passenger ? (
       <Card
         key={`${columnIndex} ${index} ${passenger}`}

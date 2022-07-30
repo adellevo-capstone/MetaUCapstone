@@ -196,6 +196,7 @@ export default function Event(props) {
                     }}
                   >
                     <TaskBoard
+                      eventId={selectedEvent._id}
                       currentUserId={props.currentUser._id}
                       passengers={passengers}
                     />
