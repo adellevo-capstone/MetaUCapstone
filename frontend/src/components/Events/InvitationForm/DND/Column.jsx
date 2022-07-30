@@ -12,7 +12,8 @@ const Column = ({
 }) => {
   const cards = passengers.map((passenger, index) => {
     const propsToDraggableCard = { passenger, columnIndex, index };
-    return currentUserId !== passenger ? (
+    // can only select carpool group for yourself & when there's still space
+    return currentUserId !== passenger || passengers.length === capacity ? (
       <Card
         key={`${columnIndex} ${index} ${passenger}`}
         {...propsToDraggableCard}
