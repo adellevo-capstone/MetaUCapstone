@@ -5,7 +5,7 @@ import Card from "./Card";
 import { ItemTypes } from "./Constants";
 
 const Column = ({
-  passengers: { title, passengers },
+  passengers: { title, passengers, capacity },
   columnIndex,
   handleMoveMyPassenger,
   currentUserId,
@@ -44,7 +44,16 @@ const Column = ({
       ref={dropRef}
       className="column"
     >
-      <p className="column__title">{title}</p>
+      {title === "Passengers" ? (
+        <p className="column__title">
+          {title}, {passengers.length}
+        </p>
+      ) : (
+        <p className="column__title">
+          {title}, {passengers.length}/{capacity}
+        </p>
+      )}
+
       <div className="column__cards">
         {cards}
         {isOver && canDrop ? <Card empty /> : ""}
