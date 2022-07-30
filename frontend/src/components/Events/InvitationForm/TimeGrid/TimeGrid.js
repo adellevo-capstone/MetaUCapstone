@@ -56,9 +56,9 @@ export default function TimeGrid(props) {
     return `${newHours}:${minutes} ${ending}`;
   };
 
-  useEffect(() => {
-    props.loadPreviousRSVP();
-  }, []);
+  // useEffect(() => {
+  //   props.loadPreviousRSVP();
+  // }, []);
 
   return (
     <div className="time-grid">
