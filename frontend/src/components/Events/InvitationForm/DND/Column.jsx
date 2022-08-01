@@ -1,17 +1,27 @@
 import React from "react";
 import { useDrop } from "react-dnd";
-// import "./Column.styles.scss";
 import DraggableCard from "./DraggableCard";
 import Card from "./Card";
 import { ItemTypes } from "./Constants";
 
-const Column = ({ passengers: { title, passengers }, columnIndex, handleMoveMyPassenger }) => {
+const Column = ({
+  passengers: { title, passengers, capacity },
+  columnIndex,
+  handleMoveMyPassenger,
+  currentUserId,
+}) => {
   const cards = passengers.map((passenger, index) => {
-    const propsToDraggbleCard = { passenger, columnIndex, index };
-    return (
+    const propsToDraggableCard = { passenger, columnIndex, index };
+    // can only select carpool group for yourself & when there's still space
+    return currentUserId !== passenger || passengers.length === capacity ? (
+      <Card
+        key={`${columnIndex} ${index} ${passenger}`}
+        {...propsToDraggableCard}
+      />
+    ) : (
       <DraggableCard
         key={`${columnIndex} ${index} ${passenger}`}
-        {...propsToDraggbleCard}
+        {...propsToDraggableCard}
       />
     );
   });
@@ -35,7 +45,16 @@ const Column = ({ passengers: { title, passengers }, columnIndex, handleMoveMyPa
       ref={dropRef}
       className="column"
     >
-      <p className="column__title">{title}</p>
+      {title === "Passengers" ? (
+        <p className="column__title">
+          {title}, {passengers.length}
+        </p>
+      ) : (
+        <p className="column__title">
+          {title}, {passengers.length}/{capacity}
+        </p>
+      )}
+
       <div className="column__cards">
         {cards}
         {isOver && canDrop ? <Card empty /> : ""}
