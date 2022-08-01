@@ -250,7 +250,10 @@ router.get("/events", authController.checkUser, async (req, res) => {
 const updateMemberProfiles = async (arrayType, createdItemId, memberIds) => {
   for (let i = 0; i < memberIds.length; i++) {
     let member = await User.findById(memberIds[i]);
-    member[arrayType].unshift(createdItemId);
+    // don't include duplicates
+    if (!member[arrayType].some((itemId) => itemId.equals(createdItemId))) {
+      member[arrayType].unshift(createdItemId);
+    }
     member.save();
   }
 };

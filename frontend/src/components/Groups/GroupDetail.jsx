@@ -62,7 +62,6 @@ export default function GroupDetail(props) {
               className="member-card"
               key={index}
             >
-              {console.log(member)}
               <div>
                 <h2>{member.firstName + " " + member.lastName}</h2>
                 <p>@{member.username}</p>

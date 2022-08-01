@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import API from "../../utils/API";
 import SearchPopup from "../Shared/components/SearchPopup/SearchPopup";
-import "../Profile/FavoritesSection/FavoriteRestaurants/FavoriteRestaurants.css";
+// import "../Profile/FavoritesSection/FavoriteRestaurants/FavoriteRestaurants.css";
 
 export default function GroupSearch(props) {
   const [usersToAdd, setUsersToAdd] = useState([]);
