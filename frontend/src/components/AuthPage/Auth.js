@@ -7,17 +7,18 @@ const Auth = (props) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    username: "",
     email: "",
     password: "",
   });
-  const { firstName, lastName, email, password } = formData;
+  const { firstName, lastName, username, email, password } = formData;
   const navigate = useNavigate();
 
   // API CALLS
   const signupUser = async () => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
-      const body = { firstName, lastName, email, password };
+      const body = { firstName, lastName, username, email, password };
       await API.post("api/v1/auth/signup", body, config);
       navigate("/dashboard/profile");
     } catch (err) {
@@ -100,6 +101,15 @@ const Auth = (props) => {
                 placeholder="last name"
                 name="lastName"
                 value={lastName}
+                onChange={onChange}
+                required
+              />
+              <input
+                className="input__text"
+                type="text"
+                placeholder="username"
+                name="username"
+                value={username}
                 onChange={onChange}
                 required
               />

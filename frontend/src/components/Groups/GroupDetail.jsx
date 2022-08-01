@@ -62,9 +62,10 @@ export default function GroupDetail(props) {
               className="member-card"
               key={index}
             >
+              {console.log(member)}
               <div>
-                <p>{member.firstName + " " + member.lastName}</p>
-                <p>@mistedlilacs</p>
+                <h2>{member.firstName + " " + member.lastName}</h2>
+                <p>@{member.username}</p>
               </div>
               <img
                 src={nextButton}
