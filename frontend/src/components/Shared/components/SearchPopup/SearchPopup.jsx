@@ -29,14 +29,14 @@ export default function SearchPopup(props) {
       >
         {(close) => (
           <div className="search-popup">
-            <div className="restaurants-to-add">
+            <div className="items-to-add">
               <div className="popup-header">
                 <h1>{props.typeToAdd}s to add</h1>
                 {props.itemsToAdd?.length > 0 && <p>{props.itemsToAdd.length}</p>}
               </div>
 
               {props.itemsToAdd?.length > 0 ? (
-                <div className="added-restaurants">
+                <div className="added-items">
                   {props.itemsToAdd?.length > 0 &&
                     props.itemsToAdd?.map((item, index) => (
                       <SearchedResultCard
@@ -60,11 +60,11 @@ export default function SearchPopup(props) {
                   </span>
                 </div>
               ) : (
-                <p className="no-searched-results">Nothing to see here yet. </p>
+                <p className="no-results">Nothing to see here yet. </p>
               )}
             </div>
             <div className="popup-divider" />
-            <div className="find-a-restaurant">
+            <div className="find-an-item">
               <div className="popup-header">
                 <h1>Find a {props.typeToAdd.toLowerCase()}</h1>
                 <div className="inputs">
@@ -95,7 +95,7 @@ export default function SearchPopup(props) {
               </div>
 
               {props.searchedItems?.length > 0 ? (
-                <div className="searched-restaurants">
+                <div className="searched-items">
                   {props.searchedItems?.map((item, index) => (
                     <SearchedResultCard
                       {...props}
@@ -106,7 +106,7 @@ export default function SearchPopup(props) {
                   ))}
                 </div>
               ) : (
-                <p className="no-searched-results">Results will appear here. </p>
+                <p className="no-results">Results will appear here. </p>
               )}
             </div>
             <img

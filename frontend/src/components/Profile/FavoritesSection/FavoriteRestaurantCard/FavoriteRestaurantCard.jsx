@@ -2,6 +2,7 @@ import React from "react";
 import Star from "./assets/Star.svg";
 import DeleteButton from "../../../Shared/assets/DeleteButtonWhite.svg";
 import API from "../../../../utils/API";
+import "./assets/FavoriteRestaurantCard.css";
 
 export default function FavoriteRestaurantCard({ restaurant, favorites, setFavorites }) {
   const removeFavorite = async () => {
@@ -37,7 +38,7 @@ export default function FavoriteRestaurantCard({ restaurant, favorites, setFavor
       <div className="card-info">
         <div className="info-header">
           <h2>{restaurant.name}</h2>
-          <span className="bookmark">
+          <span className="star">
             <img
               src={Star}
               alt="star"
