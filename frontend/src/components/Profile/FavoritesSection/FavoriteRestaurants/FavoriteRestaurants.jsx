@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import RestaurantCard from "./RestaurantCard";
-import Search from "./Search/Search";
-import "./assets/FavoriteRestaurants.css";
+import React, { useState } from "react";
+import RestaurantCard from "../FavoriteRestaurantCard/FavoriteRestaurantCard";
+import RestaurantSearch from "../RestaurantSearch";
+import "./FavoriteRestaurants.css";
 
 export default function FavoriteRestaurants(props) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,7 +11,7 @@ export default function FavoriteRestaurants(props) {
     <div className="favorite-restaurants">
       <div className="profile-header">
         <h1>Favorite restaurants</h1>
-        <Search
+        <RestaurantSearch
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           location={location}

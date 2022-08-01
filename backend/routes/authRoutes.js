@@ -575,11 +575,14 @@ router.patch("/group/create", authController.checkUser, async (req, res) => {
 // add members to group
 router.patch("/group/:id/addMembers", authController.checkUser, async (req, res) => {
   try {
-    // add user ids to group
     const membersToAdd = req.body.members;
-    const group = await Group.findById(req.params.id);
-    group.members = group.members.concat(membersToAdd);
-    group.save();
+
+    // add members to group while preventing duplicates
+    const group = await Group.findByIdAndUpdate(
+      req.params.id,
+      { $addToSet: { members: { $each: membersToAdd } } },
+      { new: true }
+    );
 
     await updateMemberProfiles("groups", req.params.id, membersToAdd);
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import API from "../../utils/API";
+import SearchPopup from "../Shared/components/SearchPopup/SearchPopup";
+import "../Profile/FavoritesSection/FavoriteRestaurants/FavoriteRestaurants.css";
 
 export default function GroupSearch(props) {
   const [usersToAdd, setUsersToAdd] = useState([]);
@@ -37,7 +39,7 @@ export default function GroupSearch(props) {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const memberIds = usersToAdd.map((user) => {
-        return user.userId;
+        return user._id;
       });
       const body = { members: memberIds };
       await API.patch(`api/v1/auth/group/${groupId}/addMembers`, body, config);
@@ -48,59 +50,74 @@ export default function GroupSearch(props) {
   };
 
   return (
-    <div className="search-popup">
-      <h1>Search for a user to add</h1>
-      <div className="search-popup-content">
-        <input
-          className="search"
-          type="text"
-          name="user"
-          placeholder="Type in a name..."
-          onChange={(e) => props.setSearchQuery(e.target.value)}
-        />
-        <button onClick={findUsers}>Search</button>
-        <div>
-          <h2>Search results:</h2>
-          <ul>
-            {displayedUsers.map((user, index) => (
-              <li
-                key={index}
-                onClick={() =>
-                  setUsersToAdd([
-                    ...usersToAdd,
-                    { name: user.firstName + " " + user.lastName, userId: user._id },
-                  ])
-                }
-              >
-                {user.firstName} {user.lastName}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h2>Users to add:</h2>
-          <ul>
-            {usersToAdd.map((user, index) => (
-              <li key={index}>{user.name}</li>
-            ))}
-          </ul>
-          {props.actionType !== "addMembers" && (
-            <input
-              className="group name"
-              type="text"
-              name="user"
-              placeholder="Pick a group name..."
-              onChange={(e) => setGroupName(e.target.value)}
-            />
-          )}
+    <SearchPopup
+      itemsToAdd={usersToAdd}
+      setItemsToAdd={setUsersToAdd}
+      searchedItems={displayedUsers}
+      addItems={addMembers}
+      popupHeader={"Find a restaurant"}
+      setSearchQuery={props.setSearchQuery}
+      setLocation={props.setLocation}
+      findItem={findUsers}
+      buttonText={"Add members"}
+      typeToAdd={"Member"}
+      groupId={props.groupId}
+    />
+    // <div className="search-popup">
+    //   <div className="search-popup-content">
+    //     <div>
+    //       <h1>Search for a user to add</h1>
+    //       <input
+    //         className="search"
+    //         type="text"
+    //         name="user"
+    //         placeholder="Type in a name..."
+    //         onChange={(e) => props.setSearchQuery(e.target.value)}
+    //       />
+    //       <button onClick={findUsers}>Search</button>
+    //     </div>
+    //     <div>
+    //       <h2>Search results:</h2>
+    //       <ul>
+    //         {displayedUsers.map((user, index) => (
+    //           <li
+    //             key={index}
+    //             onClick={() =>
+    //               setUsersToAdd([
+    //                 ...usersToAdd,
+    //                 { name: user.firstName + " " + user.lastName, userId: user._id },
+    //               ])
+    //             }
+    //           >
+    //             {user.firstName} {user.lastName}
+    //           </li>
+    //         ))}
+    //       </ul>
+    //     </div>
+    //     <div>
+    //       <h2>Users to add:</h2>
+    //       <ul>
+    //         {usersToAdd.map((user, index) => (
+    //           <li key={index}>{user.name}</li>
+    //         ))}
+    //       </ul>
+    //       {props.actionType !== "addMembers" && (
+    //         <input
+    //           className="group name"
+    //           type="text"
+    //           name="user"
+    //           placeholder="Pick a group name..."
+    //           onChange={(e) => setGroupName(e.target.value)}
+    //         />
+    //       )}
 
-          {props.actionType === "addMembers" ? (
-            <button onClick={() => addMembers(props.groupId)}>Confirm</button>
-          ) : (
-            <button onClick={createGroup}>Confirm</button>
-          )}
-        </div>
-      </div>
-    </div>
+    //       {props.actionType === "addMembers" ? (
+    //         <button onClick={() => addMembers(props.groupId)}>Confirm</button>
+    //       ) : (
+    //         <button onClick={createGroup}>Confirm</button>
+    //       )}
+    //     </div>
+    //   </div>
+    // </div>
   );
 }

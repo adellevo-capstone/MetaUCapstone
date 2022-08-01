@@ -39,3 +39,8 @@ span {
   flex-direction: row;
   justify-content: space-between;
 }
+
+.nothing-message {
+  font-weight: 400;
+  color: #3b3b3b62;
+}

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import "../Groups/Groups.css";
-import API from "../../utils/API";
+import React from "react";
 import Popup from "reactjs-popup";
 import GroupSearch from "./GroupSearch";
 import nextButton from "../Shared/assets/NextButton.svg";
 import { Link } from "react-router-dom";
+import "../Groups/Groups.css";
 
 export default function Groups(props) {
   return (
