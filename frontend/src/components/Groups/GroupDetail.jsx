@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import Popup from "reactjs-popup";
 import GroupSearch from "./GroupSearch";
 import API from "../../utils/API";
 import nextButton from "../Shared/assets/NextButton.svg";
@@ -34,27 +33,20 @@ export default function GroupDetail(props) {
           <h1>{groupName}</h1>
           <p>{members.length} members</p>
         </div>
-        <Popup
-          modal
-          nested
-          trigger={<span className="button"> Add group members </span>}
-          style={{
-            minWidth: "40em",
-          }}
-        >
-          <GroupSearch
-            actionType={"addMembers"}
-            searchQuery={props.searchQuery}
-            setSearchQuery={props.setSearchQuery}
-            location={props.location}
-            setLocation={props.setLocation}
-            loadAllUsers={props.loadAllUsers}
-            allUsers={props.allUsers}
-            loadAllGroups={props.loadAllGroups}
-            groupId={groupId}
-            currentUser={props.currentUser}
-          />
-        </Popup>
+
+        <GroupSearch
+          actionType={"addMembers"}
+          searchQuery={props.searchQuery}
+          setSearchQuery={props.setSearchQuery}
+          location={props.location}
+          setLocation={props.setLocation}
+          loadAllUsers={props.loadAllUsers}
+          allUsers={props.allUsers}
+          loadAllGroups={props.loadAllGroups}
+          groupId={groupId}
+          currentUser={props.currentUser}
+        />
+
         <span
           className="button"
           onClick={() => leaveGroup(groupId)}

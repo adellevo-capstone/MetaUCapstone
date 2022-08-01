@@ -1,9 +1,10 @@
 import React from "react";
-import bookmark from "./assets/save.svg";
-import deleteButton from "../../Shared/assets/DeleteButtonWhite.svg";
-import API from "../../../utils/API";
+import Star from "./assets/Star.svg";
+import DeleteButton from "../../../Shared/assets/DeleteButtonWhite.svg";
+import API from "../../../../utils/API";
+import "./assets/FavoriteRestaurantCard.css";
 
-export default function RestaurantCard({ restaurant, favorites, setFavorites }) {
+export default function FavoriteRestaurantCard({ restaurant, favorites, setFavorites }) {
   const removeFavorite = async () => {
     const updatedArray = favorites.filter((item) => item.id !== restaurant.id);
     try {
@@ -24,7 +25,7 @@ export default function RestaurantCard({ restaurant, favorites, setFavorites }) 
         <img
           onClick={removeFavorite}
           className="delete-button"
-          src={deleteButton}
+          src={DeleteButton}
           alt="delete"
         />
         <img
@@ -37,10 +38,10 @@ export default function RestaurantCard({ restaurant, favorites, setFavorites }) 
       <div className="card-info">
         <div className="info-header">
           <h2>{restaurant.name}</h2>
-          <span className="bookmark">
+          <span className="star">
             <img
-              src={bookmark}
-              alt="bookmark"
+              src={Star}
+              alt="star"
             />
             <p>{restaurant.rating.toFixed(1)}</p>
           </span>

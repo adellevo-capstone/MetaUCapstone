@@ -1,0 +1,63 @@
+/* ---- favorite-restaurants ---- */
+
+.favorite-restaurants {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: left;
+  margin: 3em;
+}
+
+.favorite-restaurants h1 {
+  font-size: var(--header-size);
+  font-weight: var(--header-font-weight);
+  margin-left: var(--header-margin-offset);
+  margin-bottom: 1.2em;
+  margin-top: 1.2em;
+  color: var(--header-color);
+  width: 100%;
+}
+
+/* ---- profile-header ---- */
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
+}
+
+.profile-header h1 {
+  margin-top: 1em;
+}
+
+/* ---- restaurant-card-container ---- */
+
+.restaurant-card-container {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  overflow-x: scroll;
+  align-items: center;
+  min-width: 100%;
+  padding: 1.5em 0;
+  gap: var(--gap);
+}
+
+.restaurant-card-container::after {
+  flex: auto;
+}
+
+/* ---- tag-list ---- */
+
+.tag {
+  font-weight: 400;
+  font-size: 0.85em;
+  color: rgb(95, 98, 100);
+  background-color: rgb(239, 242, 244);
+  border-radius: 2em;
+  padding: 0.3em 0.8em;
+  margin: 0 0.5em 0.5em 0;
+  letter-spacing: 0.05em;
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DietaryPreferences from "./DietaryPreferences/DietaryPreferences";
-import FavoriteRestaurants from "./FavoriteRestaurants/FavoriteRestaurants";
+import FavoriteRestaurants from "./FavoritesSection/FavoriteRestaurants/FavoriteRestaurants";
 import API from "../../utils/API";
 
 export default function Profile() {

@@ -1,0 +1,92 @@
+/* ---- restaurant-card ---- */
+
+.restaurant-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--profile-section-background-color);
+  box-shadow: rgba(0, 0, 0, 0.058) 0px 4px 12px;
+  border-radius: var(--border-radius);
+  height: 19.5em;
+  min-width: 22em;
+}
+
+.restaurant-card h2 {
+  margin-top: 0.4em;
+  margin-bottom: 0.8em;
+  font-size: var(--section-label-font-size);
+  color: var(--header-color);
+  font-weight: var(--header-font-weight);
+  width: 75%;
+}
+
+.restaurant-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 0.8em;
+  border-top-right-radius: 0.8em;
+}
+
+/* ---- photo-container ---- */
+
+.photo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  min-height: 10em;
+  overflow: hidden;
+  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+}
+
+.photo-container .delete-button {
+  transform: scale(4);
+  z-index: 1;
+  height: 1.5em;
+  width: 1.5em;
+  margin: 1em 1em 0 0;
+  margin-bottom: -2.5em;
+  cursor: pointer;
+}
+
+/* ---- card-info ---- */
+
+.restaurant-card .card-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-content: flex-start;
+  height: min-content;
+  padding-top: 1em;
+  width: 86%;
+}
+
+/* ---- info-header ---- */
+
+.info-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* ---- star ---- */
+
+.star {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: -0.2em;
+}
+
+.star img {
+  transform: scale(0.7);
+  width: fit-content;
+}
+
+.star p {
+  transform: scale(1.2);
+  z-index: 1;
+  margin-right: -0.1em;
+  color: #d27e00;
+}
