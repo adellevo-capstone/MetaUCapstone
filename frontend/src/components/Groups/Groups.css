@@ -60,7 +60,7 @@
 
 .label h2 {
   font-weight: 400;
-  font-size: var(--section-label-font-size);
+  font-size: 1.2em;
   margin-bottom: var(--section-label-margin-bottom);
   color: var(--section-label-font-color);
   font-weight: var(--header-font-weight);
@@ -134,6 +134,17 @@
 .member-card img {
   transform: scale(2.2);
   cursor: pointer;
+}
+
+.member-card h2 {
+  font-size: 1.15em;
+  font-weight: 400;
+  margin-bottom: 0.1em;
+}
+
+.member-card p {
+  letter-spacing: 0.01em;
+  color: rgba(0, 0, 0, 0.512);
 }
 
 .group-header h1 {

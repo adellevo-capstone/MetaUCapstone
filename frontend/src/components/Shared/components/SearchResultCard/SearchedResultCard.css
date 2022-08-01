@@ -4,43 +4,43 @@
   overflow-y: scroll;
 }
 
-.searched-restaurant-card:last-child {
+.searched-item-card:last-child {
   border-bottom: 1px solid #191919;
 }
 
-.searched-restaurant-card {
+.searched-item-card {
   display: flex;
   flex-direction: row;
   border-top: 1px solid #191919;
   min-width: 30em;
 }
 
-.searched-restaurant-card h2 {
+.searched-item-card h2 {
   padding: 0.1em;
   font-weight: 400;
   font-size: 1.2em;
   margin-bottom: -1em;
 }
 
-.searched-restaurant-card .content {
+.searched-item-card .content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 86%;
 }
 
-.searched-restaurant-card .location {
+.searched-item-card .location {
   display: inline-flex;
 }
 
-.searched-restaurant-card .location .marker {
+.searched-item-card .location .marker {
   transform: scale(2.8);
   margin-left: 0.5em;
   margin-right: 0.8em;
   margin-top: -0.22em;
 }
 
-.searched-restaurant-card .checkmark {
+.searched-item-card .checkmark {
   transform: scale(2.4);
   margin-top: 4.8em;
   margin-left: -2.5em;

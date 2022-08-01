@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import search from "../../assets/Search.svg";
-import deleteButton from "../../assets/DeleteButton.svg";
+import DeleteButton from "../../assets/DeleteButton.svg";
 import SearchedResultCard from "../SearchResultCard/SearchedResultCard";
 import "./SearchPopup.css";
 
@@ -111,7 +111,7 @@ export default function SearchPopup(props) {
             </div>
             <img
               className="close"
-              src={deleteButton}
+              src={DeleteButton}
               onClick={closeModal}
               alt="delete button"
             />

@@ -13,7 +13,8 @@ export default function GroupSearch(props) {
       const filteredUsers = props.allUsers.filter(
         (user) =>
           user.firstName.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
-          user.lastName.toLowerCase().includes(props.searchQuery.toLowerCase())
+          user.lastName.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
+          user.username.toLowerCase().includes(props.searchQuery.toLowerCase())
       );
       setDisplayedUsers(filteredUsers);
     } catch (err) {

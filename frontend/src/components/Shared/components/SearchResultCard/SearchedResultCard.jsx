@@ -45,14 +45,14 @@ export default function SearchedResultCard({
   };
 
   return (
-    <div className="searched-restaurant-card">
+    <div className="searched-item-card">
       <div className="content">
         <CardContent
           name={typeToAdd === "Restaurant" ? item.name : item.firstName + " " + item.lastName}
           information={
             typeToAdd === "Restaurant"
               ? `${item.location.address1}, ${item.location.city}, ${item.location.state}`
-              : "@mistedlilacs"
+              : `@${item.username}`
           }
           typeToAdd={typeToAdd}
         />

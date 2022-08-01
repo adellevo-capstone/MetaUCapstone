@@ -61,12 +61,13 @@ exports.checkUser = (req, res, next) => {
 };
 
 exports.signup = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, username, email, password } = req.body;
   const pw = await encryptPw(password);
   try {
     const newUser = await User.create({
       firstName,
       lastName,
+      username,
       email,
       password: pw,
     });
