@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import DateContainer from "./DateContainer";
 
 export default function TimeGrid(props) {
@@ -56,15 +56,10 @@ export default function TimeGrid(props) {
     return `${newHours}:${minutes} ${ending}`;
   };
 
-  // useEffect(() => {
-  //   props.loadPreviousRSVP();
-  // }, []);
-
   return (
     <div className="time-grid">
       <div className="left-container">
         {/* only display input for host */}
-
         <input
           className="time"
           type={props.guest ? "hidden" : "time"}
