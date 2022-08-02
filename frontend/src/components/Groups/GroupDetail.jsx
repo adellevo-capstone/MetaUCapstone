@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import GroupSearch from "./GroupSearch";
 import API from "../../utils/API";
 import NextButton from "../Shared/assets/ForwardArrow.svg";
 import BackButton from "../Shared/assets/BackArrow.svg";
+import Profile from "../Profile/Profile";
+import Popup from "reactjs-popup";
 
 export default function GroupDetail(props) {
   const params = useParams();
@@ -80,10 +82,21 @@ export default function GroupDetail(props) {
                   <h2>{member.firstName + " " + member.lastName}</h2>
                   <p>@{member.username}</p>
                 </div>
-                <img
-                  src={NextButton}
-                  alt="next"
-                />
+                {props.currentUser._id === member._id ? (
+                  <Link to="/dashboard/profile">
+                    <img
+                      src={NextButton}
+                      alt="next"
+                    />
+                  </Link>
+                ) : (
+                  <Link to={`/dashboard/profile/${member._id}`}>
+                    <img
+                      src={NextButton}
+                      alt="next"
+                    />
+                  </Link>
+                )}
               </div>
             ))}
           </div>

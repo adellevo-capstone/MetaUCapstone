@@ -33,6 +33,10 @@ export default function Dashboard(props) {
       <Routes>
         <Route
           path="/profile"
+          element={<Profile userId={props.currentUser._id} />}
+        />
+        <Route
+          path="/profile/:id"
           element={<Profile />}
         />
         <Route
@@ -81,6 +85,7 @@ export default function Dashboard(props) {
               setLocation={props.setLocation}
               loadAllUsers={props.loadAllUsers}
               allUsers={props.allUsers}
+              currentUser={props.currentUser}
             />
           }
         />

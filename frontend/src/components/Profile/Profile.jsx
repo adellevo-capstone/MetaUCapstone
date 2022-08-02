@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import DietaryPreferences from "./DietaryPreferences/DietaryPreferences";
 import FavoriteRestaurants from "./FavoritesSection/FavoriteRestaurants/FavoriteRestaurants";
 import API from "../../utils/API";
 
-export default function Profile() {
+export default function Profile({ userId }) {
   const [likes, setLikes] = useState([]);
   const [dislikes, setDislikes] = useState([]);
   const [restrictions, setRestrictions] = useState([]);
   const [favorites, setFavorites] = useState([]);
+
+  const params = useParams();
 
   // ---- Load user's dietary profile ----
 
@@ -17,7 +20,8 @@ export default function Profile() {
 
   const loadDietaryProfile = async () => {
     try {
-      const res = await API.get("api/v1/auth/dietaryProfile");
+      // const res = await API.get("api/v1/auth/dietaryProfile");
+      const res = await API.get(`api/v1/auth/user/${userId}`);
       setLikes(res.data.dietaryProfile.likes);
       setDislikes(res.data.dietaryProfile.dislikes);
       setRestrictions(res.data.dietaryProfile.restrictions);
