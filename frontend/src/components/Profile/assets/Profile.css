@@ -124,7 +124,7 @@ h2 {
 
 .box-content {
   background-color: white;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: var(--box-shadow);
   padding: 4em;
 }
 
@@ -162,7 +162,7 @@ h2 {
 }
 
 .preferences-container {
-  box-shadow: rgba(0, 0, 0, 0.058) 0px 4px 12px;
+  box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
 }
 

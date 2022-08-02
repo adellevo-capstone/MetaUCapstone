@@ -54,30 +54,30 @@ export default function App() {
       <BrowserRouter>
         <main>
           <div className="dashboard">
-            <div className="right-container">
-              <Routes>
-                <Route
-                  path="/"
-                  element={<Auth />}
-                />
-                <Route
-                  path="/dashboard/*"
-                  element={
-                    <Dashboard
-                      groups={groups}
-                      loadAllGroups={loadAllGroups}
-                      searchQuery={searchQuery}
-                      setSearchQuery={setSearchQuery}
-                      location={location}
-                      setLocation={setLocation}
-                      loadAllUsers={loadAllUsers}
-                      allUsers={allUsers}
-                      currentUser={currentUser}
-                    />
-                  }
-                />
-              </Routes>
-            </div>
+            {/* <div className="right-container"> */}
+            <Routes>
+              <Route
+                path="/"
+                element={<Auth />}
+              />
+              <Route
+                path="/dashboard/*"
+                element={
+                  <Dashboard
+                    groups={groups}
+                    loadAllGroups={loadAllGroups}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    location={location}
+                    setLocation={setLocation}
+                    loadAllUsers={loadAllUsers}
+                    allUsers={allUsers}
+                    currentUser={currentUser}
+                  />
+                }
+              />
+            </Routes>
+            {/* </div> */}
           </div>
         </main>
       </BrowserRouter>

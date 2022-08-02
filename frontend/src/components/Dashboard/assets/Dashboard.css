@@ -4,6 +4,8 @@
   --nav-non-selected: #a9a9a9;
   --dashboard-background: #f3f2ef;
   --border-bottom-color: orange;
+  --custom-orange: #e48f10;
+  --box-shadow: rgba(0, 0, 0, 0.059) 0px 4px 12px;
 }
 
 /* --------- Mobile --------- */
@@ -51,7 +53,7 @@
   border-radius: var(--border-radius);
   z-index: 2;
   padding: 0 2em;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: var(--box-shadow);
 }
 
 .tabs {
@@ -94,9 +96,12 @@ a {
   .dashboard {
     flex-direction: row;
     padding: unset;
-    height: 100%;
+    height: 100vh;
     width: 100vw;
     overflow: hidden;
+    /* align-items: center;
+     */
+    /* justify-content: center; */
   }
 
   /* --- Navbar --- */

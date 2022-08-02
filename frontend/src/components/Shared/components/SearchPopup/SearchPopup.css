@@ -7,7 +7,7 @@
   align-items: flex-start;
   padding: 3em;
   border-radius: 2em;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: var(--box-shadow);
   font-family: Lexend;
   gap: 3em;
   width: fit-content;
@@ -137,7 +137,7 @@ input {
 .inputs {
   display: flex;
   flex-direction: row;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: var(--box-shadow);
   height: 2.5em;
   font-size: 0.9em;
   border-radius: 0.3em;
@@ -185,7 +185,7 @@ img.button.search {
   margin-right: -0.2em;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: var(--box-shadow);
 }
 
 /* ---- searched-items ---- */

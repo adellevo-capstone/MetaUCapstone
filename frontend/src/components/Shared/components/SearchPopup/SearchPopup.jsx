@@ -74,7 +74,6 @@ export default function SearchPopup(props) {
                   />
                 )}
               </div>
-
               {props.itemsToAdd?.length > 0 ? (
                 <div className="added-items">
                   {props.itemsToAdd?.length > 0 &&

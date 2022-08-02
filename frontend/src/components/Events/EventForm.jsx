@@ -93,7 +93,10 @@ export default function EventForm() {
   };
 
   return (
-    <form onSubmit={handleOnSubmit}>
+    <form
+      className="event-form"
+      onSubmit={handleOnSubmit}
+    >
       <label htmlFor="extra-categories">Extra categories</label>
       <input
         id="extra-categories"

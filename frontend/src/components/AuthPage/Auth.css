@@ -1,59 +1,117 @@
+.auth-forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
 .login-form {
   display: flex;
-  height: 25rem;
-  width: 25rem;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 3rem;
-  box-shadow: 0 0.7rem 1.2rem rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow);
 }
 
-.login-form__group {
+form.login-form__group {
   display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: center;
-  justify-content: space-between;
+  gap: 2em;
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 2em;
+  height: fit-content;
+  width: 40em;
 }
 
-.login-form__logo {
-  width: 100%;
+.auth-logo {
+  font-family: "Satisfy", sans-serif;
+  color: var(--header-color);
+  font-size: 2.2em;
 }
 
 .input__text {
-  width: 90%;
   height: 3rem;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: 0.2em;
+  padding-left: 1em;
 }
 
-.input__submit {
-  border: none;
-  width: 90%;
-  height: 3rem;
-  color: var(--color-white);
-  background-color: var(--color-green-light);
-  margin-bottom: 2rem;
+.divider {
+  width: 100%;
+  background-color: rgb(225, 225, 225);
+  border: 1px solid rgb(225, 225, 225);
+  border-radius: 10em;
+}
+
+.auth-form-header p {
+  color: rgb(74, 74, 74);
+  letter-spacing: 0.02em;
+}
+
+.submit-button {
+  background-color: #191919;
+  color: white;
+  padding: 0.7em 1em;
+  border-radius: 0.4em;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  height: fit-content;
   cursor: pointer;
+  text-align: center;
+  font-family: "Lexend", sans-serif;
+  font-size: 1em;
+  width: 93%;
 }
 
-.input__submit:hover {
-  background-color: var(--color-green-dark);
+/* ---- name-fields ---- */
+
+.name-fields {
+  display: flex;
+  flex-direction: row;
+  gap: 3em;
+  width: 90%;
+}
+
+/* ---- form-field ---- */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  width: 90%;
+  margin-left: -0.8em;
+}
+
+.form-field p {
+  margin-bottom: var(--gap);
 }
 
 .form-switcher {
   display: flex;
-  margin-top: 3rem;
   justify-content: center;
+  margin-bottom: 3em;
+  background-color: black;
+  border-radius: 5em;
+  padding: 1em;
+  transform: scale(0.8);
+  letter-spacing: 0.02em;
+  margin-top: -2em;
 }
 
 .form-switcher__option {
-  color: var(--color-black);
+  color: grey;
   font-size: 1.4rem;
-  font-weight: 800;
   margin-left: 3rem;
   margin-right: 3rem;
   cursor: pointer;
 }
 
 .form-switcher__option--selected {
-  color: var(--color-green-light);
+  color: white;
 }
