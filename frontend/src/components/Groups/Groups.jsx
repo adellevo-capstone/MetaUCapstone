@@ -1,7 +1,6 @@
 import React from "react";
-import Popup from "reactjs-popup";
-import GroupSearch from "./GroupSearch";
-import nextButton from "../Shared/assets/NextButton.svg";
+import SearchPopup from "../Shared/components/SearchPopup/SearchPopup";
+import NextButton from "../Shared/assets/ForwardArrow.svg";
 import { Link } from "react-router-dom";
 import "../Groups/Groups.css";
 
@@ -10,26 +9,19 @@ export default function Groups(props) {
     <div className="group-section">
       <div className="group-section-header">
         <h1>My groups</h1>
-        <Popup
-          modal
-          nested
-          trigger={<span className="button"> Create a group </span>}
-          style={{
-            minWidth: "40em",
-          }}
-        >
-          <GroupSearch
-            actionType={"createGroup"}
-            searchQuery={props.searchQuery}
-            setSearchQuery={props.setSearchQuery}
-            location={props.location}
-            setLocation={props.setLocation}
-            loadAllUsers={props.loadAllUsers}
-            allUsers={props.allUsers}
-            groups={props.groups}
-            loadAllGroups={props.loadAllGroups}
-          />
-        </Popup>
+        <SearchPopup
+          itemsToAdd={props.usersToAdd}
+          setItemsToAdd={props.setUsersToAdd}
+          searchedItems={props.displayedUsers}
+          setSearchQuery={props.setSearchQuery}
+          setLocation={props.setLocation}
+          findItem={props.findUsers}
+          buttonText={"Create group"}
+          typeToAdd={"Member"}
+          actionType={"create"}
+          groupId={props.groupId}
+          loadAllGroups={props.loadAllGroups}
+        />
       </div>
       <div className="groups-container">
         {props.groups.map((group, index) => (
@@ -43,7 +35,7 @@ export default function Groups(props) {
             </div>
             <Link to={`${group.groupInfo.name}`}>
               <img
-                src={nextButton}
+                src={NextButton}
                 alt="next"
               />
             </Link>

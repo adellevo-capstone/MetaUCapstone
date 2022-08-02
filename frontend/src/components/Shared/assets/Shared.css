@@ -54,4 +54,5 @@ span {
   letter-spacing: 0.05em;
   height: fit-content;
   cursor: pointer;
+  text-align: center;
 }

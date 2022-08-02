@@ -3,11 +3,39 @@ import Popup from "reactjs-popup";
 import search from "../../assets/Search.svg";
 import DeleteButton from "../../assets/DeleteButton.svg";
 import SearchedResultCard from "../SearchResultCard/SearchedResultCard";
+import API from "../../../../utils/API";
 import "./SearchPopup.css";
 
 export default function SearchPopup(props) {
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
+
+  const [newGroupName, setNewGroupName] = useState("");
+  const createGroup = async () => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const memberIds = props.itemsToAdd.map((user) => {
+        return user._id;
+      });
+      const body = { name: newGroupName, members: memberIds };
+      await API.patch("api/v1/auth/group/create", body, config);
+      props.loadAllGroups();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleOnClick = async () => {
+    if (props.typeToAdd === "Member") {
+      if (props.actionType === "create") {
+        await createGroup();
+      } else {
+        await props.addItems(props.groupId);
+      }
+    } else {
+      await props.addItems();
+    }
+  };
 
   return (
     <div>
@@ -33,6 +61,15 @@ export default function SearchPopup(props) {
               <div className="popup-header">
                 <h1>{props.typeToAdd}s to add</h1>
                 {props.itemsToAdd?.length > 0 && <p>{props.itemsToAdd.length}</p>}
+                {props.actionType === "create" && (
+                  <input
+                    className="group name"
+                    type="text"
+                    name="user"
+                    placeholder="Pick a group name..."
+                    onChange={(e) => setNewGroupName(e.target.value)}
+                  />
+                )}
               </div>
 
               {props.itemsToAdd?.length > 0 ? (
@@ -48,9 +85,7 @@ export default function SearchPopup(props) {
                     ))}
                   <span
                     onClick={async () => {
-                      props.typeToAdd === "Restaurants"
-                        ? await props.addItems
-                        : await props.addItems(props.groupId);
+                      await handleOnClick();
                       close();
                     }}
                     className="button"

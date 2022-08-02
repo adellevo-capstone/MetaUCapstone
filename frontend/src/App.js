@@ -11,7 +11,6 @@ import "./App.css";
 
 export default function App() {
   const [groups, setGroups] = useState([]);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
   const [allUsers, setAllUsers] = useState([]);

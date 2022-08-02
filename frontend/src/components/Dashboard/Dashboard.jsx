@@ -10,6 +10,23 @@ import Event from "../Events/Event";
 import Groups from "../Groups/Groups";
 
 export default function Dashboard(props) {
+  const [usersToAdd, setUsersToAdd] = useState([]);
+  const [displayedUsers, setDisplayedUsers] = useState([]);
+
+  const findUsers = async () => {
+    try {
+      const filteredUsers = props.allUsers.filter(
+        (user) =>
+          user.firstName.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
+          user.lastName.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
+          user.username.toLowerCase().includes(props.searchQuery.toLowerCase())
+      );
+      setDisplayedUsers(filteredUsers);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="dashboard">
       <Navbar />
@@ -32,6 +49,10 @@ export default function Dashboard(props) {
           path="/groups"
           element={
             <Groups
+              usersToAdd={usersToAdd}
+              setUsersToAdd={setUsersToAdd}
+              displayedUsers={displayedUsers}
+              findUsers={findUsers}
               groups={props.groups}
               loadAllGroups={props.loadAllGroups}
               searchQuery={props.searchQuery}
@@ -40,6 +61,7 @@ export default function Dashboard(props) {
               setLocation={props.setLocation}
               loadAllUsers={props.loadAllUsers}
               allUsers={props.allUsers}
+              currentUser={props.currentUser}
             />
           }
         />
@@ -47,6 +69,10 @@ export default function Dashboard(props) {
           path="/groups/:name"
           element={
             <GroupDetail
+              usersToAdd={usersToAdd}
+              setUsersToAdd={setUsersToAdd}
+              displayedUsers={displayedUsers}
+              findUsers={findUsers}
               groups={props.groups}
               loadAllGroups={props.loadAllGroups}
               searchQuery={props.searchQuery}
