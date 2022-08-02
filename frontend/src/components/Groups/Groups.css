@@ -5,6 +5,7 @@
   padding: 2em;
   width: 100vw;
   height: 100vh;
+  margin-top: 4.5em;
 }
 
 .groups {
@@ -232,16 +233,14 @@ a.back {
 @media only screen and (min-width: 1300px) {
   .group-section {
     margin-left: -3em;
+    padding-left: 15em;
+    margin-top: unset;
   }
 
   .group-detail {
     margin-left: 10em;
     padding-top: unset;
     gap: 8em;
-  }
-
-  .group-section {
-    padding-left: 15em;
   }
 
   a.back {
