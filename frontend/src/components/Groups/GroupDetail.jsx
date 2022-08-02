@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import GroupSearch from "./GroupSearch";
 import API from "../../utils/API";
-import nextButton from "../Shared/assets/NextButton.svg";
+import NextButton from "../Shared/assets/NextButton.svg";
 
 export default function GroupDetail(props) {
   const params = useParams();
@@ -33,9 +33,10 @@ export default function GroupDetail(props) {
           <h1>{groupName}</h1>
           <p>{members.length} members</p>
         </div>
-
         <GroupSearch
-          actionType={"addMembers"}
+          usersToAdd={props.usersToAdd}
+          setUsersToAdd={props.setUsersToAdd}
+          findUsers={props.findUsers}
           searchQuery={props.searchQuery}
           setSearchQuery={props.setSearchQuery}
           location={props.location}
@@ -43,10 +44,10 @@ export default function GroupDetail(props) {
           loadAllUsers={props.loadAllUsers}
           allUsers={props.allUsers}
           loadAllGroups={props.loadAllGroups}
-          groupId={groupId}
           currentUser={props.currentUser}
+          groupId={groupId}
+          displayedUsers={props.displayedUsers}
         />
-
         <span
           className="button"
           onClick={() => leaveGroup(groupId)}
@@ -54,7 +55,6 @@ export default function GroupDetail(props) {
           Leave group
         </span>
       </div>
-
       <div>
         <div className="group-members">
           {members.map((member, index) => (
@@ -67,7 +67,7 @@ export default function GroupDetail(props) {
                 <p>@{member.username}</p>
               </div>
               <img
-                src={nextButton}
+                src={NextButton}
                 alt="next"
               />
             </div>
