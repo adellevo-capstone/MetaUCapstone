@@ -104,7 +104,6 @@
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.058) 0px 4px 12px;
   border-radius: var(--border-radius);
-  /* margin-top: -5em; */
 }
 
 .group-members > *:first-child {
