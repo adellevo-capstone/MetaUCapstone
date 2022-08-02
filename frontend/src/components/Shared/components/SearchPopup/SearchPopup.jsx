@@ -40,15 +40,12 @@ export default function SearchPopup(props) {
 
   return (
     <div>
-      {props.isCurrentUser && (
-        <span
-          className="button"
-          onClick={() => setOpen((o) => !o)}
-        >
-          {props.buttonText}
-        </span>
-      )}
-
+      <span
+        className="button"
+        onClick={() => setOpen((o) => !o)}
+      >
+        {props.buttonText}
+      </span>
       <Popup
         open={open}
         closeOnDocumentClick
