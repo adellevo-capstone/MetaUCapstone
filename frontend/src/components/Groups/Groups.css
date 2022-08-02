@@ -179,7 +179,7 @@
 }
 
 a.back {
-  width: 60%;
+  width: 70vw;
   text-align: left;
 }
 
@@ -247,5 +247,9 @@ a.back {
 
   a.back {
     margin-top: -8em;
+  }
+
+  .content-container {
+    gap: 8em;
   }
 }
