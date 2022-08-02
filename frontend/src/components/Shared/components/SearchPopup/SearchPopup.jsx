@@ -59,8 +59,10 @@ export default function SearchPopup(props) {
           <div className="search-popup">
             <div className="items-to-add">
               <div className="popup-header">
-                <h1>{props.typeToAdd}s to add</h1>
-                {props.itemsToAdd?.length > 0 && <p>{props.itemsToAdd.length}</p>}
+                <div className="left-side">
+                  <h1>{props.typeToAdd}s to add</h1>
+                  {props.itemsToAdd?.length > 0 && <p>{props.itemsToAdd.length}</p>}
+                </div>
                 {props.actionType === "create" && (
                   <input
                     className="group name"
@@ -88,6 +90,7 @@ export default function SearchPopup(props) {
                       await handleOnClick();
                       close();
                     }}
+                    style={{ marginTop: "5em" }}
                     className="button"
                   >
                     {" "}

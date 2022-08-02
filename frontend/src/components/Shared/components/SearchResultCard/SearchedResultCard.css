@@ -4,14 +4,10 @@
   overflow-y: scroll;
 }
 
-.searched-item-card:last-child {
-  border-bottom: 1px solid #191919;
-}
-
 .searched-item-card {
   display: flex;
   flex-direction: row;
-  border-top: 1px solid #191919;
+  border-bottom: 1px solid #191919;
   min-width: 30em;
 }
 
