@@ -4,7 +4,12 @@ import DeleteButton from "../../../Shared/assets/DeleteButtonWhite.svg";
 import API from "../../../../utils/API";
 import "./assets/FavoriteRestaurantCard.css";
 
-export default function FavoriteRestaurantCard({ restaurant, favorites, setFavorites }) {
+export default function FavoriteRestaurantCard({
+  restaurant,
+  favorites,
+  setFavorites,
+  isCurrentUser,
+}) {
   const removeFavorite = async () => {
     const updatedArray = favorites.filter((item) => item.id !== restaurant.id);
     try {
@@ -22,12 +27,15 @@ export default function FavoriteRestaurantCard({ restaurant, favorites, setFavor
   return (
     <div className="restaurant-card">
       <div className="photo-container">
-        <img
-          onClick={removeFavorite}
-          className="delete-button"
-          src={DeleteButton}
-          alt="delete"
-        />
+        {isCurrentUser && (
+          <img
+            onClick={removeFavorite}
+            className="delete-button"
+            src={DeleteButton}
+            alt="delete"
+          />
+        )}
+
         <img
           className="cover"
           src={restaurant.image_url}

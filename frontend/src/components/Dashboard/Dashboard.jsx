@@ -32,8 +32,12 @@ export default function Dashboard(props) {
       <Navbar />
       <Routes>
         <Route
+          path="/profile/:userId"
+          element={<Profile isCurrentUser={false} />}
+        />
+        <Route
           path="/profile"
-          element={<Profile />}
+          element={<Profile isCurrentUser={true} />}
         />
         <Route
           path="/events"
@@ -81,6 +85,7 @@ export default function Dashboard(props) {
               setLocation={props.setLocation}
               loadAllUsers={props.loadAllUsers}
               allUsers={props.allUsers}
+              currentUser={props.currentUser}
             />
           }
         />

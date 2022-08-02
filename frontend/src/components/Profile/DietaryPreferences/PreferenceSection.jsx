@@ -3,6 +3,7 @@ import Tag from "./Tag";
 import AddTag from "./AddTag";
 import editIcon from "../../Shared/assets/EditIcon.svg";
 import API from "../../../utils/API";
+import NoResults from "../../Shared/components/NoResults/NoResults";
 
 export default function PreferenceSection(props) {
   const [inEditMode, setEditMode] = useState(false);
@@ -39,7 +40,11 @@ export default function PreferenceSection(props) {
         </div>
         <div className="tags-container">
           {props.data.length === 0 && !inEditMode ? (
-            <p className="nothing-message">Nothing to see here.</p>
+            props.currentUser ? (
+              <NoResults />
+            ) : (
+              <NoResults message={"Nothing to see here."} />
+            )
           ) : (
             props.data.map((tag) => (
               <Tag
@@ -64,21 +69,23 @@ export default function PreferenceSection(props) {
           )}
         </div>
       </div>
-      <div className="edit-actions">
-        {inEditMode ? (
-          <div>
-            <p onClick={saveEditsToDatabase}>Save</p>
-            <p onClick={cancelEdits}>Cancel</p>
-          </div>
-        ) : (
-          <p onClick={() => setEditMode(true)}>
-            <img
-              src={editIcon}
-              alt="edit icon"
-            />
-          </p>
-        )}
-      </div>
+      {props.isCurrentUser && (
+        <div className="edit-actions">
+          {inEditMode ? (
+            <div>
+              <p onClick={saveEditsToDatabase}>Save</p>
+              <p onClick={cancelEdits}>Cancel</p>
+            </div>
+          ) : (
+            <p onClick={() => setEditMode(true)}>
+              <img
+                src={editIcon}
+                alt="edit icon"
+              />
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
