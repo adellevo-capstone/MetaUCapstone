@@ -40,7 +40,11 @@ export default function PreferenceSection(props) {
         </div>
         <div className="tags-container">
           {props.data.length === 0 && !inEditMode ? (
-            <NoResults />
+            props.currentUser ? (
+              <NoResults />
+            ) : (
+              <NoResults message={"Nothing to see here."} />
+            )
           ) : (
             props.data.map((tag) => (
               <Tag
@@ -65,21 +69,23 @@ export default function PreferenceSection(props) {
           )}
         </div>
       </div>
-      <div className="edit-actions">
-        {inEditMode ? (
-          <div>
-            <p onClick={saveEditsToDatabase}>Save</p>
-            <p onClick={cancelEdits}>Cancel</p>
-          </div>
-        ) : (
-          <p onClick={() => setEditMode(true)}>
-            <img
-              src={editIcon}
-              alt="edit icon"
-            />
-          </p>
-        )}
-      </div>
+      {props.isCurrentUser && (
+        <div className="edit-actions">
+          {inEditMode ? (
+            <div>
+              <p onClick={saveEditsToDatabase}>Save</p>
+              <p onClick={cancelEdits}>Cancel</p>
+            </div>
+          ) : (
+            <p onClick={() => setEditMode(true)}>
+              <img
+                src={editIcon}
+                alt="edit icon"
+              />
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -20,15 +20,20 @@ export default function FavoriteRestaurants(props) {
           loadFavoriteRestaurants={props.loadFavoriteRestaurants}
           likes={props.likes}
           setLikes={props.setLikes}
+          isCurrentUser={props.isCurrentUser}
         />
       </div>
       <div className="restaurant-card-container">
         {props.favorites.length === 0 ? (
-          <NoResults
-            message={
-              "Nothing to see here yet. Click the button above to find a restaurant to add to your favorites!"
-            }
-          />
+          props.isCurrentUser ? (
+            <NoResults
+              message={
+                "Nothing to see here yet. Click the button above to find a restaurant to add to your favorites!"
+              }
+            />
+          ) : (
+            <NoResults message={"Nothing to see here."} />
+          )
         ) : (
           props.favorites.map((restaurant, index) => (
             <RestaurantCard
@@ -36,6 +41,7 @@ export default function FavoriteRestaurants(props) {
               restaurant={restaurant}
               favorites={props.favorites}
               setFavorites={props.setFavorites}
+              isCurrentUser={props.isCurrentUser}
             />
           ))
         )}

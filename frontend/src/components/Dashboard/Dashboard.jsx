@@ -32,12 +32,12 @@ export default function Dashboard(props) {
       <Navbar />
       <Routes>
         <Route
-          path="/profile"
-          element={<Profile userId={props.currentUser._id} />}
+          path="/profile/:userId"
+          element={<Profile isCurrentUser={false} />}
         />
         <Route
-          path="/profile/:id"
-          element={<Profile />}
+          path="/profile"
+          element={<Profile isCurrentUser={true} />}
         />
         <Route
           path="/events"

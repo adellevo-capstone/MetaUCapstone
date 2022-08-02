@@ -29,6 +29,7 @@ export default function DietaryPreferences(props) {
             subHeader={section.subHeader}
             data={section.data}
             setData={section.setData}
+            isCurrentUser={props.isCurrentUser}
           />
         ))}
       </div>
