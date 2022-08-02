@@ -66,7 +66,6 @@
 input.group.name {
   display: flex;
   flex-direction: row;
-  /* box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px; */
   height: 2.5em;
   font-size: 0.9em;
   border-radius: 0.3em;
@@ -97,13 +96,6 @@ input {
 
 .added-items > *:first-child {
   border-top: 1px solid #191919;
-}
-
-/* ---- no-results ---- */
-
-p.no-results {
-  width: fit-content;
-  margin-bottom: 3em;
 }
 
 /* ---- popup-divider ---- */

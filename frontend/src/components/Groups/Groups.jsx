@@ -3,6 +3,7 @@ import SearchPopup from "../Shared/components/SearchPopup/SearchPopup";
 import NextButton from "../Shared/assets/ForwardArrow.svg";
 import { Link } from "react-router-dom";
 import "../Groups/Groups.css";
+import NoResults from "../Shared/components/NoResults/NoResults";
 
 export default function Groups(props) {
   return (
@@ -24,23 +25,29 @@ export default function Groups(props) {
         />
       </div>
       <div className="groups-container">
-        {props.groups.map((group, index) => (
-          <div
-            className="group"
-            key={index}
-          >
-            <div className="label">
-              <h2>{group.groupInfo.name}</h2>
-              <p>{group.memberInfo.length} members</p>
+        {props.groups.length === 0 ? (
+          <NoResults
+            message={"Nothing to see here yet. Click the button above to create your first group!"}
+          />
+        ) : (
+          props.groups.map((group, index) => (
+            <div
+              className="group"
+              key={index}
+            >
+              <div className="label">
+                <h2>{group.groupInfo.name}</h2>
+                <p>{group.memberInfo.length} members</p>
+              </div>
+              <Link to={`${group.groupInfo.name}`}>
+                <img
+                  src={NextButton}
+                  alt="next"
+                />
+              </Link>
             </div>
-            <Link to={`${group.groupInfo.name}`}>
-              <img
-                src={NextButton}
-                alt="next"
-              />
-            </Link>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

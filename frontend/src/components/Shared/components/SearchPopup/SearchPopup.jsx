@@ -5,6 +5,7 @@ import DeleteButton from "../../assets/DeleteButton.svg";
 import SearchedResultCard from "../SearchResultCard/SearchedResultCard";
 import API from "../../../../utils/API";
 import "./SearchPopup.css";
+import NoResults from "../NoResults/NoResults";
 
 export default function SearchPopup(props) {
   const [open, setOpen] = useState(false);
@@ -98,7 +99,7 @@ export default function SearchPopup(props) {
                   </span>
                 </div>
               ) : (
-                <p className="no-results">Nothing to see here yet. </p>
+                <NoResults />
               )}
             </div>
             <div className="popup-divider" />
@@ -144,7 +145,7 @@ export default function SearchPopup(props) {
                   ))}
                 </div>
               ) : (
-                <p className="no-results">Results will appear here. </p>
+                <NoResults message={"Results will appear here."} />
               )}
             </div>
             <img
