@@ -1,6 +1,6 @@
 import React from "react";
 import SearchPopup from "../Shared/components/SearchPopup/SearchPopup";
-import nextButton from "../Shared/assets/NextButton.svg";
+import NextButton from "../Shared/assets/ForwardArrow.svg";
 import { Link } from "react-router-dom";
 import "../Groups/Groups.css";
 
@@ -35,7 +35,7 @@ export default function Groups(props) {
             </div>
             <Link to={`${group.groupInfo.name}`}>
               <img
-                src={nextButton}
+                src={NextButton}
                 alt="next"
               />
             </Link>

@@ -1,8 +1,9 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import GroupSearch from "./GroupSearch";
 import API from "../../utils/API";
-import NextButton from "../Shared/assets/NextButton.svg";
+import NextButton from "../Shared/assets/ForwardArrow.svg";
+import BackButton from "../Shared/assets/BackArrow.svg";
 
 export default function GroupDetail(props) {
   const params = useParams();
@@ -28,50 +29,64 @@ export default function GroupDetail(props) {
 
   return (
     <div className="group-detail">
-      <div className="header-actions-container">
-        <div className="group-detail-header">
-          <h1>{groupName}</h1>
-          <p>{members.length} members</p>
-        </div>
-        <GroupSearch
-          usersToAdd={props.usersToAdd}
-          setUsersToAdd={props.setUsersToAdd}
-          findUsers={props.findUsers}
-          searchQuery={props.searchQuery}
-          setSearchQuery={props.setSearchQuery}
-          location={props.location}
-          setLocation={props.setLocation}
-          loadAllUsers={props.loadAllUsers}
-          allUsers={props.allUsers}
-          loadAllGroups={props.loadAllGroups}
-          currentUser={props.currentUser}
-          groupId={groupId}
-          displayedUsers={props.displayedUsers}
-        />
-        <span
-          className="button"
-          onClick={() => leaveGroup(groupId)}
-        >
-          Leave group
+      <Link
+        className="back"
+        to="/dashboard/groups"
+      >
+        <span className="back">
+          <img
+            src={BackButton}
+            alt="back"
+          />
+          <p>Back</p>
         </span>
-      </div>
-      <div>
-        <div className="group-members">
-          {members.map((member, index) => (
-            <div
-              className="member-card"
-              key={index}
-            >
-              <div>
-                <h2>{member.firstName + " " + member.lastName}</h2>
-                <p>@{member.username}</p>
+      </Link>
+      <div className="content-container">
+        <div className="header-actions-container">
+          <div className="group-detail-header">
+            <h1>{groupName}</h1>
+            <p>{members.length} members</p>
+          </div>
+          <GroupSearch
+            usersToAdd={props.usersToAdd}
+            setUsersToAdd={props.setUsersToAdd}
+            findUsers={props.findUsers}
+            searchQuery={props.searchQuery}
+            setSearchQuery={props.setSearchQuery}
+            location={props.location}
+            setLocation={props.setLocation}
+            loadAllUsers={props.loadAllUsers}
+            allUsers={props.allUsers}
+            loadAllGroups={props.loadAllGroups}
+            currentUser={props.currentUser}
+            groupId={groupId}
+            displayedUsers={props.displayedUsers}
+          />
+          <span
+            className="button"
+            onClick={() => leaveGroup(groupId)}
+          >
+            Leave group
+          </span>
+        </div>
+        <div className="group-member-container">
+          <div className="group-members">
+            {members.map((member, index) => (
+              <div
+                className="member-card"
+                key={index}
+              >
+                <div>
+                  <h2>{member.firstName + " " + member.lastName}</h2>
+                  <p>@{member.username}</p>
+                </div>
+                <img
+                  src={NextButton}
+                  alt="next"
+                />
               </div>
-              <img
-                src={NextButton}
-                alt="next"
-              />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
