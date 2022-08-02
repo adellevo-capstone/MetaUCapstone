@@ -127,6 +127,7 @@
   border-top: 0.2em solid var(--dashboard-background);
   background-color: var(--profile-section-background-color);
   text-align: left;
+  align-items: center;
 }
 
 .member-card img {
