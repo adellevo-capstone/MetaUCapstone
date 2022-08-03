@@ -8,12 +8,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import map from "../Shared/assets/Map.svg";
 import car from "../Shared/assets/Car.svg";
 import people from "../Shared/assets/People.svg";
-import "./Event.css";
 import deleteButton from "../Shared/assets/DeleteButton.svg";
-
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TaskBoard from "./InvitationForm/DND/TaskBoard";
+import "./Event.css";
 
 export default function Event(props) {
   const [error, setError] = useState("");
@@ -113,14 +112,7 @@ export default function Event(props) {
         modal
         nested
       >
-        <div
-          style={{
-            backgroundColor: "white",
-            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            padding: "0.5em",
-            borderRadius: "2em",
-          }}
-        >
+        <div className="event-popup">
           <img
             className="close"
             src={deleteButton}

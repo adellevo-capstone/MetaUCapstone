@@ -7,7 +7,6 @@ export default function TimeSlot(props) {
     if (props.rsvpStatus === "accept") {
       setSelected(props.previouslySelected);
     }
-    console.log(selected);
   }, [props.rsvpStatus]);
 
   const handleClick = () => {

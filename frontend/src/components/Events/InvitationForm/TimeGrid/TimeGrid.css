@@ -1,0 +1,106 @@
+/* ---- TimeGrid Component ---- */
+
+/* ---- time-grid ---- */
+
+.time-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 0.3em;
+  align-items: center;
+  height: 30em;
+  padding: 0.6em;
+}
+
+/* ---- left-container ---- */
+
+.left-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* ---- slots ---- */
+
+.slots {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  gap: 0.3em;
+}
+
+/* ---- spacer ---- */
+
+.spacer {
+  height: 2.5em;
+}
+
+/* ---- times ---- */
+
+.times {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+/* ---- DateContainer Component ---- */
+
+/* ---- date-container ---- */
+
+.date-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  gap: 0.1em;
+}
+
+/* ---- date ---- */
+
+.time,
+.date {
+  margin-bottom: 1em;
+}
+
+/* ---- date-slots ---- */
+
+.date-slots {
+  margin-top: 1.5em;
+  display: flex;
+  flex-direction: column;
+  height: 85%;
+  gap: 0.35em;
+}
+
+/* ---- TimeSlot Component ---- */
+
+.invalid,
+.valid-unselected,
+.valid-selected {
+  min-height: 2em;
+  width: 7.3em;
+  border-radius: 0.1em;
+}
+
+/* ---- invalid ---- */
+
+.invalid {
+  background-color: var(--dashboard-background);
+  border: 2px solid var(--dashboard-background);
+}
+
+/* ---- valid-selected ---- */
+
+.valid-selected {
+  background-color: rgb(255, 215, 129) !important;
+  border: 2px solid orange;
+}
+
+/* ---- .valid-unselected ---- */
+
+.valid-unselected {
+  background-color: rgb(224, 224, 224);
+  border: 2px solid rgb(224, 224, 224);
+}

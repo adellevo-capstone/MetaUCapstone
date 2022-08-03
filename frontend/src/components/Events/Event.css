@@ -1,4 +1,4 @@
-/* ---- Main page ---- */
+/* ---- events ---- */
 
 .events {
   display: flex;
@@ -11,6 +11,30 @@
   overflow-x: hidden;
 }
 
+/* ---- event-popup ---- */
+
+.event-popup {
+  background-color: var(--dashboard-background);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 3em;
+  border-radius: 2em;
+  box-shadow: var(--box-shadow);
+  font-family: Lexend;
+  gap: 3em;
+  width: fit-content;
+  min-height: 50vh;
+}
+
+/* ---- calendar-container ---- */
+
+.calendar-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10em;
+}
+
 .calendar {
   background-color: rgb(36, 52, 83);
   border-radius: var(--border-radius);
@@ -20,164 +44,7 @@
   height: 100%;
 }
 
-.calendar-container {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 10em;
-}
-
-.card-actions p {
-  cursor: pointer;
-}
-
-/* ---- Carpool details ---- */
-
-.carpool-details {
-  display: flex;
-  flex-direction: row;
-  border: 1px solid black;
-}
-
-.drivers-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  gap: 2em;
-}
-
-.driver,
-.unmatched-passengers-container {
-  border: 1px solid black;
-}
-
-/* ---- TimeGrid ---- */
-
-.event-form form {
-  min-width: 80vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.planning,
-.filters {
-  display: flex;
-  flex-direction: column;
-  min-width: fit-content;
-}
-
-.planning > *,
-.filters > * {
-  margin-bottom: 1em;
-}
-
-.time-slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-items: center;
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-items: center;
-  align-content: center;
-  padding: 2em;
-  gap: 30px;
-}
-
-.time-grid {
-  display: flex;
-  flex-direction: row;
-  gap: 0.3em;
-  align-items: center;
-  height: 30em;
-  padding: 0.6em;
-}
-
-.slots {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  gap: 0.3em;
-}
-
-/* ---- DateContainer ---- */
-
-.date-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 100%;
-  gap: 0.1em;
-}
-
-.date-slots {
-  margin-top: 1.5em;
-  display: flex;
-  flex-direction: column;
-  height: 85%;
-  gap: 0.35em;
-}
-
-.times {
-  margin-top: 1em;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-}
-
-/* ---- TimeSlot ---- */
-
-.valid-selected,
-.valid-unselected,
-.invalid {
-  min-height: 2em;
-  width: 7.3em;
-  border-radius: 0.1em;
-}
-
-.invalid {
-  background-color: var(--dashboard-background);
-  border: 2px solid var(--dashboard-background);
-}
-
-.valid-unselected {
-  background-color: rgb(224, 224, 224);
-  border: 2px solid rgb(224, 224, 224);
-}
-
-.valid-selected {
-  background-color: rgb(255, 215, 129) !important;
-  border: 2px solid orange;
-}
-
-.left-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-.time,
-.date {
-  margin-bottom: 1em;
-}
-
-.spacer {
-  height: 2.5em;
-}
-
-p {
-  margin: unset;
-}
-
-/* ---- Event ---- */
+/* ---- selected-event ---- */
 
 .selected-event {
   display: flex;
@@ -191,4 +58,24 @@ p {
   border-bottom: 1px solid grey;
   padding-bottom: 2em;
   margin-bottom: 2em;
+}
+
+/* ---- card-actions ---- */
+
+.card-actions p {
+  cursor: pointer;
+}
+
+/* ---- carpool-details ---- */
+
+.carpool-details {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+}
+
+/* ---- general ---- */
+
+p {
+  margin: unset;
 }
