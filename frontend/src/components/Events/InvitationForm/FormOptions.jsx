@@ -1,122 +1,123 @@
-import React from "react";
+import React, { useState } from "react";
 import TimeGrid from "./TimeGrid/TimeGrid.js";
 import "./assets/InvitationForm.css";
+import LocationSearchInput from "./LocationSearchInput.jsx";
 
 export default function FormOptions(props) {
+  // const check
+  const [transportation, setTransportation] = useState("");
+
   return (
     <div className="invitation-form">
       <h2>{props.header}</h2>
       <form onSubmit={(event) => props.handleOnSubmit(event)}>
         <div className="invitation-form-content">
           <div className="planning">
-            {!props.isGuestResponse && (
-              <fieldset>
-                <legend>Choose a group</legend>
-                <select
-                  name="groups"
-                  id="group-member-ids"
-                  required
-                >
-                  {props.groups.map((group, index) => (
-                    <option
-                      key={index}
-                      value={group.groupInfo._id}
-                    >
-                      {group.groupInfo.name}
-                    </option>
-                  ))}
-                </select>
-              </fieldset>
-            )}
-
-            <fieldset className="time-slot-field">
-              <legend>Pick time slots</legend>
-              {!props.isGuestResponse ? (
-                <TimeGrid
-                  startTime={props.startTime}
-                  setStartTime={props.setStartTime}
-                  availableTimes={props.availableTimes}
-                  setAvailableTimes={props.setAvailableTimes}
-                />
-              ) : (
-                <TimeGrid
-                  hostAvailability={props.hostAvailability}
-                  guest={true}
-                  startTime={props.startTime}
-                  setStartTime={props.setStartTime}
-                  availableTimes={props.availableTimes}
-                  setAvailableTimes={props.setAvailableTimes}
-                  loadPreviousRSVP={props.loadPreviousRSVP}
-                  rsvpStatus={props.rsvpStatus}
-                  rsvpOpen={props.rsvpOpen}
-                />
-              )}
-            </fieldset>
-          </div>
-
-          <div className="filters">
-            {!props.isGuestResponse && (
+            {/* <fieldset className="time-slot-field"> */}
+            {!props.isGuestResponse ? (
               <>
-                <fieldset>
-                  <legend>Pick an RSVP deadline</legend>
+                <div className="form-field">
+                  <p>Title</p>
+                  <input
+                    id="title"
+                    required
+                  />
+                </div>
+                <div className="form-field">
+                  <p>Description</p>
+                  <textarea
+                    id="description"
+                    required
+                  />
+                </div>
+                <div className="form-field">
+                  <p>Pick an RSVP deadline</p>
                   <input
                     id="rsvp-deadline"
                     type="datetime-local"
                     required
                   />
-                </fieldset>
-
-                <fieldset>
-                  <legend>Title</legend>
-                  <textarea
-                    id="title"
+                </div>
+                <div className="form-field">
+                  <p>Choose a group</p>
+                  <select
+                    name="groups"
+                    id="group-member-ids"
                     required
+                  >
+                    {props.groups.map((group, index) => (
+                      <option
+                        key={index}
+                        value={group.groupInfo._id}
+                      >
+                        {group.groupInfo.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-field">
+                  <p>Pick time slots</p>
+                  <TimeGrid
+                    startTime={props.startTime}
+                    setStartTime={props.setStartTime}
+                    availableTimes={props.availableTimes}
+                    setAvailableTimes={props.setAvailableTimes}
                   />
-                </fieldset>
-
-                <fieldset>
-                  <legend>Description</legend>
-                  <textarea
-                    id="description"
-                    required
-                  />
-                </fieldset>
+                </div>
               </>
+            ) : (
+              <TimeGrid
+                hostAvailability={props.hostAvailability}
+                guest={true}
+                startTime={props.startTime}
+                setStartTime={props.setStartTime}
+                availableTimes={props.availableTimes}
+                setAvailableTimes={props.setAvailableTimes}
+                loadPreviousRSVP={props.loadPreviousRSVP}
+                rsvpStatus={props.rsvpStatus}
+                rsvpOpen={props.rsvpOpen}
+              />
             )}
+            {/* </fieldset> */}
+          </div>
 
-            <fieldset>
-              <legend>Transportation</legend>
-              <p>Status</p>
-              <select
-                id="transportation"
-                selected
-                required
+          <div className="filters">
+            <legend>Transportation</legend>
+            <p>Status</p>
+            <select
+              id="transportation"
+              selected
+              required
+              value={transportation}
+              onChange={(e) => setTransportation(e.target.value)}
+            >
+              <option
+                value=""
+                disabled
               >
-                <option
-                  value=""
-                  disabled
-                >
-                  Select carpool needs
-                </option>
-                <option value="driver">Driver</option>
-                <option value="passenger">Passenger</option>
-                <option value="none">N/A</option>
-              </select>
+                Select carpool needs
+              </option>
+              <option value="driver">Driver</option>
+              <option value="passenger">Passenger</option>
+              <option value="none">N/A</option>
+            </select>
+
+            {transportation === "driver" && (
               <div>
-                <p>How many passengers can you drive?</p>
-                <textarea
-                  id="carCapacity"
-                  required
-                />
+                <div>
+                  <p>How many passengers can you drive?</p>
+                  <input
+                    id="carCapacity"
+                    type="number"
+                    required
+                  />
+                </div>
+                <div>
+                  <p>Enter start or pickup location</p>
+                  <LocationSearchInput id="guest-starting-location" />
+                </div>
               </div>
-              <div>
-                <p>Enter start or pickup location</p>
-                <textarea
-                  id="startingLocation"
-                  required
-                />
-              </div>
-            </fieldset>
+            )}
 
             <fieldset>
               {!props.isGuestResponse && (
@@ -130,8 +131,28 @@ export default function FormOptions(props) {
                 </>
               )}
 
-              <p>Distance level</p>
-              {["level-1", "level-2", "level-3", "level-4"].map((label, index) => (
+              <div>
+                <div>
+                  <h2>Specify a starting point and a search radius</h2>
+                  <p></p>
+                  <LocationSearchInput id="restaurant-location" />
+                </div>
+                <div>
+                  <p>
+                    This value is an indication of how far you're willing to travel (in miles).{" "}
+                  </p>
+                  <input
+                    id="carCapacity"
+                    type="number"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* <h3>Specify a search radius </h3> */}
+
+              {/*<p>Distance level</p>
+               {["level-1", "level-2", "level-3", "level-4"].map((label, index) => (
                 <div key={index}>
                   <input
                     id={label}
@@ -142,7 +163,7 @@ export default function FormOptions(props) {
                   />
                   <label htmlFor={label}>{index + 1}</label>
                 </div>
-              ))}
+              ))} */}
             </fieldset>
 
             <fieldset>
