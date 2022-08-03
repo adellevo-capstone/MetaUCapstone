@@ -1,6 +1,6 @@
 import React from "react";
 import API from "../../../utils/API.js";
-import FormOptions from "./FormOptions.jsx";
+import FormOptions from "./FormOptions/FormOptions.jsx";
 import "./assets/InvitationForm.css";
 
 export default function InvitationForm(props) {

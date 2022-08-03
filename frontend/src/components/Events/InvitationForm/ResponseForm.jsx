@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import API from "../../../utils/API";
-import FormOptions from "./FormOptions.jsx";
+import FormOptions from "./FormOptions/FormOptions.jsx";
 
 export default function ResponseForm(props) {
   const [rsvpStatus, setRSVPStatus] = useState("unconfirmed");

@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard/Dashboard";
 import API from "./utils/API";
 import "./components/Dashboard/assets/Dashboard.css";
-import "./components/Shared/assets/Shared.css";
+import "./components/Shared/Shared.css";
 import "./components/Profile/assets/Profile.css";
 import "./components/AuthPage/Auth.css";
 import "./App.css";
