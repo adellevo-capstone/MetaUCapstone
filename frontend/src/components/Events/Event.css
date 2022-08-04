@@ -23,7 +23,7 @@
   box-shadow: var(--box-shadow);
   font-family: Lexend;
   gap: 3em;
-  width: fit-content;
+  width: 42em;
   min-height: 50vh;
 }
 

@@ -1,39 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import API from "../../../utils/API.js";
 import FormOptions from "./FormOptions/FormOptions.jsx";
 import "./assets/InvitationForm.css";
 
 export default function InvitationForm(props) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [restaurantLocation, setRestaurantLocation] = useState("");
+  const [rsvpDeadline, setRsvpDeadline] = useState("");
+  const [transportation, setTransportation] = useState("driver");
+  const [carCapacity, setCarCapacity] = useState(0);
+  const [startingPoint, setStartingPoint] = useState("");
+  const [priceLevel, setPriceLevel] = useState(0);
+  const [searchRadius, setSearchRadius] = useState(0);
+  const [selectedGroup, setSelectedGroup] = useState("");
+
   const createEvent = async (event) => {
     try {
-      // get form data
       event.preventDefault();
       const config = { headers: { "Content-Type": "application/json" } };
-      const elements = event.currentTarget.elements;
-
-      const intendedGroup = props.groups.find(
-        (group) => group.groupInfo._id === elements["group-member-ids"].value
-      );
+      const intendedGroup = props.groups.find((group) => group.groupInfo._id === selectedGroup);
 
       const body = {
-        title: elements.title.value,
+        title: title,
         groupId: intendedGroup.groupInfo._id,
-        description: elements.description.value,
-        location: elements.location.value,
-        rsvpDeadline: elements["rsvp-deadline"].value,
+        description: description,
+        location: restaurantLocation,
+        rsvpDeadline: rsvpDeadline,
         timeSlots: {
           dateMap: Object.fromEntries(props.availableTimes),
           startTime: props.startTime,
         },
         carpool: {
-          status: elements.transportation.value,
-          capacity: elements.carCapacity.value,
-          startingPoint: elements.startingLocation.value,
+          status: transportation,
+          capacity: carCapacity,
+          startingPoint: startingPoint,
         },
         members: intendedGroup.groupInfo.members,
-        priceLevel: parseInt(elements.priceLevel.value),
-        distanceLevel: parseInt(elements.distanceLevel.value),
+        priceLevel: parseInt(priceLevel),
+        distanceLevel: parseInt(searchRadius),
       };
+
       await API.patch("api/v1/auth/event/create", body, config);
     } catch (err) {
       console.log(err);
@@ -46,6 +53,26 @@ export default function InvitationForm(props) {
       header={"Create invitation"}
       handleOnSubmit={createEvent}
       isGuestResponse={false}
+      title={title}
+      setTitle={setTitle}
+      description={description}
+      setDescription={setDescription}
+      restaurantLocation={restaurantLocation}
+      setRestaurantLocation={setRestaurantLocation}
+      rsvpDeadline={rsvpDeadline}
+      setRsvpDeadline={setRsvpDeadline}
+      transportation={transportation}
+      setTransportation={setTransportation}
+      carCapacity={carCapacity}
+      setCarCapacity={setCarCapacity}
+      startingPoint={startingPoint}
+      setStartingPoint={setStartingPoint}
+      priceLevel={priceLevel}
+      setPriceLevel={setPriceLevel}
+      searchRadius={searchRadius}
+      setSearchRadius={setSearchRadius}
+      selectedGroup={selectedGroup}
+      setSelectedGroup={setSelectedGroup}
     />
   );
 }

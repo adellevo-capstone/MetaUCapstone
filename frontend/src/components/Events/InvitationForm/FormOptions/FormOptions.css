@@ -1,22 +1,71 @@
-/* ---- page-dots ---- */
+/* ---- form-options ---- */
 
-.page-dots {
+.form-options {
   display: flex;
-  flex-direction: row;
-  gap: 1em;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  height: 30em;
 }
 
-.page-dots > * {
-  width: 1em;
-  height: 1em;
-  border-radius: 10em;
-  cursor: pointer;
+.form-options-content {
+  display: flex;
+  align-items: center;
+  width: 60vw;
+  height: 30em;
 }
 
-.page-dots .selected {
-  background-color: var(--custom-orange);
+/* ---- form-field ---- */
+
+.form-field {
+  margin-bottom: 2em;
 }
 
-.page-dots .unselected {
-  background-color: rgb(213, 213, 213);
+.form-field .label {
+  margin-bottom: 1em;
+  font-weight: 400;
+  font-size: 1.15em;
+}
+
+/* ---- multiple form-fields --- */
+
+input.title,
+textarea.description {
+  width: 45em;
+  height: 3em;
+  padding: 0 1em;
+  box-shadow: var(--input-box-shadow);
+  border-radius: 0.2em;
+}
+
+/* ---- description---- */
+
+textarea.description {
+  height: 5em;
+  padding: 1em;
+  max-width: 45em;
+  min-width: 45em;
+}
+
+/* ---- search-radius ---- */
+
+input.search-radius {
+  /* padding: 0.em; */
+  box-shadow: var(--input-box-shadow);
+  border-radius: 0.2em;
+  padding: 0.4em !important;
+  text-align: center;
+  width: 3em !important;
+  margin: 0 0.4em;
+}
+
+/* ---- fill-in-the-blanks ---- */
+
+span.fill-in-the-blanks {
+  color: rgb(88, 88, 88);
+  line-height: 1.8em;
+  font-size: 0.95em;
+  font-weight: 300;
+  /* font-family: "Barlow", sans-serif; */
+  letter-spacing: 0.02em;
 }

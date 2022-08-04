@@ -51,3 +51,7 @@ span {
   cursor: pointer;
   text-align: center;
 }
+
+textarea {
+  border: none;
+}
