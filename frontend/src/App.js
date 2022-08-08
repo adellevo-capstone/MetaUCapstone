@@ -54,7 +54,6 @@ export default function App() {
       <BrowserRouter>
         <main>
           <div className="dashboard">
-            {/* <div className="right-container"> */}
             <Routes>
               <Route
                 path="/"
@@ -77,7 +76,6 @@ export default function App() {
                 }
               />
             </Routes>
-            {/* </div> */}
           </div>
         </main>
       </BrowserRouter>

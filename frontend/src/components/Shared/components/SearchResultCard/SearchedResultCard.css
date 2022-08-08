@@ -9,13 +9,16 @@
   flex-direction: row;
   border-bottom: 1px solid #191919;
   min-width: 30em;
+  padding-left: 1em;
+  align-items: center;
+  justify-items: center;
 }
 
 .searched-item-card h2 {
   padding: 0.1em;
   font-weight: 400;
   font-size: 1.2em;
-  margin-bottom: -1em;
+  margin-top: 1em;
 }
 
 .searched-item-card .content {
@@ -23,6 +26,7 @@
   flex-direction: column;
   align-items: flex-start;
   width: 86%;
+  padding-bottom: 1em;
 }
 
 .searched-item-card .location {
@@ -38,6 +42,5 @@
 
 .searched-item-card .checkmark {
   transform: scale(2.4);
-  margin-top: 4.8em;
-  margin-left: -2.5em;
+  margin-left: -2em;
 }

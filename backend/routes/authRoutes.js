@@ -101,7 +101,7 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
     // calculate time
     const formattedTime = formatTime(optimalDateAndTime.time.slotIndex * 30, startTime);
 
-    // get min price & distance level (update to just driver later)
+    // get min price & distance level
     const optimalPriceLevel = going.reduce((prev, current) => {
       return prev.priceLevel < current.priceLevel ? prev.priceLevel : current.priceLevel;
     });
@@ -131,6 +131,7 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
     const unixTime = Math.round(new Date("2013/09/05 15:34:00").getTime() / 1000); // for expiration
     const open_at = "1658360817";
     const categories = Object.keys(categoryWeights);
+    const milesToMetersMultiplier = 1609;
 
     // make requests based on like weights
     for (let i = 0; i < categories.length; i++) {
@@ -142,7 +143,7 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
         params: {
           location: event.location,
           limit: limit,
-          distance: optimalDistanceLevel.distanceLevel,
+          radius: optimalDistanceLevel.distanceLevel * milesToMetersMultiplier,
           price: optimalPriceLevel.priceLevel,
           categories: categories[i].toLowerCase(),
         },
@@ -166,11 +167,13 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
       }
     );
 
-    res.status(201).json({
+    const response = {
       options: [...new Set(finalRestaurants)],
       date: optimalDateAndTime.date,
       time: formattedTime,
-    });
+    };
+    console.log(response);
+    res.status(201).json(response);
   } catch (err) {
     res.status(500).send(err.message);
   }

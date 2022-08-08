@@ -45,7 +45,7 @@
 }
 
 .user-info-header h1,
-h2 {
+.profile h2 {
   font-weight: 400;
 }
 
@@ -226,10 +226,6 @@ h2 {
     margin-left: 10em;
     margin-top: unset;
   }
-
-  /* .content {
-    width: 88%;
-  } */
 
   .dietary-preferences {
     margin-bottom: 7em;

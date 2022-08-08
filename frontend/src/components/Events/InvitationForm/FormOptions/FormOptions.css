@@ -5,14 +5,12 @@
   flex-direction: column;
   align-items: center;
   text-align: left;
-  height: 30em;
 }
 
 .form-options-content {
   display: flex;
-  align-items: center;
-  width: 60vw;
-  height: 30em;
+  height: fit-content;
+  margin: 2em;
 }
 
 /* ---- form-field ---- */
@@ -36,6 +34,9 @@ textarea.description {
   padding: 0 1em;
   box-shadow: var(--input-box-shadow);
   border-radius: 0.2em;
+  font-weight: 300;
+  font-family: "Arial", sans-serif;
+  color: grey;
 }
 
 /* ---- description---- */
@@ -45,13 +46,13 @@ textarea.description {
   padding: 1em;
   max-width: 45em;
   min-width: 45em;
+
+  letter-spacing: 0.02em;
 }
 
 /* ---- search-radius ---- */
 
 input.search-radius {
-  /* padding: 0.em; */
-  box-shadow: var(--input-box-shadow);
   border-radius: 0.2em;
   padding: 0.4em !important;
   text-align: center;
@@ -62,10 +63,123 @@ input.search-radius {
 /* ---- fill-in-the-blanks ---- */
 
 span.fill-in-the-blanks {
-  color: rgb(88, 88, 88);
-  line-height: 1.8em;
-  font-size: 0.95em;
+  line-height: 2.8em;
+  color: grey;
+  font-family: "Hind", sans-serif;
   font-weight: 300;
-  /* font-family: "Barlow", sans-serif; */
   letter-spacing: 0.02em;
+}
+
+span.fill-in-the-blanks > * {
+  background-color: white;
+  margin-right: 0.2em;
+}
+
+div.select {
+  width: fit-content;
+  display: inline;
+}
+
+:root {
+  --selected-filter-color: rgb(95, 145, 202);
+  --selected-filter-background-color: rgb(255, 255, 255);
+}
+
+button {
+  display: inline-block;
+  border: none;
+  padding: 1rem 2rem;
+  margin: 0;
+  text-decoration: none;
+  background-color: #191919;
+  font-family: "Lexend", sans-serif;
+  cursor: pointer;
+  text-align: center;
+  transition: background 250ms ease-in-out, transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+input.datetimeInput,
+input.starting-point,
+input.search-radius,
+select.groups,
+select.price-level,
+select.carpool-status,
+input.car-capacity {
+  padding: 0.5em;
+  border: 0.1em solid var(--header-color);
+  border-radius: 0.2em;
+  font-family: "Lexend", sans-serif;
+  margin: 0 0.5em;
+  display: inline !important;
+  width: fit-content;
+  padding-left: 0.7em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-right: 3em;
+  color: grey;
+}
+
+select.carpool-status {
+  width: 44em;
+  margin-left: 0;
+}
+
+input.car-capacity,
+input.starting-point {
+  width: 40em !important;
+  margin-left: 0;
+}
+
+input.car-capacity {
+  width: 28em;
+}
+
+input.location-input {
+  margin-right: 0.2em;
+  padding-right: unset;
+  min-width: 20em;
+  max-width: fit-content;
+}
+
+input.datetimeInput {
+  padding-right: 0.6em;
+}
+
+select.price-level {
+  margin-right: unset;
+}
+
+select.groups {
+  margin-right: 0.01em;
+}
+
+/* ---- carrot for select ---- */
+
+select {
+  width: 300px;
+  padding: 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* SVG background image */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Ctitle%3Edown-arrow%3C%2Ftitle%3E%3Cg%20fill%3D%22%23000000%22%3E%3Cpath%20d%3D%22M10.293%2C3.293%2C6%2C7.586%2C1.707%2C3.293A1%2C1%2C0%2C0%2C0%2C.293%2C4.707l5%2C5a1%2C1%2C0%2C0%2C0%2C1.414%2C0l5-5a1%2C1%2C0%2C1%2C0-1.414-1.414Z%22%20fill%3D%22%23000000%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-size: 0.6em;
+  background-position: calc(100% - 1em) center;
+  background-repeat: no-repeat;
+}
+select::-ms-expand {
+  display: none;
+}
+
+::placeholder {
+  font-style: italic;
+  font-weight: 300;
+  opacity: 80%;
+}
+
+h2 {
+  margin-bottom: 1.5em;
+  font-weight: 400;
 }

@@ -204,7 +204,6 @@ img.button.search {
 
 img.close {
   width: fit-content;
-  margin-top: -1.5em;
   margin-right: -1.5em;
   cursor: pointer;
 }

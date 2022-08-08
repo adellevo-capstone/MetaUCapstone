@@ -8,6 +8,7 @@ import "./PageDots/PageDots.css";
 
 const GroupSelect = ({ groups, selectedGroup, setSelectedGroup }) => (
   <select
+    className="groups"
     value={selectedGroup}
     onChange={(e) => setSelectedGroup(e.target.value)}
     required
@@ -25,6 +26,7 @@ const GroupSelect = ({ groups, selectedGroup, setSelectedGroup }) => (
 
 const RSVPDeadline = ({ rsvpDeadline, setRsvpDeadline }) => (
   <input
+    className="datetimeInput"
     type="datetime-local"
     value={rsvpDeadline}
     onChange={(e) => setRsvpDeadline(e.target.value)}
@@ -34,12 +36,12 @@ const RSVPDeadline = ({ rsvpDeadline, setRsvpDeadline }) => (
 
 const PriceLevel = ({ priceLevel, setPriceLevel }) => (
   <select
-    placeholder="e.g. <$10"
+    className="price-level"
     value={priceLevel}
     onChange={(e) => setPriceLevel(e.target.value)}
     required
   >
-    {["<$10", "$11-30", "$31-60", "$61+"].map((label, index) => (
+    {["< $10", "$11 - 30", "$31 - 60", "$61+"].map((label, index) => (
       <option
         key={index}
         value={index + 1}
@@ -61,8 +63,38 @@ const SearchRadius = ({ searchRadius, setSearchRadius }) => (
   />
 );
 
+const Test = (props) => (
+  <select
+    name="test"
+    aria-invalid="false"
+  >
+    <option value="Tomato">Tomato</option>
+    <option value="Banana">Banana</option>
+    <option value="Apple">Apple</option>
+  </select>
+);
+
 export default function FormOptions(props) {
   const [pageNumber, setPageNumber] = useState(1);
+  const [firstSectionClasses, setFirstSectionClasses] = useState("filters");
+  const [secondSectionClasses, setSecondSectionClasses] = useState("form-field");
+  const [thirdSectionClasses, setThirdSectionClasses] = useState("form-field carpool");
+
+  // useEffect(() => {
+  //   if (pageNumber === 1) {
+  //     setFirstSectionClasses("filters visible");
+  //     setSecondSectionClasses("form-field hidden");
+  //     setThirdSectionClasses("form-field carpool hidden");
+  //   } else if (pageNumber === 2) {
+  //     setFirstSectionClasses("filters hidden");
+  //     setSecondSectionClasses("form-field");
+  //     setThirdSectionClasses("form-field carpool hidden");
+  //   } else {
+  //     setFirstSectionClasses("filters hidden");
+  //     setSecondSectionClasses("form-field hidden");
+  //     setThirdSectionClasses("form-field carpool");
+  //   }
+  // }, [pageNumber]);
 
   return (
     <div className="form-options">
@@ -72,7 +104,8 @@ export default function FormOptions(props) {
       >
         <div>
           {pageNumber === 1 ? (
-            <div className="filters">
+            <div className={firstSectionClasses}>
+              <h2>Let's get started.</h2>
               {!props.isGuestResponse && (
                 <>
                   <div className="form-field">
@@ -80,7 +113,6 @@ export default function FormOptions(props) {
                     <input
                       className="title"
                       required
-                      placeholder="e.g. Back to School Dinner"
                       value={props.title}
                       onChange={(e) => props.setTitle(e.target.value)}
                     />
@@ -92,7 +124,6 @@ export default function FormOptions(props) {
                     <textarea
                       className="description"
                       required
-                      placeholder="e.g. Join me for a fun get-together to catch up with friends we haven't seen in a while."
                       value={props.description}
                       onChange={(e) => props.setDescription(e.target.value)}
                     />
@@ -110,7 +141,8 @@ export default function FormOptions(props) {
                     selectedGroup={props.selectedGroup}
                     setSelectedGroup={props.setSelectedGroup}
                   />
-                  , and I want to give everyone <br /> until
+                  , and I want to give everyone <br />
+                  until
                   <RSVPDeadline
                     rsvpDeadline={props.rsvpDeadline}
                     setRsvpDeadline={props.setRsvpDeadline}
@@ -123,23 +155,26 @@ export default function FormOptions(props) {
                   />{" "}
                   miles of{" "}
                   <LocationSearchInput
+                    className="restaurant-location"
                     address={props.restaurantLocation}
                     setAddress={props.setRestaurantLocation}
                   />
-                  , and my budget is{" "}
+                  , and my <br />
+                  budget is{" "}
                   <PriceLevel
                     priceLevel={props.priceLevel}
                     setPriceLevel={props.setPriceLevel}
                   />
+                  .
                 </span>
-                .
               </div>
             </div>
           ) : pageNumber === 2 ? (
-            <div className="form-field">
+            <div className={secondSectionClasses}>
               {!props.isGuestResponse ? (
                 <div>
-                  <p>Pick time slots</p>
+                  <h2>Select potential time slots for your event.</h2>
+
                   <TimeGrid
                     startTime={props.startTime}
                     setStartTime={props.setStartTime}
@@ -162,50 +197,56 @@ export default function FormOptions(props) {
               )}
             </div>
           ) : (
-            <div className="form-field carpool">
-              <h3>Let's simplify the process of forming carpool groups.</h3>
-              <p>What's your transportation situation?</p>
-              <select
-                selected
-                required
-                value={props.transportation}
-                onChange={(e) => props.setTransportation(e.target.value)}
-              >
-                <option
-                  value=""
-                  disabled
+            <div className={thirdSectionClasses}>
+              <h2>Almost there! Let's simplify the process of forming carpool groups.</h2>
+              <div className="form-field">
+                <h3 className="label">What's your transportation situation?</h3>
+                <select
+                  className="carpool-status"
+                  selected
+                  required
+                  value={props.transportation}
+                  onChange={(e) => props.setTransportation(e.target.value)}
                 >
-                  Select an option
-                </option>
-                <option value="driver">I can offer a ride.</option>
-                <option value="passenger">I need a ride.</option>
-                <option value="none">I'm not interested in being part of a carpool group.</option>
-              </select>
+                  <option
+                    value=""
+                    disabled
+                  >
+                    Select an option
+                  </option>
+                  <option value="driver">I can offer a ride.</option>
+                  <option value="passenger">I need a ride.</option>
+                  <option value="none">I'm not interested in being part of a carpool group.</option>
+                </select>
+              </div>
               {props.transportation === "driver" && (
                 <div>
-                  <div>
-                    <p>How many passengers can you drive?</p>
+                  <div className="form-field">
+                    <h3 className="label">How many passengers can you drive?</h3>
                     <input
+                      className="car-capacity"
                       type="number"
                       value={props.carCapacity}
                       onChange={(e) => props.setCarCapacity(e.target.value)}
                       required
                     />
                   </div>
-                  <div>
-                    <p>
-                      Where will you start driving from? (Note: Entering a specific address (e.g.
-                      1604 Cracker Lane), as opposed to a general location, will be more helpful for
-                      optimizing carpool groups based on distance.)
-                    </p>
+                  <div className="form-field">
+                    <h3 className="label">Where will you start driving from?</h3>
                     <LocationSearchInput
+                      className="starting-point"
                       address={props.startingPoint}
                       setAddress={props.setStartingPoint}
                     />
                   </div>
                 </div>
               )}
-              <button type="submit">Submit</button>
+              <button
+                className="button"
+                type="submit"
+              >
+                Submit
+              </button>
             </div>
           )}
         </div>

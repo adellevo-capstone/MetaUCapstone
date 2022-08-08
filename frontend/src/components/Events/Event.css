@@ -11,10 +11,30 @@
   overflow-x: hidden;
 }
 
+/* ---- profile-header ---- */
+
+.events .profile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  width: 90%;
+  margin-top: 1.5em;
+  margin-bottom: 3.2em;
+}
+
+.events .profile-header h1 {
+  font-size: var(--header-size);
+  font-weight: var(--header-font-weight);
+  margin-top: unset;
+}
+
 /* ---- event-popup ---- */
 
 .event-popup {
-  background-color: var(--dashboard-background);
+  background-color: white;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -23,8 +43,12 @@
   box-shadow: var(--box-shadow);
   font-family: Lexend;
   gap: 3em;
-  width: 42em;
-  min-height: 50vh;
+  width: fit-content;
+  height: fit-content;
+}
+
+.event-popup img.close {
+  transform: scale(2.4);
 }
 
 /* ---- calendar-container ---- */
@@ -33,6 +57,7 @@
   display: flex;
   flex-direction: row;
   margin-bottom: 10em;
+  gap: var(--gap);
 }
 
 .calendar {
@@ -42,6 +67,7 @@
   min-width: 40em;
   min-height: 30em;
   height: 100%;
+  box-shadow: var(--box-shadow);
 }
 
 /* ---- selected-event ---- */
@@ -49,21 +75,108 @@
 .selected-event {
   display: flex;
   flex-direction: column;
+  gap: var(--gap);
   background-color: white;
   padding: 2em;
   height: fit-content;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
-.selected-event .description {
-  border-bottom: 1px solid grey;
-  padding-bottom: 2em;
-  margin-bottom: 2em;
+.selected-event .header {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+}
+
+.selected-event h2 {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 0.2em;
+}
+
+.selected-event .divider {
+  border: 0.6px solid rgb(225, 225, 225);
+  border-radius: var(--border-radius);
+}
+
+.selected-event h2.section-title {
+  font-size: 0.8em;
+  font-weight: 500;
+  margin-bottom: 1.2em;
+  text-transform: uppercase;
+}
+
+.section {
+  text-align: left;
+  font-weight: 400;
+}
+
+.section img {
+  transform: scale(0.65);
+}
+
+.section p {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.2em;
+  font-size: 0.94em;
+  cursor: pointer;
+}
+
+.section.description > p {
+  cursor: auto;
+}
+
+.selected-event h3 {
+  font-size: 1.2em;
+  font-weight: 400;
+  margin-bottom: 0.3em;
+}
+
+.selected-event .header {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.selected-event .people {
+  display: flex;
+  flex-direction: column;
+  box-shadow: unset;
+  align-items: flex-start;
 }
 
 /* ---- card-actions ---- */
 
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.card-actions h1 {
+  margin-bottom: 0;
+}
+
 .card-actions p {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0.5em;
   cursor: pointer;
+  font-size: 0.9em;
+}
+
+.card-actions p > * {
+  margin-right: 0.8em;
+  font-size: 0.9em;
+}
+
+.card-actions img {
+  transform: scale(0.8);
 }
 
 /* ---- carpool-details ---- */
@@ -78,4 +191,12 @@
 
 p {
   margin: unset;
+}
+
+/* -------- Web -------- */
+
+@media only screen and (min-width: 1300px) {
+  .events {
+    margin-left: 10em;
+  }
 }
