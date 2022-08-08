@@ -68,7 +68,12 @@
 }
 
 .fc-daygrid-event-dot {
-  border-color: #54718f !important;
+  border-color: var(--custom-orange) !important;
+}
+
+.fc .fc-button-primary,
+.fc .fc-button-primary:disabled {
+  background-color: var(--custom-orange);
 }
 
 .events a {
