@@ -81,6 +81,14 @@
   opacity: 50%;
 }
 
+.fc-direction-ltr .fc-daygrid-event .fc-event-time {
+  cursor: pointer;
+}
+
+.pending-no-results {
+  margin-top: 2em;
+}
+
 .events a {
   color: white;
 }

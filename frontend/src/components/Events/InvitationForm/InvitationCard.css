@@ -91,8 +91,14 @@ h2.countdown {
   width: 74vw;
 }
 
+.first-section {
+  margin-top: 1em;
+  margin-bottom: 0;
+}
+
 .second-section {
-  margin-bottom: 6em;
+  margin-top: 0;
+  margin-bottom: 4em;
 }
 
 .second-section .event-section-header {
@@ -139,7 +145,7 @@ h2.countdown {
 
 .options {
   margin-top: 2em;
-  margin-bottom: 2em;
+  margin-bottom: 2.5em;
 }
 
 .options canvas {
@@ -151,4 +157,12 @@ h2.countdown {
   display: flex;
   flex-direction: row;
   gap: 1em;
+}
+
+/* -------- Web -------- */
+
+@media only screen and (min-width: 1300px) {
+  .second-section {
+    margin-bottom: 7em;
+  }
 }

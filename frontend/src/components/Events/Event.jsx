@@ -13,6 +13,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TaskBoard from "./InvitationForm/DND/TaskBoard";
 import "./Event.css";
+import NoResults from "../Shared/components/NoResults/NoResults";
 
 export default function Event(props) {
   const [error, setError] = useState("");
@@ -99,6 +100,12 @@ export default function Event(props) {
   const [selectedEventType, setSelectedEventType] = useState("Hosted");
   const [hostedClass, setHostedClass] = useState("selected");
   const [invitedToClass, setInvitedToClass] = useState("unselected");
+
+  const deadlinePassed = (rsvpDeadline) => {
+    const deadline = new Date(rsvpDeadline);
+    const current = Date.now();
+    return deadline <= current;
+  };
 
   return (
     <div className="events">
@@ -243,7 +250,7 @@ export default function Event(props) {
                 setInvitedToClass("unselected");
               }}
             >
-              Hosted
+              Hosting
             </span>
             <div className="divider" />
             <span
@@ -258,8 +265,9 @@ export default function Event(props) {
             </span>
           </div>
         </div>
-        {selectedEventType === "Hosted"
-          ? hosted
+        {selectedEventType === "Hosted" ? (
+          hosted.length > 0 ? (
+            hosted
               .filter((item) => !item.restaurant)
               .map((event, index) => (
                 <InvitationCard
@@ -269,19 +277,33 @@ export default function Event(props) {
                   event={event}
                 />
               ))
-          : invitedTo
-              .filter((item) => !item.restaurant)
-              .map((event, index) => (
-                <InvitationCard
-                  currentUser={props.currentUser}
-                  guest={true}
-                  key={index}
-                  event={event}
-                  groups={props.groups}
-                  availableTimes={availableTimes}
-                  setAvailableTimes={setAvailableTimes}
-                />
-              ))}
+          ) : (
+            <NoResults
+              className="pending-no-results"
+              message="Nothing to see here."
+            />
+          )
+        ) : invitedTo.filter((event) => !deadlinePassed(event.rsvpDeadline)).length > 0 ? (
+          invitedTo
+            .filter((event) => !deadlinePassed(event.rsvpDeadline))
+            .filter((item) => !item.restaurant)
+            .map((event, index) => (
+              <InvitationCard
+                currentUser={props.currentUser}
+                guest={true}
+                key={index}
+                event={event}
+                groups={props.groups}
+                availableTimes={availableTimes}
+                setAvailableTimes={setAvailableTimes}
+              />
+            ))
+        ) : (
+          <NoResults
+            className="pending-no-results"
+            message="Nothing to see here."
+          />
+        )}
       </div>
     </div>
   );
