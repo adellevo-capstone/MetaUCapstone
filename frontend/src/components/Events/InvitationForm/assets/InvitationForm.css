@@ -1,0 +1,27 @@
+/* ---- .invitation-form-content ---- */
+
+.invitation-form-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  padding: 2em;
+  gap: 30px;
+}
+
+/* ---- planning, filters ---- */
+
+.planning,
+.filters {
+  display: flex;
+  flex-direction: column;
+  min-width: fit-content;
+  align-items: left;
+}
+
+.planning > *,
+.filters > * {
+  margin-bottom: 1em;
+  margin-left: -0.5em;
+}

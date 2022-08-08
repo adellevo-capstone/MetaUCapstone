@@ -45,7 +45,7 @@
 }
 
 .user-info-header h1,
-h2 {
+.profile h2 {
   font-weight: 400;
 }
 
@@ -112,10 +112,12 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 5em;
-  padding-top: 3em;
+  padding-top: unset;
   background-color: #191919d4;
   width: 100vw;
+  height: 100vh;
 }
 
 .popup-content h1 {
@@ -156,7 +158,8 @@ h2 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0.5em;
+  justify-content: space-between;
+  padding: 2.5em;
   border-top: 0.2em solid var(--dashboard-background);
   background-color: var(--profile-section-background-color);
 }
@@ -223,10 +226,6 @@ h2 {
     margin-left: 10em;
     margin-top: unset;
   }
-
-  /* .content {
-    width: 88%;
-  } */
 
   .dietary-preferences {
     margin-bottom: 7em;

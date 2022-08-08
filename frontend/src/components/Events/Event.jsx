@@ -8,12 +8,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import map from "../Shared/assets/Map.svg";
 import car from "../Shared/assets/Car.svg";
 import people from "../Shared/assets/People.svg";
-import "./Event.css";
-import deleteButton from "../Shared/assets/DeleteButton.svg";
-
+import DeleteButton from "../Shared/assets/DeleteButton.svg";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TaskBoard from "./InvitationForm/DND/TaskBoard";
+import "./Event.css";
 
 export default function Event(props) {
   const [error, setError] = useState("");
@@ -99,43 +98,42 @@ export default function Event(props) {
 
   return (
     <div className="events">
-      {/* Popup for creating an invitation */}
-      <span
-        className="button"
-        onClick={() => setOpen((o) => !o)}
-      >
-        Create an invitation
-      </span>
-      <Popup
-        open={open}
-        closeOnDocumentClick
-        onClose={closeModal}
-        modal
-        nested
-      >
-        <div
-          style={{
-            backgroundColor: "white",
-            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            padding: "0.5em",
-            borderRadius: "2em",
-          }}
-        >
-          <img
-            className="close"
-            src={deleteButton}
-            onClick={closeModal}
-            alt="delete button"
-          />
-          <InvitationForm
-            groups={props.groups}
-            startTime={startTime}
-            setStartTime={setStartTime}
-            availableTimes={availableTimes}
-            setAvailableTimes={setAvailableTimes}
-          />
+      <div className="profile-header">
+        <h1>My events</h1>
+        <div>
+          <span
+            className="button"
+            onClick={() => setOpen((o) => !o)}
+          >
+            Create an invitation
+          </span>
+          <Popup
+            open={open}
+            closeOnDocumentClick
+            onClose={closeModal}
+            modal
+            nested
+          >
+            <div className="event-popup">
+              <InvitationForm
+                groups={props.groups}
+                startTime={startTime}
+                setStartTime={setStartTime}
+                availableTimes={availableTimes}
+                setAvailableTimes={setAvailableTimes}
+              />
+              <img
+                className="close"
+                src={DeleteButton}
+                onClick={closeModal}
+                alt="delete button"
+              />
+            </div>
+          </Popup>
         </div>
-      </Popup>
+      </div>
+      {/* Popup for creating an invitation */}
+
       <div className="calendar-container">
         <div className="calendar">
           <FullCalendar
@@ -151,17 +149,23 @@ export default function Event(props) {
         </div>
         {Object.keys(selectedEvent).length > 0 && (
           <div className="selected-event">
-            <div className="description">
-              <p>
-                {selectedEvent.title} with {selectedEvent.groupName}
-              </p>
-              <p>{selectedEvent.restaurant}</p>
-              <p>{selectedEvent.description}</p>
-              <p>{selectedEvent.time}</p>
-              <p>{selectedEvent.date}</p>
+            <div className="header">
+              <h2>{selectedEvent.title}</h2>
+              <p>Hosted by {selectedEvent.groupName}</p>
             </div>
 
-            <div className="card-actions">
+            <div className="divider" />
+
+            <div className="section description">
+              <h2 className="section-title">Description</h2>
+              <p>{selectedEvent.description}</p>
+            </div>
+
+            <div className="divider" />
+
+            <div className="section restaurant">
+              <h2 className="section-title">Restaurant</h2>
+              <h3>{selectedEvent.restaurant}</h3>
               <p onClick={sendText}>
                 <img
                   src={map}
@@ -169,6 +173,13 @@ export default function Event(props) {
                 />
                 Text me the address
               </p>
+            </div>
+
+            <div className="divider" />
+
+            <div className="section people">
+              <h2 className="section-title">Group</h2>
+              <h3>{selectedEvent.groupName}</h3>
               <Popup
                 closeOnDocumentClick
                 modal

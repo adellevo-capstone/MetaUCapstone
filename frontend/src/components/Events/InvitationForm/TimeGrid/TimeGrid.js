@@ -1,5 +1,7 @@
 import React from "react";
 import DateContainer from "./DateContainer";
+import "./TimeGrid.css";
+import "../../../Shared/components/SearchPopup/SearchPopup.css";
 
 export default function TimeGrid(props) {
   let dateSlots = props.hostAvailability ? Object.keys(props.hostAvailability) : [1, 2, 3, 4];

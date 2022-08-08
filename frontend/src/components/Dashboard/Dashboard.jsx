@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Profile from "../Profile/Profile";
 import Navbar from "./Navbar";
-import "../Shared/assets/Shared.css";
+import "../Shared/Shared.css";
 import "./assets/Dashboard.css";
 import "../Profile/assets/Profile.css";
 import GroupDetail from "../Groups/GroupDetail";

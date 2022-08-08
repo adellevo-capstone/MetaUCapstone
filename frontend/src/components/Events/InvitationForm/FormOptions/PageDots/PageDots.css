@@ -1,0 +1,23 @@
+/* ---- page-dots ---- */
+
+.page-dots {
+  display: flex;
+  flex-direction: row;
+  margin-left: -2em;
+  gap: 1em;
+}
+
+.page-dots > * {
+  width: 1em;
+  height: 1em;
+  border-radius: 10em;
+  cursor: pointer;
+}
+
+.page-dots .selected {
+  background-color: var(--custom-orange);
+}
+
+.page-dots .unselected {
+  background-color: rgb(213, 213, 213);
+}

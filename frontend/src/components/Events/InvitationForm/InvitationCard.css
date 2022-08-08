@@ -94,6 +94,7 @@ h2.countdown {
   border-bottom: 300px solid black;
   transform: rotate(90deg) scale(0.1);
   margin-bottom: -25.7em;
+  margin-right: 30em;
 }
 
 .options {

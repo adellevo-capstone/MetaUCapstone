@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import API from "../../../utils/API";
 import "./InvitationCard.css";
-import InvitationResponseForm from "./InvitationResponseForm";
+import ResponseForm from "./ResponseForm";
 import OptionWheel from "./OptionWheel";
 import Popup from "reactjs-popup";
 import deleteButton from "../../Shared/assets/DeleteButton.svg";
@@ -170,7 +170,7 @@ export default function InvitationCard(props) {
                         onClick={closeModal}
                         alt="delete button"
                       />
-                      <InvitationResponseForm
+                      <ResponseForm
                         rsvpOpen={rsvpOpen}
                         currentUser={props.currentUser}
                         event={props.event}
