@@ -76,6 +76,11 @@
   background-color: var(--custom-orange);
 }
 
+.fc .fc-button-primary:hover {
+  background-color: var(--custom-orange);
+  opacity: 50%;
+}
+
 .events a {
   color: white;
 }
