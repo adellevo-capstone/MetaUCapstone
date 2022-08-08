@@ -106,6 +106,7 @@ input.search-radius,
 select.groups,
 select.price-level,
 select.carpool-status,
+input.restaurant-location,
 input.car-capacity {
   padding: 0.5em;
   border: 0.1em solid var(--header-color);
@@ -119,6 +120,11 @@ input.car-capacity {
   padding-bottom: 0.5em;
   padding-right: 3em;
   color: grey;
+}
+
+input.restaurant-location {
+  width: 19.2em;
+  padding-right: 0.8em;
 }
 
 select.carpool-status {

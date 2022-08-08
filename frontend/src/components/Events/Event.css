@@ -39,6 +39,7 @@
   flex-direction: row;
   align-items: flex-start;
   padding: 3em;
+  padding-right: 0.5em;
   border-radius: 2em;
   box-shadow: var(--box-shadow);
   font-family: Lexend;
@@ -49,6 +50,10 @@
 
 .event-popup img.close {
   transform: scale(2.4);
+  margin-left: -2em;
+  padding-right: 1em;
+  margin-top: -1em;
+  margin-right: unset;
 }
 
 /* ---- calendar-container ---- */
