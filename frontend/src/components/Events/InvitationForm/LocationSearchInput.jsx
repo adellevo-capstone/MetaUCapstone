@@ -28,7 +28,11 @@ export default function LocationSearchInput(props) {
 
             {suggestions.map((suggestion, index) => {
               const style = {
-                backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
+                backgroundColor: suggestion.active ? "#e0dfdc" : "#fff",
+                borderBottom: "1px solid grey",
+                padding: "0.2em",
+                width: "97.5%",
+                cursor: "pointer",
               };
 
               return (

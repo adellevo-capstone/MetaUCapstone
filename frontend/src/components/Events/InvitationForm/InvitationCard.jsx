@@ -5,6 +5,7 @@ import ResponseForm from "./ResponseForm";
 import OptionWheel from "./OptionWheel";
 import Popup from "reactjs-popup";
 import deleteButton from "../../Shared/assets/DeleteButton.svg";
+import NoResults from "../../Shared/components/NoResults/NoResults";
 
 export default function InvitationCard(props) {
   const [going, setGoing] = useState([]);
@@ -51,6 +52,12 @@ export default function InvitationCard(props) {
   const [rsvpOpen, setRSVPOpen] = useState(false);
   const closeModal = () => setRSVPOpen(false);
 
+  // Date and time formatting
+  const date = new Date(props.event.rsvpDeadline).toDateString();
+  const formattedDate = `${date.slice(4, date.length - 5)}, ${date.slice(-4)}`;
+  const time = new Date(props.event.rsvpDeadline).toLocaleTimeString("en-US");
+  const formattedTime = `${time.slice(0, -6)} ${time.slice(-2)}`;
+
   return (
     <div className="invitation">
       {/* display option wheel for hosts */}
@@ -60,18 +67,11 @@ export default function InvitationCard(props) {
       {!deadlinePassed(props.event.rsvpDeadline) && (
         <>
           <div className="left-container">
-            <p>Time remaining to RSVP:</p>
-            <h2 className="countdown">03 : 23 : 59 : 38</h2>
-            <p>This event will be finalized on {props.event.rsvpDeadline}.</p>
-          </div>
-          <div className="invitation-divider" />
-          <div className="right-container">
-            {props.guest && <p>{props.event.hostId} invited you to</p>}
+            {" "}
             <div className="header">
               <h1>{props.event.title}</h1>
-              <p>with {groupName}</p>
+              <p>{groupName}</p>
             </div>
-            <p>{props.event.description}</p>
             <div className="actions">
               {/* View guest list */}
               <span
@@ -91,37 +91,56 @@ export default function InvitationCard(props) {
                   boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                   padding: "0.5em",
                   borderRadius: "2em",
-                  minWidth: "20em",
+                  minWidth: "30em",
                   minHeight: "20em",
                 }}
               >
                 {(close) => (
                   <div className="search-popup">
-                    <img
-                      className="close"
-                      src={deleteButton}
-                      onClick={closeGuestListModal}
-                      alt="delete button"
-                    />
-                    <h3>Members: </h3>
-                    <ul>
-                      <b>Going:</b>
-                      {going?.map((response, index) => (
-                        <li key={index}>{response.name}</li>
-                      ))}
-                    </ul>
-                    <ul>
-                      <b>Not going:</b>
-                      {notGoing?.map((response, index) => (
-                        <li key={index}>{response.name}</li>
-                      ))}
-                    </ul>
-                    <ul>
-                      <b>Unconfirmed:</b>
-                      {unconfirmed?.map((response, index) => (
-                        <li key={index}>{response.name}</li>
-                      ))}
-                    </ul>
+                    <div className="attendance-container">
+                      <div className="going">
+                        <span className="attendance-label">Going</span>
+                        {going?.length > 0 ? (
+                          <ul>
+                            {going.map((response, index) => (
+                              <li key={index}>{response.name}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <NoResults />
+                        )}
+                      </div>
+                      <div className="not-going">
+                        <span className="attendance-label">Not going</span>
+                        {notGoing?.length > 0 ? (
+                          <ul>
+                            {notGoing.map((response, index) => (
+                              <li key={index}>{response.name}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <NoResults />
+                        )}
+                      </div>
+                      <div className="unconfirmed">
+                        <span className="attendance-label">Unconfirmed</span>
+                        {unconfirmed?.length > 0 ? (
+                          <ul>
+                            {unconfirmed.map((response, index) => (
+                              <li key={index}>{response.name}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <NoResults />
+                        )}
+                      </div>
+                      <img
+                        className="close"
+                        src={deleteButton}
+                        onClick={closeGuestListModal}
+                        alt="delete button"
+                      />
+                    </div>
                   </div>
                 )}
               </Popup>
@@ -178,11 +197,25 @@ export default function InvitationCard(props) {
                       setStartTime={props.setStartTime}
                       availableTimes={props.availableTimes}
                       setAvailableTimes={props.setAvailableTimes}
+                      closeModal={closeModal}
                     />
                   </div>
                 )}
               </Popup>
             </div>
+          </div>
+
+          <div
+            className="divider"
+            style={{ height: "100%", width: "1px" }}
+          />
+          <div className="right-container">
+            {props.guest && <p>{props.event.hostId} invited you to</p>}
+
+            <span>
+              RSVP Deadline: {formattedDate} at {formattedTime}
+            </span>
+            <p>{props.event.description}</p>
           </div>
         </>
       )}

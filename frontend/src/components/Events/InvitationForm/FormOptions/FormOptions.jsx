@@ -63,48 +63,19 @@ const SearchRadius = ({ searchRadius, setSearchRadius }) => (
   />
 );
 
-const Test = (props) => (
-  <select
-    name="test"
-    aria-invalid="false"
-  >
-    <option value="Tomato">Tomato</option>
-    <option value="Banana">Banana</option>
-    <option value="Apple">Apple</option>
-  </select>
-);
-
 export default function FormOptions(props) {
   const [pageNumber, setPageNumber] = useState(1);
-  const [firstSectionClasses, setFirstSectionClasses] = useState("filters");
-  const [secondSectionClasses, setSecondSectionClasses] = useState("form-field");
-  const [thirdSectionClasses, setThirdSectionClasses] = useState("form-field carpool");
-
-  // useEffect(() => {
-  //   if (pageNumber === 1) {
-  //     setFirstSectionClasses("filters visible");
-  //     setSecondSectionClasses("form-field hidden");
-  //     setThirdSectionClasses("form-field carpool hidden");
-  //   } else if (pageNumber === 2) {
-  //     setFirstSectionClasses("filters hidden");
-  //     setSecondSectionClasses("form-field");
-  //     setThirdSectionClasses("form-field carpool hidden");
-  //   } else {
-  //     setFirstSectionClasses("filters hidden");
-  //     setSecondSectionClasses("form-field hidden");
-  //     setThirdSectionClasses("form-field carpool");
-  //   }
-  // }, [pageNumber]);
 
   return (
     <div className="form-options">
       <form
+        autocomplete="off"
         className="form-options-content"
         onSubmit={(event) => props.handleOnSubmit(event)}
       >
         <div>
           {pageNumber === 1 ? (
-            <div className={firstSectionClasses}>
+            <div className="filters">
               <h2>Let's get started.</h2>
               {!props.isGuestResponse && (
                 <>
@@ -170,7 +141,7 @@ export default function FormOptions(props) {
               </div>
             </div>
           ) : pageNumber === 2 ? (
-            <div className={secondSectionClasses}>
+            <div className="form-field">
               {!props.isGuestResponse ? (
                 <div>
                   <h2>Select potential time slots for your event.</h2>
@@ -197,7 +168,7 @@ export default function FormOptions(props) {
               )}
             </div>
           ) : (
-            <div className={thirdSectionClasses}>
+            <div className="form-field carpool">
               <h2>Almost there! Let's simplify the process of forming carpool groups.</h2>
               <div className="form-field">
                 <h3 className="label">What's your transportation situation?</h3>

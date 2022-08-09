@@ -40,10 +40,6 @@ export default function Event(props) {
     }
   }
 
-  useEffect(() => {
-    loadAllEvents();
-  }, []);
-
   const loadAllEvents = async () => {
     try {
       const res = await API.get("api/v1/auth/events");
@@ -97,6 +93,10 @@ export default function Event(props) {
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
 
+  useEffect(() => {
+    loadAllEvents();
+  }, [open]);
+
   const [selectedEventType, setSelectedEventType] = useState("Hosted");
   const [hostedClass, setHostedClass] = useState("selected");
   const [invitedToClass, setInvitedToClass] = useState("unselected");
@@ -133,6 +133,7 @@ export default function Event(props) {
                   setStartTime={setStartTime}
                   availableTimes={availableTimes}
                   setAvailableTimes={setAvailableTimes}
+                  closeModal={closeModal}
                 />
                 <img
                   className="close"
@@ -275,6 +276,7 @@ export default function Event(props) {
                   guest={false}
                   key={index}
                   event={event}
+                  close={closeModal}
                 />
               ))
           ) : (
@@ -296,6 +298,7 @@ export default function Event(props) {
                 groups={props.groups}
                 availableTimes={availableTimes}
                 setAvailableTimes={setAvailableTimes}
+                close={closeModal}
               />
             ))
         ) : (

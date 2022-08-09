@@ -132,14 +132,15 @@ select.carpool-status {
   margin-left: 0;
 }
 
-input.car-capacity,
 input.starting-point {
-  width: 40em !important;
+  width: 40.1em !important;
   margin-left: 0;
 }
 
 input.car-capacity {
-  width: 28em;
+  width: 42.3em !important;
+  padding-right: 0.8em;
+  margin-left: 0;
 }
 
 input.location-input {

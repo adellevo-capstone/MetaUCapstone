@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import API from "../../../utils/API";
 import FormOptions from "./FormOptions/FormOptions.jsx";
+// import { useNavigate } from "react-router-dom";
 
 export default function ResponseForm(props) {
   const [rsvpStatus, setRSVPStatus] = useState("unconfirmed");
+  // const navigate = useNavigate();
 
   const submitRSVP = async (event) => {
     try {
       // get form data
       event.preventDefault();
+      // props.closeModal();
       const config = { headers: { "Content-Type": "application/json" } };
       const elements = event.currentTarget.elements;
 
-      console.log(props.groups);
       const intendedGroup = await props.groups.find(
         (group) => group.groupInfo.name === props.groupName
       );
@@ -38,6 +40,7 @@ export default function ResponseForm(props) {
       }
 
       await API.patch("api/v1/auth/inviteResponse/update", body, config);
+      loadPreviousRSVP();
     } catch (err) {
       console.log(err);
     }
