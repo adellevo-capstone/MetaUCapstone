@@ -50,7 +50,6 @@
   align-items: left;
   justify-content: center;
   transform: scale(0.95);
-  /* margin-left: unset; */
 }
 
 .invitation .left-container .header p {
@@ -173,7 +172,6 @@ h2.countdown {
 
 .attendance-container {
   display: flex;
-  /* flex-direction: column; */
   align-items: flex-start;
   justify-items: flex-start;
   text-align: start;
