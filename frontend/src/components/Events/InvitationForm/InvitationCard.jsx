@@ -20,21 +20,23 @@ export default function InvitationCard(props) {
 
   const loadInviteResponses = async () => {
     try {
-      const res = await API.get(`api/v1/auth/inviteResponses/${props.event._id}`);
+      const route = `api/v1/auth/inviteResponses/${props.event._id}`;
+      const res = await API.get(route);
       setGoing(res.data.going);
       setNotGoing(res.data.notGoing);
       setUnconfirmed(res.data.unconfirmed);
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
     }
   };
 
   const getGroupName = async () => {
     try {
-      const res = await API.get(`api/v1/auth/group/${props.event.groupId}`);
+      const route = `api/v1/auth/group/${props.event.groupId}`;
+      const res = await API.get(route);
       setGroupName(res.data.groupName);
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
     }
   };
 

@@ -128,15 +128,14 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
     }
 
     let finalRestaurants = [];
-    const unixTime = Math.round(new Date("2013/09/05 15:34:00").getTime() / 1000); // for expiration
-    const open_at = "1658360817";
     const categories = Object.keys(categoryWeights);
     const milesToMetersMultiplier = 1609;
 
     // make requests based on like weights
     for (let i = 0; i < categories.length; i++) {
       let limit = categoryWeights[categories[i]] * 2;
-      let response = await axios.get(`https://api.yelp.com/v3/businesses/search`, {
+      const YELP_SEARCH_ROUTE = "https://api.yelp.com/v3/businesses/search";
+      let response = await axios.get(YELP_SEARCH_ROUTE, {
         headers: {
           Authorization: `Bearer ${process.env.YELP_API_KEY}`,
         },

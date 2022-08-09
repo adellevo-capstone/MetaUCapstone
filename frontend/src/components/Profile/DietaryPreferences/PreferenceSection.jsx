@@ -21,7 +21,6 @@ export default function PreferenceSection(props) {
 
   const saveEditsToDatabase = async () => {
     try {
-      console.log(props.data);
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { updatedArray: props.data, sectionType: props.header };
       await API.patch("api/v1/auth/dietaryProfile/modify", body, config);
