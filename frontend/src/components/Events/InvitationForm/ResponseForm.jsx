@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import API from "../../../utils/API";
 import FormOptions from "./FormOptions/FormOptions.jsx";
-// import { useNavigate } from "react-router-dom";
 
 export default function ResponseForm(props) {
   const [rsvpStatus, setRSVPStatus] = useState("unconfirmed");
-  // const navigate = useNavigate();
 
   const submitRSVP = async (event) => {
     try {
       // get form data
       event.preventDefault();
-      // props.closeModal();
+      const route = "api/v1/auth/inviteResponse/update";
       const config = { headers: { "Content-Type": "application/json" } };
       const elements = event.currentTarget.elements;
 
@@ -39,7 +37,7 @@ export default function ResponseForm(props) {
         };
       }
 
-      await API.patch("api/v1/auth/inviteResponse/update", body, config);
+      await API.patch(route, body, config);
       loadPreviousRSVP();
     } catch (err) {
       console.log(err);
@@ -52,9 +50,8 @@ export default function ResponseForm(props) {
 
   const loadPreviousRSVP = async () => {
     try {
-      const res = await API.get(
-        `api/v1/auth/inviteResponse/${props.event._id}/${props.currentUser._id}`
-      );
+      const route = `api/v1/auth/inviteResponse/${props.event._id}/${props.currentUser._id}`;
+      const res = await API.get(route);
 
       // set previous availability (if possible)
       if (res.data.availability) {
