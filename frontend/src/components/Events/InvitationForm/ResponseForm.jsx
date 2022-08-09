@@ -93,7 +93,7 @@ export default function ResponseForm(props) {
 
   return (
     <div>
-      <span
+      {/* <span
         className="button"
         onClick={() => setRSVPStatus("accept")}
       >
@@ -104,7 +104,7 @@ export default function ResponseForm(props) {
         onClick={() => setRSVPStatus("decline")}
       >
         Decline
-      </span>
+      </span> */}
 
       <FormOptions
         {...props}
@@ -113,6 +113,7 @@ export default function ResponseForm(props) {
         isGuestResponse={true}
         loadPreviousRSVP={loadPreviousRSVP}
         rsvpStatus={rsvpStatus}
+        setRSVPStatus={setRSVPStatus}
       />
     </div>
   );

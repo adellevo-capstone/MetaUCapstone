@@ -40,6 +40,17 @@ export default function InvitationCard(props) {
     }
   };
 
+  const getHostName = async (hostId) => {
+    try {
+      const route = `api/v1/auth/user/${hostId}`;
+      const res = await API.get(route);
+      console.log(res.data);
+      return `${res.data.firstName} ${res.data.lastName}}`;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const deadlinePassed = (rsvpDeadline) => {
     const deadline = new Date(rsvpDeadline);
     const current = Date.now();
@@ -71,6 +82,9 @@ export default function InvitationCard(props) {
           <div className="left-container">
             {" "}
             <div className="header">
+              {props.guest && (
+                <p style={{ marginBottom: "1.2em" }}>Hosted by {props.event.hostName}</p>
+              )}
               <h1>{props.event.title}</h1>
               <p>{groupName}</p>
             </div>
@@ -136,13 +150,13 @@ export default function InvitationCard(props) {
                           <NoResults />
                         )}
                       </div>
-                      <img
-                        className="close"
-                        src={deleteButton}
-                        onClick={closeGuestListModal}
-                        alt="delete button"
-                      />
                     </div>
+                    <img
+                      className="close"
+                      src={deleteButton}
+                      onClick={closeGuestListModal}
+                      alt="delete button"
+                    />
                   </div>
                 )}
               </Popup>
@@ -209,15 +223,14 @@ export default function InvitationCard(props) {
 
           <div
             className="divider"
-            style={{ height: "100%", width: "1px" }}
+            style={{ height: "100%", width: "1px", margin: " 1.2em" }}
           />
           <div className="right-container">
-            {props.guest && <p>{props.event.hostId} invited you to</p>}
-
+            <h3>Event Details</h3>
+            <p style={{ marginLeft: "-0.7em" }}>{props.event.description}</p>
             <span>
               RSVP Deadline: {formattedDate} at {formattedTime}
             </span>
-            <p>{props.event.description}</p>
           </div>
         </>
       )}

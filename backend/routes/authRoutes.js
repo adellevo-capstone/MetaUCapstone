@@ -279,6 +279,7 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     const newEvent = await Invite.create({
       title: req.body.title,
       hostId: req.user._id,
+      hostName: `${req.user.firstName} ${req.user.lastName}`,
       groupId: req.body.groupId,
       description: req.body.description,
       location: req.body.location,

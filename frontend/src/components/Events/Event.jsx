@@ -42,7 +42,8 @@ export default function Event(props) {
 
   const loadAllEvents = async () => {
     try {
-      const res = await API.get("api/v1/auth/events");
+      const route = "api/v1/auth/events";
+      const res = await API.get(route);
       setHosted(res.data.hosted);
       setInvitedTo(res.data.invitedTo);
 

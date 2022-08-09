@@ -162,6 +162,25 @@ select.groups {
   margin-right: 0.01em;
 }
 
+/* ---- rsvp-status-button ---- */
+
+.rsvp-status-button {
+  border: 0.2em solid black;
+  padding: 0.5em 0.8em;
+  border-radius: 2em;
+}
+
+.rsvp-status-button.selected {
+  background-color: black;
+  color: white;
+}
+
+.rsvp-status-button:hover {
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
+
 /* ---- carrot for select ---- */
 
 select {
