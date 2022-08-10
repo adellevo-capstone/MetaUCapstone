@@ -98,6 +98,11 @@
   color: white;
 }
 
+.fc .fc-button-primary,
+.fc .fc-button-primary:disabled {
+  background-color: var(--custom-orange) !important;
+}
+
 .event-filter {
   display: flex;
   flex-direction: row;

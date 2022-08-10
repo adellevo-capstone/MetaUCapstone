@@ -5,26 +5,21 @@ import ResponseForm from "./ResponseForm";
 import OptionWheel from "./OptionWheel";
 import Popup from "reactjs-popup";
 import deleteButton from "../../Shared/assets/DeleteButton.svg";
-import NoResults from "../../Shared/components/NoResults/NoResults";
 import GuestListPopup from "./GuestListPopup";
 
 export default function InvitationCard(props) {
-  const [going, setGoing] = useState([]);
-  const [notGoing, setNotGoing] = useState([]);
   const [unconfirmed, setUnconfirmed] = useState([]);
   const [groupName, setGroupName] = useState("");
 
   useEffect(() => {
-    loadInviteResponses();
+    loadUnconfirmedResponses();
     getGroupName();
   }, []);
 
-  const loadInviteResponses = async () => {
+  const loadUnconfirmedResponses = async () => {
     try {
       const route = `api/v1/auth/inviteResponses/${props.event._id}`;
       const res = await API.get(route);
-      setGoing(res.data.going);
-      setNotGoing(res.data.notGoing);
       setUnconfirmed(res.data.unconfirmed);
     } catch (err) {
       console.log(err);
@@ -36,17 +31,6 @@ export default function InvitationCard(props) {
       const route = `api/v1/auth/group/${props.event.groupId}`;
       const res = await API.get(route);
       setGroupName(res.data.groupName);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const getHostName = async (hostId) => {
-    try {
-      const route = `api/v1/auth/user/${hostId}`;
-      const res = await API.get(route);
-      console.log(res.data);
-      return `${res.data.firstName} ${res.data.lastName}}`;
     } catch (err) {
       console.log(err);
     }
@@ -101,9 +85,7 @@ export default function InvitationCard(props) {
               <GuestListPopup
                 guestListOpen={guestListOpen}
                 closeGuestListModal={closeGuestListModal}
-                going={going}
-                notGoing={notGoing}
-                unconfirmed={unconfirmed}
+                eventId={props.event._id}
               />
               {/* Edit RSVP */}
               {props.guest &&

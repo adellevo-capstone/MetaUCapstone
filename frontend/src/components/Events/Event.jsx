@@ -25,28 +25,28 @@ export default function Event(props) {
 
   /* ---- begin: selected event ---- */
 
-  const [going, setGoing] = useState([]);
-  const [notGoing, setNotGoing] = useState([]);
-  const [unconfirmed, setUnconfirmed] = useState([]);
+  // const [going, setGoing] = useState([]);
+  // const [notGoing, setNotGoing] = useState([]);
+  // const [unconfirmed, setUnconfirmed] = useState([]);
 
   const [openGuestList, setGuestListOpen] = useState(false);
   const closeGuestListModal = () => setGuestListOpen(false);
 
-  const loadInviteResponses = async () => {
-    try {
-      const route = `api/v1/auth/inviteResponses/${selectedEvent._id}`;
-      const res = await API.get(route);
-      setGoing(res.data.going);
-      setNotGoing(res.data.notGoing);
-      setUnconfirmed(res.data.unconfirmed);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const loadInviteResponses = async () => {
+  //   try {
+  //     const route = `api/v1/auth/inviteResponses/${selectedEvent._id}`;
+  //     const res = await API.get(route);
+  //     setGoing(res.data.going);
+  //     setNotGoing(res.data.notGoing);
+  //     setUnconfirmed(res.data.unconfirmed);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  useEffect(() => {
-    loadInviteResponses();
-  }, [selectedEvent]);
+  // useEffect(() => {
+  //   loadInviteResponses();
+  // }, [selectedEvent]);
 
   /* ---- end: selected event ---- */
 
@@ -263,9 +263,7 @@ export default function Event(props) {
                 <GuestListPopup
                   guestListOpen={openGuestList}
                   closeGuestListModal={closeGuestListModal}
-                  going={going}
-                  notGoing={notGoing}
-                  unconfirmed={unconfirmed}
+                  eventId={selectedEvent._id}
                 />
               </div>
             </div>

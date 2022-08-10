@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./InvitationCard.css";
 import Popup from "reactjs-popup";
+import API from "../../../utils/API";
 import deleteButton from "../../Shared/assets/DeleteButton.svg";
 import NoResults from "../../Shared/components/NoResults/NoResults";
 
-export default function GuestListPopup({
-  guestListOpen,
-  closeGuestListModal,
-  going,
-  notGoing,
-  unconfirmed,
-}) {
+export default function GuestListPopup({ guestListOpen, closeGuestListModal, eventId }) {
+  const [going, setGoing] = useState([]);
+  const [notGoing, setNotGoing] = useState([]);
+  const [unconfirmed, setUnconfirmed] = useState([]);
+
+  const loadInviteResponses = async () => {
+    try {
+      const route = `api/v1/auth/inviteResponses/${eventId}`;
+      const res = await API.get(route);
+      setGoing(res.data.going);
+      setNotGoing(res.data.notGoing);
+      setUnconfirmed(res.data.unconfirmed);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    loadInviteResponses();
+  }, [eventId]);
+
   return (
     <Popup
       open={guestListOpen}
