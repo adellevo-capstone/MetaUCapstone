@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import Popup from "reactjs-popup";
+import NoResults from "../Shared/components/NoResults/NoResults";
+import CarpoolPopup from "./CarpoolPopup";
+import GuestListPopup from "./InvitationForm/GuestListPopup";
 import InvitationForm from "./InvitationForm/InvitationForm";
 import InvitationCard from "./InvitationForm/InvitationCard";
 import FullCalendar from "@fullcalendar/react";
@@ -9,11 +12,7 @@ import map from "../Shared/assets/Map.svg";
 import car from "../Shared/assets/Car.svg";
 import people from "../Shared/assets/People.svg";
 import DeleteButton from "../Shared/assets/DeleteButton.svg";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import TaskBoard from "./InvitationForm/DND/TaskBoard";
 import "./Event.css";
-import NoResults from "../Shared/components/NoResults/NoResults";
 
 export default function Event(props) {
   const [error, setError] = useState("");
@@ -23,6 +22,33 @@ export default function Event(props) {
   const [availableTimes, setAvailableTimes] = useState(new Map());
   const [selectedEvent, setSelectedEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
+
+  /* ---- begin: selected event ---- */
+
+  const [going, setGoing] = useState([]);
+  const [notGoing, setNotGoing] = useState([]);
+  const [unconfirmed, setUnconfirmed] = useState([]);
+
+  const [openGuestList, setGuestListOpen] = useState(false);
+  const closeGuestListModal = () => setGuestListOpen(false);
+
+  const loadInviteResponses = async () => {
+    try {
+      const route = `api/v1/auth/inviteResponses/${selectedEvent._id}`;
+      const res = await API.get(route);
+      setGoing(res.data.going);
+      setNotGoing(res.data.notGoing);
+      setUnconfirmed(res.data.unconfirmed);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    loadInviteResponses();
+  }, [selectedEvent]);
+
+  /* ---- end: selected event ---- */
 
   let passengers = [];
   if (Object.keys(selectedEvent).length > 0) {
@@ -195,6 +221,7 @@ export default function Event(props) {
               <div className="section people">
                 <h2 className="section-title">Group</h2>
                 <h3>{selectedEvent.groupName}</h3>
+                {/* ---- carpool ---- */}
                 <p
                   style={{
                     display: "flex",
@@ -210,31 +237,36 @@ export default function Event(props) {
                   />
                   View carpool details
                 </p>
-                <Popup
-                  open={openCarpool}
-                  closeOnDocumentClick
-                  onClose={closeCarpoolModal}
-                  modal
-                  nested
+                <CarpoolPopup
+                  openCarpool={openCarpool}
+                  closeCarpoolModal={closeCarpoolModal}
+                  selectedEvent={selectedEvent}
+                  currentUser={props.currentUser}
+                  passengers={passengers}
+                />
+                {/* ---- guest list ---- */}
+                <p
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setGuestListOpen((o) => !o)}
                 >
-                  {/* <DndProvider backend={HTML5Backend}> */}
-                  <div className="carpool-details">
-                    <TaskBoard
-                      eventId={selectedEvent._id}
-                      currentUserId={props.currentUser._id}
-                      passengers={passengers}
-                      closeModal={closeCarpoolModal}
-                    />
-                  </div>
-                  {/* </DndProvider> */}
-                </Popup>
-                <p>
                   <img
                     src={people}
                     alt="map"
                   />
                   See who's coming
                 </p>
+                <GuestListPopup
+                  guestListOpen={openGuestList}
+                  closeGuestListModal={closeGuestListModal}
+                  going={going}
+                  notGoing={notGoing}
+                  unconfirmed={unconfirmed}
+                />
               </div>
             </div>
           )}
