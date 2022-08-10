@@ -9,10 +9,10 @@ export default function ResponseForm(props) {
     try {
       // get form data
       event.preventDefault();
+      const route = "api/v1/auth/inviteResponse/update";
       const config = { headers: { "Content-Type": "application/json" } };
       const elements = event.currentTarget.elements;
 
-      console.log(props.groups);
       const intendedGroup = await props.groups.find(
         (group) => group.groupInfo.name === props.groupName
       );
@@ -37,7 +37,8 @@ export default function ResponseForm(props) {
         };
       }
 
-      await API.patch("api/v1/auth/inviteResponse/update", body, config);
+      await API.patch(route, body, config);
+      loadPreviousRSVP();
     } catch (err) {
       console.log(err);
     }
@@ -49,9 +50,8 @@ export default function ResponseForm(props) {
 
   const loadPreviousRSVP = async () => {
     try {
-      const res = await API.get(
-        `api/v1/auth/inviteResponse/${props.event._id}/${props.currentUser._id}`
-      );
+      const route = `api/v1/auth/inviteResponse/${props.event._id}/${props.currentUser._id}`;
+      const res = await API.get(route);
 
       // set previous availability (if possible)
       if (res.data.availability) {
@@ -93,7 +93,7 @@ export default function ResponseForm(props) {
 
   return (
     <div>
-      <span
+      {/* <span
         className="button"
         onClick={() => setRSVPStatus("accept")}
       >
@@ -104,7 +104,7 @@ export default function ResponseForm(props) {
         onClick={() => setRSVPStatus("decline")}
       >
         Decline
-      </span>
+      </span> */}
 
       <FormOptions
         {...props}
@@ -113,6 +113,7 @@ export default function ResponseForm(props) {
         isGuestResponse={true}
         loadPreviousRSVP={loadPreviousRSVP}
         rsvpStatus={rsvpStatus}
+        setRSVPStatus={setRSVPStatus}
       />
     </div>
   );

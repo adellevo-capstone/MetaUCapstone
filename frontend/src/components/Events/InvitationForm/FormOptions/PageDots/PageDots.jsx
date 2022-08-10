@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PageDots({ pageNumber, setPageNumber }) {
+export default function PageDots({ pageNumber, setPageNumber, isGuestResponse }) {
   return (
     <div className="page-dots">
       <div

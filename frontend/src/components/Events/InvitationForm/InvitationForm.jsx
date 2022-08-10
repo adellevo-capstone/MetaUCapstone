@@ -42,6 +42,7 @@ export default function InvitationForm(props) {
       };
 
       await API.patch("api/v1/auth/event/create", body, config);
+      props.closeModal();
     } catch (err) {
       console.log(err);
     }

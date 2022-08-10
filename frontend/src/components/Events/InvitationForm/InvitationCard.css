@@ -1,12 +1,16 @@
 .invitation {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  justify-content: space-evenly;
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
   margin: 2em;
   background-color: white;
   height: fit-content;
+  min-width: fit-content;
+  width: 100%;
+  letter-spacing: 0.02em;
+  padding: 2em;
 }
 
 .invitation h1 {
@@ -25,33 +29,55 @@
 .invitation .left-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-items: center;
-  margin: 2em;
-  margin-right: unset;
-  justify-content: center;
-  align-content: center;
-  max-width: 15em;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
+  letter-spacing: 0em !important;
+  width: fit-content;
+}
+
+.invitation .left-container > p {
+  letter-spacing: 0em;
+  color: var(--header-color);
+  transform: scale(0.92);
 }
 
 .invitation .right-container {
   display: flex;
   flex-direction: column;
   gap: 1.2em;
-  font-weight: 500;
-  max-width: 26em;
-  margin: 2em 1em;
   text-align: left;
+  align-items: left;
   justify-content: center;
   transform: scale(0.95);
-  margin-left: unset;
 }
 
-.invitation .right-container .header p {
+h3 {
+  font-weight: 400;
+}
+
+.invitation .right-container p {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  text-align: left;
+  align-items: left;
+  justify-content: center;
+  transform: scale(0.95);
+  color: #191919;
+}
+
+.invitation .left-container .header p {
   font-weight: 400;
   color: #191919;
-  letter-spacing: 0.05em;
+}
+
+.invitation .left-container .header {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  transform: scale(0.92);
+  gap: 0.2em;
+  margin-bottom: 1em;
 }
 
 .invitation .actions {
@@ -82,8 +108,53 @@ h2.countdown {
   background-color: var(--dashboard-background);
 }
 
+.first-section,
+.second-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 74vw;
+}
+
+.first-section {
+  margin-top: 1em;
+  margin-bottom: 0;
+}
+
+.second-section {
+  margin-top: 0;
+  margin-bottom: 4em;
+}
+
+.second-section .event-section-header {
+  margin-bottom: 1em;
+}
+
+.second-section h2 {
+  margin-bottom: unset;
+}
+
+.option-wheel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2em 0;
+  width: 100%;
+}
+
+.option-wheel-container h2 {
+  font-size: 1.3em;
+  margin-bottom: 0;
+}
+
+.option-wheel-container .button {
+  width: 12em;
+}
+
 .spinning-wheel {
-  margin-top: 7em;
+  margin-top: 5em;
+  margin-bottom: -1em;
+  transform: scale(0.9);
 }
 
 .triangle {
@@ -99,4 +170,63 @@ h2.countdown {
 
 .options {
   margin-top: 2em;
+  margin-bottom: 2.5em;
+}
+
+.options canvas {
+  width: 390px;
+  height: 390px;
+}
+
+.wheel-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.attendance-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-items: flex-start;
+  text-align: start;
+  width: 100%;
+  gap: 1em;
+}
+
+.attendance-label {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  margin-bottom: 1em;
+  letter-spacing: 0.02em;
+}
+
+.attendance-container > * {
+  display: flex;
+  flex-direction: column;
+}
+
+.attendance-container li {
+  white-space: nowrap;
+  font-weight: 300;
+  margin-left: 1em;
+  letter-spacing: 0.02em;
+}
+
+.attendance-container span {
+  font-size: 0.95em;
+}
+
+.invitation .search-popup img.close {
+  margin-top: -1.5em;
+  transform: scale(2.2) !important;
+}
+
+/* -------- Web -------- */
+
+@media only screen and (min-width: 1300px) {
+  .second-section {
+    margin-bottom: 7em;
+  }
 }

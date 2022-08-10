@@ -24,7 +24,8 @@ export default function App() {
 
   const loadAllUsers = async () => {
     try {
-      const res = await API.get("api/v1/auth/allUsers");
+      const route = "api/v1/auth/allUsers";
+      const res = await API.get(route);
       setAllUsers(res.data);
     } catch (err) {
       console.log(err.response);
@@ -33,7 +34,8 @@ export default function App() {
 
   const getCurrentUserInfo = async () => {
     try {
-      const res = await API.get("api/v1/auth/user");
+      const route = "api/v1/auth/user";
+      const res = await API.get(route);
       setCurrentUser(res.data.user);
     } catch (err) {
       console.log(err.response);
@@ -42,10 +44,11 @@ export default function App() {
 
   const loadAllGroups = async () => {
     try {
-      const res = await API.get("api/v1/auth/group");
+      const route = "api/v1/auth/group";
+      const res = await API.get(route);
       setGroups(res.data.groups);
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
     }
   };
 
