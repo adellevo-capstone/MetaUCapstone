@@ -18,6 +18,7 @@ export default function InvitationForm(props) {
   const createEvent = async (event) => {
     try {
       event.preventDefault();
+      const route = "api/v1/auth/event/create";
       const config = { headers: { "Content-Type": "application/json" } };
       const intendedGroup = props.groups.find((group) => group.groupInfo._id === selectedGroup);
 
@@ -41,7 +42,7 @@ export default function InvitationForm(props) {
         distanceLevel: parseInt(searchRadius),
       };
 
-      await API.patch("api/v1/auth/event/create", body, config);
+      await API.patch(route, body, config);
       props.closeModal();
     } catch (err) {
       console.log(err);

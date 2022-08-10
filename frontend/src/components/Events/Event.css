@@ -247,7 +247,19 @@
 .carpool-details {
   display: flex;
   flex-direction: row;
-  border: 1px solid black;
+  align-items: flex-start;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: space-between;
+  width: unset !important;
+  height: 60%;
+  padding: 1em !important;
+  padding-bottom: 3em !important;
+  background-color: white;
+  box-shadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px";
+  padding: "0.5em";
+  border-radius: 2em;
 }
 
 /* ---- general ---- */

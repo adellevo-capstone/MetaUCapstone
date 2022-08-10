@@ -52,6 +52,12 @@ span {
   text-align: center;
 }
 
+.button:hover {
+  background: var(--custom-orange);
+  border-color: var(--custom-orange) !important;
+  transition: all 0.4s ease 0s;
+}
+
 textarea {
   border: none;
 }

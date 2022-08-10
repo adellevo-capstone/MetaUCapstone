@@ -3,7 +3,6 @@
 .page-dots {
   display: flex;
   flex-direction: row;
-  margin-left: -2em;
   gap: 1em;
 }
 

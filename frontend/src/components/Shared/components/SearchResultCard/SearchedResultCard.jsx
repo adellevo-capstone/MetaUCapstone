@@ -59,8 +59,8 @@ export default function SearchedResultCard({
       </div>
       <div className="checkmark">
         <img
-          className="close"
           onClick={handleClick}
+          style={{ cursor: "pointer" }}
           src={!inAdded ? addButton : deleteButton}
           alt="checkmark"
         />

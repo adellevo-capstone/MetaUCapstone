@@ -60,6 +60,7 @@ const SearchRadius = ({ searchRadius, setSearchRadius }) => (
     value={searchRadius}
     onChange={(e) => setSearchRadius(e.target.value)}
     required
+    autoComplete="off"
   />
 );
 
@@ -69,9 +70,9 @@ export default function FormOptions(props) {
   const [declineClasses, setDeclineClasses] = useState("rsvp-status-button");
 
   return (
-    <div className="form-options">
+    <div className={props.isGuestResponse ? "form-options guest" : "form-options"}>
       <form
-        autocomplete="off"
+        autoComplete="off"
         className="form-options-content"
         onSubmit={(event) => props.handleOnSubmit(event)}
       >
@@ -138,31 +139,35 @@ export default function FormOptions(props) {
                 </div>
               </div>
             ) : (
-              <div>
+              <div className="rsvp-container">
                 <h1>Select your RSVP status.</h1>
-                <span
-                  className={acceptClasses}
-                  onClick={() => {
-                    props.setRSVPStatus("accept");
-                    setAcceptClasses("rsvp-status-button selected");
-                    setDeclineClasses("rsvp-status-button");
-                  }}
-                >
-                  Accept
-                </span>
-                <span
-                  className={declineClasses}
-                  onClick={() => {
-                    props.setRSVPStatus("decline");
-                    setAcceptClasses("rsvp-status-button");
-                    setDeclineClasses("rsvp-status-button selected");
-                  }}
-                >
-                  Decline
-                </span>
+                <div className="rsvp-button-container">
+                  <span
+                    className={acceptClasses}
+                    onClick={() => {
+                      props.setRSVPStatus("accept");
+                      setAcceptClasses("rsvp-status-button selected");
+                      setDeclineClasses("rsvp-status-button");
+                    }}
+                  >
+                    Accept
+                  </span>
+                  <span
+                    className={declineClasses}
+                    onClick={() => {
+                      props.setRSVPStatus("decline");
+                      setAcceptClasses("rsvp-status-button");
+                      setDeclineClasses("rsvp-status-button selected");
+                      props.handleOnSubmit();
+                    }}
+                  >
+                    Decline
+                  </span>
+                </div>
+
                 {props.rsvpStatus === "decline" && (
                   <button
-                    className="button"
+                    className="decline-button"
                     type="submit"
                   >
                     Submit
@@ -182,7 +187,7 @@ export default function FormOptions(props) {
                 />
               </div>
             ) : (
-              <div className="form-field">
+              <div>
                 <h2>Highlight over any time slots that work for you.</h2>
                 <TimeGrid
                   hostAvailability={props.hostAvailability}
@@ -198,26 +203,36 @@ export default function FormOptions(props) {
               </div>
             )
           ) : (
-            <div className="form-field carpool">
-              <h2>Almost there! Let's simplify the process of forming carpool groups.</h2>
-              <h3 className="label">What's your transportation situation?</h3>
-              <select
-                className="carpool-status"
-                selected
-                required
-                value={props.transportation}
-                onChange={(e) => props.setTransportation(e.target.value)}
-              >
-                <option
-                  value=""
-                  disabled
+            <div className="carpool">
+              <div className="form-field">
+                <h2>What's your budget?</h2>
+                <PriceLevel
+                  priceLevel={props.priceLevel}
+                  setPriceLevel={props.setPriceLevel}
+                />
+              </div>
+              <div className="form-field">
+                <h2>Almost there! Let's simplify the process of forming carpool groups.</h2>
+                <h3 className="label">What's your transportation situation?</h3>
+                <select
+                  className="carpool-status"
+                  selected
+                  required
+                  value={props.transportation}
+                  onChange={(e) => props.setTransportation(e.target.value)}
                 >
-                  Select an option
-                </option>
-                <option value="driver">I can offer a ride.</option>
-                <option value="passenger">I need a ride.</option>
-                <option value="none">I'm not interested in being part of a carpool group.</option>
-              </select>
+                  <option
+                    value=""
+                    disabled
+                  >
+                    Select an option
+                  </option>
+                  <option value="driver">I can offer a ride.</option>
+                  <option value="passenger">I need a ride.</option>
+                  <option value="none">I'm not interested in being part of a carpool group.</option>
+                </select>
+              </div>
+
               {props.transportation === "driver" && (
                 <div>
                   <div className="form-field">
@@ -251,11 +266,12 @@ export default function FormOptions(props) {
         </>
       </form>
       {/* navigate between event form sections */}
-      {props.rsvpStatus === "accept" && (
+      {(props.rsvpStatus === "accept" || !props.isGuestResponse) && (
         <PageDots
           isGuestResponse={props.isGuestResponse}
           pageNumber={pageNumber}
           setPageNumber={setPageNumber}
+          loadPreviousRSVP={props.loadPreviousRSVP}
         />
       )}
     </div>

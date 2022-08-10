@@ -108,6 +108,9 @@ export default function Event(props) {
     return deadline <= current;
   };
 
+  const [openCarpool, setCarpoolOpen] = useState(false);
+  const closeCarpoolModal = () => setCarpoolOpen(false);
+
   return (
     <div className="events">
       <div className="first-section">
@@ -192,39 +195,38 @@ export default function Event(props) {
               <div className="section people">
                 <h2 className="section-title">Group</h2>
                 <h3>{selectedEvent.groupName}</h3>
+                <p
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setCarpoolOpen((o) => !o)}
+                >
+                  <img
+                    src={car}
+                    alt="map"
+                  />
+                  View carpool details
+                </p>
                 <Popup
+                  open={openCarpool}
                   closeOnDocumentClick
+                  onClose={closeCarpoolModal}
                   modal
                   nested
-                  trigger={
-                    <p>
-                      <img
-                        src={car}
-                        alt="map"
-                      />
-                      View carpool details
-                    </p>
-                  }
                 >
-                  <DndProvider backend={HTML5Backend}>
-                    <div
-                      className="carpool-details"
-                      style={{
-                        backgroundColor: "white",
-                        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-                        padding: "0.5em",
-                        borderRadius: "2em",
-                        minWidth: "60%",
-                        minHeight: "60%",
-                      }}
-                    >
-                      <TaskBoard
-                        eventId={selectedEvent._id}
-                        currentUserId={props.currentUser._id}
-                        passengers={passengers}
-                      />
-                    </div>
-                  </DndProvider>
+                  {/* <DndProvider backend={HTML5Backend}> */}
+                  <div className="carpool-details">
+                    <TaskBoard
+                      eventId={selectedEvent._id}
+                      currentUserId={props.currentUser._id}
+                      passengers={passengers}
+                      closeModal={closeCarpoolModal}
+                    />
+                  </div>
+                  {/* </DndProvider> */}
                 </Popup>
                 <p>
                   <img

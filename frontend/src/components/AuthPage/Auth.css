@@ -35,10 +35,10 @@ form.login-form__group {
 
 .input__text {
   height: 3rem;
-  width: 100%;
   box-shadow: var(--input-box-shadow);
   border-radius: 0.2em;
   padding-left: 1em;
+  width: 46.8em;
 }
 
 .divider {
@@ -65,7 +65,7 @@ form.login-form__group {
   text-align: center;
   font-family: "Lexend", sans-serif;
   font-size: 1em;
-  width: 93%;
+  width: 100%;
 }
 
 /* ---- name-fields ---- */
@@ -74,7 +74,13 @@ form.login-form__group {
   display: flex;
   flex-direction: row;
   gap: 3em;
-  width: 90%;
+  align-items: center;
+  width: 97%;
+  margin-left: -1em;
+}
+
+.name-fields .input__text {
+  width: 100%;
 }
 
 /* ---- form-field ---- */

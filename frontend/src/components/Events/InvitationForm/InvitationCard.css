@@ -48,7 +48,6 @@
   text-align: left;
   align-items: left;
   justify-content: center;
-  transform: scale(0.95);
 }
 
 h3 {
@@ -182,6 +181,7 @@ h2.countdown {
   display: flex;
   flex-direction: row;
   gap: 1em;
+  justify-content: center;
 }
 
 .attendance-container {

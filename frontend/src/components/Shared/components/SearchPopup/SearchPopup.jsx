@@ -75,16 +75,19 @@ export default function SearchPopup(props) {
                 )}
               </div>
               {props.itemsToAdd?.length > 0 ? (
-                <div className="added-items">
-                  {props.itemsToAdd?.length > 0 &&
-                    props.itemsToAdd?.map((item, index) => (
-                      <SearchedResultCard
-                        {...props}
-                        key={index}
-                        item={item}
-                        inAdded={true}
-                      />
-                    ))}
+                <>
+                  <div className="added-items">
+                    {props.itemsToAdd?.length > 0 &&
+                      props.itemsToAdd?.map((item, index) => (
+                        <SearchedResultCard
+                          {...props}
+                          key={index}
+                          item={item}
+                          inAdded={true}
+                        />
+                      ))}
+                  </div>
+                  ,
                   <span
                     onClick={async () => {
                       await handleOnClick();
@@ -96,7 +99,7 @@ export default function SearchPopup(props) {
                     {" "}
                     Confirm{" "}
                   </span>
-                </div>
+                </>
               ) : (
                 <NoResults />
               )}

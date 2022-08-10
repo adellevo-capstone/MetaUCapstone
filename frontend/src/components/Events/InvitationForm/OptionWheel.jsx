@@ -6,8 +6,8 @@ export default function OptionWheel({ eventId }) {
   const spinningWheelRef = useRef();
   const [segments, setSegments] = useState([]);
   const [currentOption, setCurrentOption] = useState("");
-  const [time, setTime] = useState("");
   const [winnerPicked, setWinnerPicked] = useState(false);
+  const [finalConfirmed, setFinalConfirmed] = useState(false);
 
   const loadSpinnerOptions = async () => {
     const res = await API.get(`api/v1/auth/generateEventDetails/${eventId}`);
@@ -26,6 +26,8 @@ export default function OptionWheel({ eventId }) {
         restaurant: currentOption,
       };
       await API.patch(`api/v1/auth/event/${eventId}/update`, body, config);
+      window.location.reload();
+      setFinalConfirmed(true);
     } catch (err) {
       console.log(err);
     }

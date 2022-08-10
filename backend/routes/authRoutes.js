@@ -432,23 +432,35 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
     // remove invite response id from unconfirmed array
     let updatedEvent = await Invite.findByIdAndUpdate(
       req.body.eventId,
-      { $pull: { ["attendance.unconfirmed"]: inviteResponse._id } },
+      { $pull: { "attendance.unconfirmed": inviteResponse._id } },
       { new: true }
     );
 
-    // add invite response id to going array
+    // remove invite response id from "going" array
+    updatedEvent = await Invite.findByIdAndUpdate(
+      req.body.eventId,
+      { $pull: { "attendance.going": inviteResponse._id } },
+      { new: true }
+    );
+
+    // remove invite response id from "not going" array
+    updatedEvent = await Invite.findByIdAndUpdate(
+      req.body.eventId,
+      { $pull: { "attendance.notGoing": inviteResponse._id } },
+      { new: true }
+    );
+
+    // add invite response id to appropriate attendance array
     if (req.body.attending) {
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
-        { $addToSet: { ["attendance.going"]: inviteResponse._id } },
+        { $addToSet: { "attendance.going": inviteResponse._id } },
         { new: true }
       );
-    }
-    // add invite response id to notGoing array
-    else {
+    } else {
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
-        { $addToSet: { ["attendance.notGoing"]: inviteResponse._id } },
+        { $addToSet: { "attendance.notGoing": inviteResponse._id } },
         { new: true }
       );
     }
@@ -462,7 +474,7 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
 
     updatedEvent = await Invite.findByIdAndUpdate(
       req.body.eventId,
-      { $pull: { ["carpool.passengers"]: req.user._id } },
+      { $pull: { "carpool.passengers": req.user._id } },
       { new: true }
     );
 
@@ -483,16 +495,15 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       };
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
-        { $addToSet: { ["carpool.groups"]: newGroup } },
+        { $addToSet: { "carpool.groups": newGroup } },
         { new: true }
       );
     } else if (status === "passenger") {
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
-        { $addToSet: { ["carpool.passengers"]: req.user._id } },
+        { $addToSet: { "carpool.passengers": req.user._id } },
         { new: true }
       );
-    } else {
     }
 
     res.status(201).json({ inviteResponse: inviteResponse, updatedEvent: updatedEvent });

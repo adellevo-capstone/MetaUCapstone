@@ -196,12 +196,6 @@ export default function InvitationCard(props) {
               >
                 {(close) => (
                   <div className="search-popup">
-                    <img
-                      className="close"
-                      src={deleteButton}
-                      onClick={closeModal}
-                      alt="delete button"
-                    />
                     <ResponseForm
                       rsvpOpen={rsvpOpen}
                       currentUser={props.currentUser}
@@ -214,6 +208,12 @@ export default function InvitationCard(props) {
                       availableTimes={props.availableTimes}
                       setAvailableTimes={props.setAvailableTimes}
                       closeModal={closeModal}
+                    />
+                    <img
+                      className="close"
+                      src={deleteButton}
+                      onClick={closeModal}
+                      alt="delete button"
                     />
                   </div>
                 )}

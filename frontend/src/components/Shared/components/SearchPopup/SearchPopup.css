@@ -11,8 +11,8 @@
   border-radius: 2em;
   box-shadow: var(--box-shadow);
   font-family: Lexend;
-  gap: 3em;
   width: fit-content;
+  gap: 3em;
 }
 
 .search-popup h1 {
@@ -29,10 +29,6 @@
   padding: 0.25em;
   width: 0.8em;
   height: 1.35em;
-}
-
-.search-popup > *:last-child {
-  width: 10%;
 }
 
 /* ---- items-to-add ---- */
@@ -92,7 +88,8 @@ input {
 
 .added-items {
   width: 100%;
-  height: 28.5em;
+  height: fit-content;
+  margin-bottom: 3em;
   overflow-x: scroll;
 }
 
@@ -205,10 +202,6 @@ img.button.search {
 
 img.close {
   width: fit-content;
-  margin-right: -1.5em;
   cursor: pointer;
-}
-
-.added-items > * {
-  margin-bottom: 3em;
+  transform: scale(2.4);
 }

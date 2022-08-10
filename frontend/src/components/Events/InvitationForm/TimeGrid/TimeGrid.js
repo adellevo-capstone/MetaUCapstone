@@ -8,8 +8,10 @@ export default function TimeGrid(props) {
 
   const addAvailability = (date, slotIndex) => {
     let currentTimesArray = props.availableTimes.get(date); // get array
+    console.log(props.availableTimes);
     if (currentTimesArray) {
-      props.setAvailableTimes((map) => new Map(map.set(date, [slotIndex, ...currentTimesArray])));
+      const uniqueSlots = new Set([slotIndex, ...currentTimesArray]);
+      props.setAvailableTimes((map) => new Map(map.set(date, Array.from(uniqueSlots))));
     } else {
       props.setAvailableTimes((map) => new Map(map.set(date, [slotIndex])));
     }
