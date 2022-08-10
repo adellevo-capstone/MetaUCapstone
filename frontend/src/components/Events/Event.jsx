@@ -300,8 +300,9 @@ export default function Event(props) {
           </div>
         </div>
         {selectedEventType === "Hosted" ? (
-          hosted.length > 0 ? (
+          hosted.filter((event) => !deadlinePassed(event.rsvpDeadline)).length > 0 ? (
             hosted
+              .filter((event) => !deadlinePassed(event.rsvpDeadline))
               .filter((item) => !item.restaurant)
               .map((event, index) => (
                 <InvitationCard
