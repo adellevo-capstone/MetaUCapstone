@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
-export default function LocationSearchInput(props) {
+export default function LocationSearchInput({ setAddress, address, className }) {
   const handleSelect = async (value) => {
-    props.setAddress(value);
+    setAddress(value);
   };
 
   return (
     <PlacesAutocomplete
-      value={props.address}
-      onChange={props.setAddress}
+      value={address}
+      onChange={setAddress}
       onSelect={handleSelect}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <>
           <input
-            className={props.className}
+            className={className}
             required
             {...getInputProps({
               placeholder: "1634 Lilac Court, San Francisco, CA, USA",
@@ -28,7 +28,15 @@ export default function LocationSearchInput(props) {
 
             {suggestions.map((suggestion, index) => {
               const style = {
-                backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
+                backgroundColor: suggestion.active ? "#e0dfdc" : "#fff",
+                borderBottom: "1px solid grey",
+                padding: "1em",
+                width: "75%",
+                cursor: "pointer",
+                fontFamily: "Lexend",
+                fontSize: "0.8em",
+                fontWeight: "400",
+                color: "black",
               };
 
               return (

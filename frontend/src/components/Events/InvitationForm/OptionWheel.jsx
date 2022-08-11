@@ -6,8 +6,8 @@ export default function OptionWheel({ eventId }) {
   const spinningWheelRef = useRef();
   const [segments, setSegments] = useState([]);
   const [currentOption, setCurrentOption] = useState("");
-  const [time, setTime] = useState("");
   const [winnerPicked, setWinnerPicked] = useState(false);
+  const [finalConfirmed, setFinalConfirmed] = useState(false);
 
   const loadSpinnerOptions = async () => {
     const res = await API.get(`api/v1/auth/generateEventDetails/${eventId}`);
@@ -26,6 +26,8 @@ export default function OptionWheel({ eventId }) {
         restaurant: currentOption,
       };
       await API.patch(`api/v1/auth/event/${eventId}/update`, body, config);
+      window.location.reload();
+      setFinalConfirmed(true);
     } catch (err) {
       console.log(err);
     }
@@ -36,37 +38,57 @@ export default function OptionWheel({ eventId }) {
   }, []);
 
   return (
-    <div>
-      <p>{currentOption}</p>
-
-      <div className="spinning-wheel">
-        <div className="triangle" />
-        <div className="options">
-          <SpinningWheel
-            size={450}
-            segments={segments}
-            spinningWheelRef={spinningWheelRef}
-            onSegmentChange={(index) => setCurrentOption(segments[index].title)}
-            onSpinStart={() => setWinnerPicked(false)}
-            onSpinEnd={() => setWinnerPicked(true)}
-          />
-        </div>
-      </div>
-
-      {winnerPicked ? (
-        <span
-          className="button"
-          onClick={confirmLocation}
-        >
-          Confirm location
-        </span>
+    <div className="option-wheel-container">
+      {segments.length > 0 ? (
+        <>
+          {!currentOption.length ? (
+            <h2>Spin the wheel to decide on a restaurant.</h2>
+          ) : (
+            <h2>{currentOption}</h2>
+          )}
+          <div className="spinning-wheel">
+            <div className="triangle" />
+            <div className="options">
+              <SpinningWheel
+                size={450}
+                segments={segments}
+                spinningWheelRef={spinningWheelRef}
+                onSegmentChange={(index) => setCurrentOption(segments[index].title)}
+                onSpinStart={() => setWinnerPicked(false)}
+                onSpinEnd={() => setWinnerPicked(true)}
+              />
+            </div>
+            {winnerPicked ? (
+              <div className="wheel-actions">
+                <span
+                  className="button"
+                  onClick={confirmLocation}
+                >
+                  Confirm
+                </span>
+                <span
+                  className="button"
+                  onClick={() =>
+                    spinningWheelRef.current.startSpinning(Math.floor(Math.random() * 11) + 3, 8)
+                  }
+                >
+                  Spin again
+                </span>
+              </div>
+            ) : (
+              <span
+                className="button"
+                onClick={() =>
+                  spinningWheelRef.current.startSpinning(Math.floor(Math.random() * 11) + 3, 8)
+                } // seconds, speed
+              >
+                Start
+              </span>
+            )}
+          </div>
+        </>
       ) : (
-        <span
-          className="button"
-          onClick={() => spinningWheelRef.current.startSpinning(20, 2)}
-        >
-          Start
-        </span>
+        <p>Loading restaurant options...</p>
       )}
     </div>
   );

@@ -5,6 +5,7 @@ import Column from "./Column";
 import CustomDragLayer from "./CustomDragLayer";
 import "./TaskBoard.css";
 import API from "../../../../utils/API";
+import DeleteButton from "../../../Shared/assets/DeleteButton.svg";
 
 const TaskBoard = (props) => {
   const [myPassengers, moveMyPassengers] = useState(props.passengers);
@@ -34,20 +35,22 @@ const TaskBoard = (props) => {
 
   const saveCarpoolGroups = async () => {
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
+      if (window.confirm("Save carpool group assignment?")) {
+        const config = { headers: { "Content-Type": "application/json" } };
 
-      let carpoolData = columns.map((column) => column.props.passengers);
-      const passengers = carpoolData[0].passengers;
+        let carpoolData = columns.map((column) => column.props.passengers);
+        const passengers = carpoolData[0].passengers;
 
-      let groups = carpoolData.slice(1, carpoolData.length);
-      const formattedGroups = groups.map(({ title, ...groups }) => groups);
+        let groups = carpoolData.slice(1, carpoolData.length);
+        const formattedGroups = groups.map(({ title, ...groups }) => groups);
 
-      const body = {
-        groups: formattedGroups,
-        passengers: passengers,
-      };
+        const body = {
+          groups: formattedGroups,
+          passengers: passengers,
+        };
 
-      await API.patch(`api/v1/auth/event/${props.eventId}/carpool`, body, config);
+        await API.patch(`api/v1/auth/event/${props.eventId}/carpool`, body, config);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -57,12 +60,16 @@ const TaskBoard = (props) => {
     <DndProvider backend={HTML5Backend}>
       <CustomDragLayer />
       <div className="passenger-board">{columns}</div>
-      <span
-        className="button"
-        onClick={saveCarpoolGroups}
-      >
-        Save groups
-      </span>
+      <img
+        className="close"
+        style={{ marginRight: "1em", marginTop: "1em" }}
+        src={DeleteButton}
+        onClick={() => {
+          saveCarpoolGroups();
+          props.closeModal();
+        }}
+        alt="delete button"
+      />
     </DndProvider>
   );
 };

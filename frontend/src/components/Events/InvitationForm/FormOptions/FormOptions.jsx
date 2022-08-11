@@ -60,129 +60,135 @@ const SearchRadius = ({ searchRadius, setSearchRadius }) => (
     value={searchRadius}
     onChange={(e) => setSearchRadius(e.target.value)}
     required
+    autoComplete="off"
   />
-);
-
-const Test = (props) => (
-  <select
-    name="test"
-    aria-invalid="false"
-  >
-    <option value="Tomato">Tomato</option>
-    <option value="Banana">Banana</option>
-    <option value="Apple">Apple</option>
-  </select>
 );
 
 export default function FormOptions(props) {
   const [pageNumber, setPageNumber] = useState(1);
-  const [firstSectionClasses, setFirstSectionClasses] = useState("filters");
-  const [secondSectionClasses, setSecondSectionClasses] = useState("form-field");
-  const [thirdSectionClasses, setThirdSectionClasses] = useState("form-field carpool");
-
-  // useEffect(() => {
-  //   if (pageNumber === 1) {
-  //     setFirstSectionClasses("filters visible");
-  //     setSecondSectionClasses("form-field hidden");
-  //     setThirdSectionClasses("form-field carpool hidden");
-  //   } else if (pageNumber === 2) {
-  //     setFirstSectionClasses("filters hidden");
-  //     setSecondSectionClasses("form-field");
-  //     setThirdSectionClasses("form-field carpool hidden");
-  //   } else {
-  //     setFirstSectionClasses("filters hidden");
-  //     setSecondSectionClasses("form-field hidden");
-  //     setThirdSectionClasses("form-field carpool");
-  //   }
-  // }, [pageNumber]);
+  const [acceptClasses, setAcceptClasses] = useState("rsvp-status-button");
+  const [declineClasses, setDeclineClasses] = useState("rsvp-status-button");
 
   return (
-    <div className="form-options">
+    <div className={props.isGuestResponse ? "form-options guest" : "form-options"}>
       <form
+        autoComplete="off"
         className="form-options-content"
         onSubmit={(event) => props.handleOnSubmit(event)}
       >
-        <div>
+        <>
           {pageNumber === 1 ? (
-            <div className={firstSectionClasses}>
-              <h2>Let's get started.</h2>
-              {!props.isGuestResponse && (
-                <>
-                  <div className="form-field">
-                    <h3 className="label">Give your event a title.</h3>
-                    <input
-                      className="title"
-                      required
-                      value={props.title}
-                      onChange={(e) => props.setTitle(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-field">
-                    <h3 className="label">
-                      Provide your guests with some details about the event.
-                    </h3>
-                    <textarea
-                      className="description"
-                      required
-                      value={props.description}
-                      onChange={(e) => props.setDescription(e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
-              <div className="form-field">
-                <h3 className="label">
-                  Tell us a little bit more about the event you’re trying to plan.
-                </h3>
-                <span className="fill-in-the-blanks">
-                  I would like to plan a group outing with{" "}
-                  <GroupSelect
-                    groups={props.groups}
-                    selectedGroup={props.selectedGroup}
-                    setSelectedGroup={props.setSelectedGroup}
-                  />
-                  , and I want to give everyone <br />
-                  until
-                  <RSVPDeadline
-                    rsvpDeadline={props.rsvpDeadline}
-                    setRsvpDeadline={props.setRsvpDeadline}
-                  />
-                  to fill out their RSVP form. I’m looking for a restaurant <br />
-                  that’s located within{" "}
-                  <SearchRadius
-                    searchRadius={props.searchRadius}
-                    setSearchRadius={props.setSearchRadius}
-                  />{" "}
-                  miles of{" "}
-                  <LocationSearchInput
-                    className="restaurant-location"
-                    address={props.restaurantLocation}
-                    setAddress={props.setRestaurantLocation}
-                  />
-                  , and my <br />
-                  budget is{" "}
-                  <PriceLevel
-                    priceLevel={props.priceLevel}
-                    setPriceLevel={props.setPriceLevel}
-                  />
-                  .
-                </span>
-              </div>
-            </div>
-          ) : pageNumber === 2 ? (
-            <div className={secondSectionClasses}>
-              {!props.isGuestResponse ? (
-                <div>
-                  <h2>Select potential time slots for your event.</h2>
-
-                  <TimeGrid
-                    startTime={props.startTime}
-                    setStartTime={props.setStartTime}
-                    availableTimes={props.availableTimes}
-                    setAvailableTimes={props.setAvailableTimes}
+            !props.isGuestResponse ? (
+              <div className="filters">
+                <h2>Let's get started.</h2>
+                <div className="form-field">
+                  <h3 className="label">Give your event a title.</h3>
+                  <input
+                    className="title"
+                    required
+                    value={props.title}
+                    onChange={(e) => props.setTitle(e.target.value)}
                   />
                 </div>
-              ) : (
+                <div className="form-field">
+                  <h3 className="label">Provide your guests with some details about the event.</h3>
+                  <textarea
+                    className="description"
+                    required
+                    value={props.description}
+                    onChange={(e) => props.setDescription(e.target.value)}
+                  />
+                </div>
+                <div className="form-field">
+                  <h3 className="label">
+                    Tell us a little bit more about the event you’re trying to plan.
+                  </h3>
+                  <span className="fill-in-the-blanks">
+                    I would like to plan a group outing with{" "}
+                    <GroupSelect
+                      groups={props.groups}
+                      selectedGroup={props.selectedGroup}
+                      setSelectedGroup={props.setSelectedGroup}
+                    />
+                    , and I want to give everyone <br />
+                    until
+                    <RSVPDeadline
+                      rsvpDeadline={props.rsvpDeadline}
+                      setRsvpDeadline={props.setRsvpDeadline}
+                    />
+                    to fill out their RSVP form. I’m looking for a restaurant <br />
+                    that’s located within{" "}
+                    <SearchRadius
+                      searchRadius={props.searchRadius}
+                      setSearchRadius={props.setSearchRadius}
+                    />{" "}
+                    miles of{" "}
+                    <LocationSearchInput
+                      className="restaurant-location"
+                      address={props.restaurantLocation}
+                      setAddress={props.setRestaurantLocation}
+                    />
+                    , and my <br />
+                    budget is{" "}
+                    <PriceLevel
+                      priceLevel={props.priceLevel}
+                      setPriceLevel={props.setPriceLevel}
+                    />
+                    .
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="rsvp-container">
+                <h1>Select your RSVP status.</h1>
+                <div className="rsvp-button-container">
+                  <span
+                    className={acceptClasses}
+                    onClick={() => {
+                      props.setRSVPStatus("accept");
+                      setAcceptClasses("rsvp-status-button selected");
+                      setDeclineClasses("rsvp-status-button");
+                    }}
+                  >
+                    Accept
+                  </span>
+                  <span
+                    className={declineClasses}
+                    onClick={() => {
+                      props.setRSVPStatus("decline");
+                      setAcceptClasses("rsvp-status-button");
+                      setDeclineClasses("rsvp-status-button selected");
+                      props.handleOnSubmit();
+                    }}
+                  >
+                    Decline
+                  </span>
+                </div>
+
+                {props.rsvpStatus === "decline" && (
+                  <button
+                    className="decline-button"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                )}
+              </div>
+            )
+          ) : pageNumber === 2 ? (
+            !props.isGuestResponse ? (
+              <div className="form-field">
+                <h2>Select potential time slots for your event.</h2>
+                <TimeGrid
+                  startTime={props.startTime}
+                  setStartTime={props.setStartTime}
+                  availableTimes={props.availableTimes}
+                  setAvailableTimes={props.setAvailableTimes}
+                />
+              </div>
+            ) : (
+              <div>
+                <h2>Highlight over any time slots that work for you.</h2>
                 <TimeGrid
                   hostAvailability={props.hostAvailability}
                   guest={true}
@@ -194,12 +200,19 @@ export default function FormOptions(props) {
                   rsvpStatus={props.rsvpStatus}
                   rsvpOpen={props.rsvpOpen}
                 />
-              )}
-            </div>
+              </div>
+            )
           ) : (
-            <div className={thirdSectionClasses}>
-              <h2>Almost there! Let's simplify the process of forming carpool groups.</h2>
+            <div className="carpool">
               <div className="form-field">
+                <h2>What's your budget?</h2>
+                <PriceLevel
+                  priceLevel={props.priceLevel}
+                  setPriceLevel={props.setPriceLevel}
+                />
+              </div>
+              <div className="form-field">
+                <h2>Almost there! Let's simplify the process of forming carpool groups.</h2>
                 <h3 className="label">What's your transportation situation?</h3>
                 <select
                   className="carpool-status"
@@ -219,6 +232,7 @@ export default function FormOptions(props) {
                   <option value="none">I'm not interested in being part of a carpool group.</option>
                 </select>
               </div>
+
               {props.transportation === "driver" && (
                 <div>
                   <div className="form-field">
@@ -249,13 +263,17 @@ export default function FormOptions(props) {
               </button>
             </div>
           )}
-        </div>
+        </>
       </form>
       {/* navigate between event form sections */}
-      <PageDots
-        pageNumber={pageNumber}
-        setPageNumber={setPageNumber}
-      />
+      {(props.rsvpStatus === "accept" || !props.isGuestResponse) && (
+        <PageDots
+          isGuestResponse={props.isGuestResponse}
+          pageNumber={pageNumber}
+          setPageNumber={setPageNumber}
+          loadPreviousRSVP={props.loadPreviousRSVP}
+        />
+      )}
     </div>
   );
 }

@@ -5,12 +5,46 @@
   flex-direction: column;
   align-items: center;
   text-align: left;
+  justify-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.form-options.guest {
+  margin-right: -3.2em;
 }
 
 .form-options-content {
   display: flex;
   height: fit-content;
   margin: 2em;
+}
+
+button.button {
+  transform: scale(1.15);
+  margin-left: 0.3em;
+}
+
+button.decline-button {
+  transform: scale(1.15);
+  border-radius: 0.4em !important;
+  color: white;
+  width: 100%;
+  margin-top: 2em;
+  padding: 0.8em;
+}
+
+.rsvp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 16em;
+}
+
+.rsvp-container h1 {
+  margin-left: 2em;
+  white-space: pre;
 }
 
 /* ---- form-field ---- */
@@ -106,6 +140,7 @@ input.search-radius,
 select.groups,
 select.price-level,
 select.carpool-status,
+input.restaurant-location,
 input.car-capacity {
   padding: 0.5em;
   border: 0.1em solid var(--header-color);
@@ -121,19 +156,25 @@ input.car-capacity {
   color: grey;
 }
 
+input.restaurant-location {
+  width: 19.2em;
+  padding-right: 0.8em;
+}
+
 select.carpool-status {
   width: 44em;
   margin-left: 0;
 }
 
-input.car-capacity,
 input.starting-point {
-  width: 40em !important;
+  width: 40.1em !important;
   margin-left: 0;
 }
 
 input.car-capacity {
-  width: 28em;
+  width: 42.3em !important;
+  padding-right: 0.8em;
+  margin-left: 0;
 }
 
 input.location-input {
@@ -153,6 +194,32 @@ select.price-level {
 
 select.groups {
   margin-right: 0.01em;
+}
+
+/* ---- rsvp-status-button ---- */
+
+.rsvp-status-button {
+  border: 0.2em solid black;
+  padding: 0.5em 0.8em;
+  border-radius: 2em;
+}
+
+.rsvp-status-button.selected {
+  background-color: black;
+  color: white;
+}
+
+.rsvp-status-button:hover {
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
+
+.rsvp-button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  margin-top: 1em;
 }
 
 /* ---- carrot for select ---- */

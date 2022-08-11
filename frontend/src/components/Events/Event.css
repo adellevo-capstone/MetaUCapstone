@@ -11,21 +11,21 @@
   overflow-x: hidden;
 }
 
-/* ---- profile-header ---- */
+/* ----  event-section-header ---- */
 
-.events .profile-header {
+.event-section-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-content: center;
   align-items: center;
   justify-items: center;
-  width: 90%;
+  width: 100%;
   margin-top: 1.5em;
   margin-bottom: 3.2em;
 }
 
-.events .profile-header h1 {
+.event-section-header h1 {
   font-size: var(--header-size);
   font-weight: var(--header-font-weight);
   margin-top: unset;
@@ -39,6 +39,7 @@
   flex-direction: row;
   align-items: flex-start;
   padding: 3em;
+  padding-right: 0.5em;
   border-radius: 2em;
   box-shadow: var(--box-shadow);
   font-family: Lexend;
@@ -49,6 +50,10 @@
 
 .event-popup img.close {
   transform: scale(2.4);
+  margin-left: -2em;
+  padding-right: 1em;
+  margin-top: -1em;
+  margin-right: unset;
 }
 
 /* ---- calendar-container ---- */
@@ -59,7 +64,7 @@
   justify-items: center;
   justify-content: center;
   margin-bottom: 10em;
-  width: 90%;
+  width: 100%;
   gap: 2em;
 }
 
@@ -81,15 +86,52 @@
   opacity: 50%;
 }
 
+.fc-direction-ltr .fc-daygrid-event .fc-event-time {
+  cursor: pointer;
+}
+
+.pending-no-results {
+  margin-top: 2em;
+}
+
 .events a {
   color: white;
+}
+
+.fc .fc-button-primary,
+.fc .fc-button-primary:disabled {
+  background-color: var(--custom-orange) !important;
+}
+
+.event-filter {
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.4em;
+  background-color: #191919;
+  color: white;
+  padding: 0.7em 0.9em;
+  gap: var(--gap);
+}
+
+.event-filter > span {
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+.event-filter .selected {
+  font-weight: 400;
+}
+
+.event-filter .unselected {
+  font-weight: 300;
+  opacity: 70%;
 }
 
 .calendar {
   background-color: var(--nav-background-color);
   border-radius: var(--border-radius);
   padding: 2em;
-  min-width: 40em;
+  width: 100%;
   min-height: 30em;
   height: 100%;
   box-shadow: var(--box-shadow);
@@ -106,6 +148,7 @@
   height: fit-content;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+  width: 50%;
 }
 
 .selected-event .header {
@@ -209,7 +252,19 @@
 .carpool-details {
   display: flex;
   flex-direction: row;
-  border: 1px solid black;
+  align-items: flex-start;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: space-between;
+  width: unset !important;
+  height: 60%;
+  padding: 1em !important;
+  padding-bottom: 3em !important;
+  background-color: white;
+  box-shadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px";
+  padding: "0.5em";
+  border-radius: 2em;
 }
 
 /* ---- general ---- */

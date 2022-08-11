@@ -5,35 +5,34 @@ import ResponseForm from "./ResponseForm";
 import OptionWheel from "./OptionWheel";
 import Popup from "reactjs-popup";
 import deleteButton from "../../Shared/assets/DeleteButton.svg";
+import GuestListPopup from "./GuestListPopup";
 
 export default function InvitationCard(props) {
-  const [going, setGoing] = useState([]);
-  const [notGoing, setNotGoing] = useState([]);
   const [unconfirmed, setUnconfirmed] = useState([]);
   const [groupName, setGroupName] = useState("");
 
   useEffect(() => {
-    loadInviteResponses();
+    loadUnconfirmedResponses();
     getGroupName();
   }, []);
 
-  const loadInviteResponses = async () => {
+  const loadUnconfirmedResponses = async () => {
     try {
-      const res = await API.get(`api/v1/auth/inviteResponses/${props.event._id}`);
-      setGoing(res.data.going);
-      setNotGoing(res.data.notGoing);
+      const route = `api/v1/auth/inviteResponses/${props.event._id}`;
+      const res = await API.get(route);
       setUnconfirmed(res.data.unconfirmed);
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
     }
   };
 
   const getGroupName = async () => {
     try {
-      const res = await API.get(`api/v1/auth/group/${props.event.groupId}`);
+      const route = `api/v1/auth/group/${props.event.groupId}`;
+      const res = await API.get(route);
       setGroupName(res.data.groupName);
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
     }
   };
 
@@ -51,145 +50,115 @@ export default function InvitationCard(props) {
   const [rsvpOpen, setRSVPOpen] = useState(false);
   const closeModal = () => setRSVPOpen(false);
 
-  return (
-    <div>
-      {/* only display cards when the deadline hasn't passed */}
-      <div className="invitation">
-        {/* display option wheel for hosts */}
-        {!props.guest && deadlinePassed(props.event.rsvpDeadline) && (
-          <OptionWheel eventId={props.event._id} />
-        )}
-        {!deadlinePassed(props.event.rsvpDeadline) && (
-          <>
-            <div className="left-container">
-              <p>Time remaining to RSVP:</p>
-              <h2 className="countdown">03 : 23 : 59 : 38</h2>
+  // Date and time formatting
+  const date = new Date(props.event.rsvpDeadline).toDateString();
+  const formattedDate = `${date.slice(4, date.length - 5)}, ${date.slice(-4)}`;
+  const time = new Date(props.event.rsvpDeadline).toLocaleTimeString("en-US");
+  const formattedTime = `${time.slice(0, -6)} ${time.slice(-2)}`;
 
-              <p>This event will be finalized on {props.event.rsvpDeadline}.</p>
+  return (
+    <div className="invitation">
+      {/* display option wheel for hosts */}
+      {!props.guest && deadlinePassed(props.event.rsvpDeadline) && (
+        <OptionWheel eventId={props.event._id} />
+      )}
+      {!deadlinePassed(props.event.rsvpDeadline) && (
+        <>
+          <div className="left-container">
+            {" "}
+            <div className="header">
+              {props.guest && (
+                <p style={{ marginBottom: "1.2em" }}>Hosted by {props.event.hostName}</p>
+              )}
+              <h1>{props.event.title}</h1>
+              <p>{groupName}</p>
             </div>
-            <div className="invitation-divider" />
-            <div className="right-container">
-              {props.guest && <p>{props.event.hostId} invited you to</p>}
-              <div className="header">
-                <h1>{props.event.title}</h1>
-                <p>with {groupName}</p>
-              </div>
-              <p>{props.event.description}</p>
-              <div className="actions">
-                {/* View guest list */}
-                <span
-                  className="button"
-                  onClick={() => setGuestListOpen((o) => !o)}
-                >
-                  View guest list
-                </span>
-                <Popup
-                  open={guestListOpen}
-                  closeOnDocumentClick
-                  onClose={closeGuestListModal}
-                  modal
-                  nested
-                  style={{
-                    backgroundColor: "white",
-                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-                    padding: "0.5em",
-                    borderRadius: "2em",
-                    minWidth: "20em",
-                    minHeight: "20em",
-                  }}
-                >
-                  {(close) => (
-                    <div className="search-popup">
-                      <img
-                        className="close"
-                        src={deleteButton}
-                        onClick={closeGuestListModal}
-                        alt="delete button"
-                      />
-                      <h3>Members: </h3>
-                      <ul>
-                        <b>Going:</b>
-                        {going?.map((response, index) => (
-                          <li key={index}>{response.name}</li>
-                        ))}
-                      </ul>
-                      <ul>
-                        <b>Not going:</b>
-                        {notGoing?.map((response, index) => (
-                          <li key={index}>{response.name}</li>
-                        ))}
-                      </ul>
-                      <ul>
-                        <b>Unconfirmed:</b>
-                        {unconfirmed?.map((response, index) => (
-                          <li key={index}>{response.name}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </Popup>
-                {/* Edit RSVP */}
-                {props.guest &&
-                  (unconfirmed
-                    .map((person) => person.name)
-                    .includes(`${props.currentUser.firstName} ${props.currentUser.lastName}`) ? (
-                    <span
-                      className="button"
-                      onClick={() => setRSVPOpen((o) => !o)}
-                    >
-                      Submit RSVP
-                    </span>
-                  ) : (
-                    <span
-                      className="button"
-                      onClick={() => setRSVPOpen((o) => !o)}
-                    >
-                      Edit RSVP
-                    </span>
-                  ))}
-                <Popup
-                  open={rsvpOpen}
-                  closeOnDocumentClick
-                  onClose={closeModal}
-                  modal
-                  nested
-                  style={{
-                    backgroundColor: "white",
-                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-                    padding: "0.5em",
-                    borderRadius: "2em",
-                    minWidth: "20em",
-                    minHeight: "20em",
-                  }}
-                >
-                  {(close) => (
-                    <div className="search-popup">
-                      <img
-                        className="close"
-                        src={deleteButton}
-                        onClick={closeModal}
-                        alt="delete button"
-                      />
-                      <ResponseForm
-                        rsvpOpen={rsvpOpen}
-                        currentUser={props.currentUser}
-                        event={props.event}
-                        hostAvailability={props.event.timeSlots.dateMap}
-                        groups={props.groups}
-                        groupName={groupName}
-                        startTime={props.event.timeSlots.startTime}
-                        setStartTime={props.setStartTime}
-                        availableTimes={props.availableTimes}
-                        setAvailableTimes={props.setAvailableTimes}
-                      />
-                    </div>
-                  )}
-                </Popup>
-              </div>
+            <div className="actions">
+              {/* View guest list */}
+              <span
+                className="button"
+                onClick={() => setGuestListOpen((o) => !o)}
+              >
+                View guest list
+              </span>
+
+              <GuestListPopup
+                guestListOpen={guestListOpen}
+                closeGuestListModal={closeGuestListModal}
+                eventId={props.event._id}
+              />
+              {/* Edit RSVP */}
+              {props.guest &&
+                (unconfirmed
+                  .map((person) => person.name)
+                  .includes(`${props.currentUser.firstName} ${props.currentUser.lastName}`) ? (
+                  <span
+                    className="button"
+                    onClick={() => setRSVPOpen((o) => !o)}
+                  >
+                    Submit RSVP
+                  </span>
+                ) : (
+                  <span
+                    className="button"
+                    onClick={() => setRSVPOpen((o) => !o)}
+                  >
+                    Edit RSVP
+                  </span>
+                ))}
+              <Popup
+                open={rsvpOpen}
+                closeOnDocumentClick
+                onClose={closeModal}
+                modal
+                nested
+                style={{
+                  backgroundColor: "white",
+                  boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                  padding: "0.5em",
+                  borderRadius: "2em",
+                  minWidth: "20em",
+                  minHeight: "20em",
+                }}
+              >
+                <div className="search-popup">
+                  <ResponseForm
+                    rsvpOpen={rsvpOpen}
+                    currentUser={props.currentUser}
+                    event={props.event}
+                    hostAvailability={props.event.timeSlots.dateMap}
+                    groups={props.groups}
+                    groupName={groupName}
+                    startTime={props.event.timeSlots.startTime}
+                    setStartTime={props.setStartTime}
+                    availableTimes={props.availableTimes}
+                    setAvailableTimes={props.setAvailableTimes}
+                    closeModal={closeModal}
+                  />
+                  <img
+                    className="close"
+                    src={deleteButton}
+                    onClick={closeModal}
+                    alt="delete button"
+                  />
+                </div>
+              </Popup>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+
+          <div
+            className="divider"
+            style={{ height: "100%", width: "1px", margin: " 1.2em" }}
+          />
+          <div className="right-container">
+            <h3>Event Details</h3>
+            <p style={{ marginLeft: "-0.7em" }}>{props.event.description}</p>
+            <span>
+              RSVP Deadline: {formattedDate} at {formattedTime}
+            </span>
+          </div>
+        </>
+      )}
     </div>
   );
 }

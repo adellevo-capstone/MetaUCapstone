@@ -15,10 +15,8 @@ export default function FavoriteRestaurantCard({
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { updatedArray: updatedArray, sectionType: "favoriteRestaurants" };
-      console.log(body);
-      const res = await API.patch("api/v1/auth/dietaryProfile/modify", body, config);
+      await API.patch("api/v1/auth/dietaryProfile/modify", body, config);
       setFavorites(updatedArray);
-      console.log(res.data);
     } catch (err) {
       console.log(err);
     }

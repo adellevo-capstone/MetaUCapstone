@@ -128,15 +128,14 @@ router.get("/generateEventDetails/:eventId", authController.checkUser, async (re
     }
 
     let finalRestaurants = [];
-    const unixTime = Math.round(new Date("2013/09/05 15:34:00").getTime() / 1000); // for expiration
-    const open_at = "1658360817";
     const categories = Object.keys(categoryWeights);
     const milesToMetersMultiplier = 1609;
 
     // make requests based on like weights
     for (let i = 0; i < categories.length; i++) {
       let limit = categoryWeights[categories[i]] * 2;
-      let response = await axios.get(`https://api.yelp.com/v3/businesses/search`, {
+      const YELP_SEARCH_ROUTE = "https://api.yelp.com/v3/businesses/search";
+      let response = await axios.get(YELP_SEARCH_ROUTE, {
         headers: {
           Authorization: `Bearer ${process.env.YELP_API_KEY}`,
         },
@@ -280,6 +279,7 @@ router.patch("/event/create", authController.checkUser, async (req, res) => {
     const newEvent = await Invite.create({
       title: req.body.title,
       hostId: req.user._id,
+      hostName: `${req.user.firstName} ${req.user.lastName}`,
       groupId: req.body.groupId,
       description: req.body.description,
       location: req.body.location,
@@ -432,23 +432,35 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
     // remove invite response id from unconfirmed array
     let updatedEvent = await Invite.findByIdAndUpdate(
       req.body.eventId,
-      { $pull: { ["attendance.unconfirmed"]: inviteResponse._id } },
+      { $pull: { "attendance.unconfirmed": inviteResponse._id } },
       { new: true }
     );
 
-    // add invite response id to going array
+    // remove invite response id from "going" array
+    updatedEvent = await Invite.findByIdAndUpdate(
+      req.body.eventId,
+      { $pull: { "attendance.going": inviteResponse._id } },
+      { new: true }
+    );
+
+    // remove invite response id from "not going" array
+    updatedEvent = await Invite.findByIdAndUpdate(
+      req.body.eventId,
+      { $pull: { "attendance.notGoing": inviteResponse._id } },
+      { new: true }
+    );
+
+    // add invite response id to appropriate attendance array
     if (req.body.attending) {
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
-        { $addToSet: { ["attendance.going"]: inviteResponse._id } },
+        { $addToSet: { "attendance.going": inviteResponse._id } },
         { new: true }
       );
-    }
-    // add invite response id to notGoing array
-    else {
+    } else {
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
-        { $addToSet: { ["attendance.notGoing"]: inviteResponse._id } },
+        { $addToSet: { "attendance.notGoing": inviteResponse._id } },
         { new: true }
       );
     }
@@ -462,7 +474,7 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
 
     updatedEvent = await Invite.findByIdAndUpdate(
       req.body.eventId,
-      { $pull: { ["carpool.passengers"]: req.user._id } },
+      { $pull: { "carpool.passengers": req.user._id } },
       { new: true }
     );
 
@@ -483,16 +495,15 @@ router.patch("/inviteResponse/update", authController.checkUser, async (req, res
       };
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
-        { $addToSet: { ["carpool.groups"]: newGroup } },
+        { $addToSet: { "carpool.groups": newGroup } },
         { new: true }
       );
     } else if (status === "passenger") {
       updatedEvent = await Invite.findByIdAndUpdate(
         req.body.eventId,
-        { $addToSet: { ["carpool.passengers"]: req.user._id } },
+        { $addToSet: { "carpool.passengers": req.user._id } },
         { new: true }
       );
-    } else {
     }
 
     res.status(201).json({ inviteResponse: inviteResponse, updatedEvent: updatedEvent });

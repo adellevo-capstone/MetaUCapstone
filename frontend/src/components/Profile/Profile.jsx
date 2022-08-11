@@ -35,7 +35,7 @@ export default function Profile({ isCurrentUser }) {
       setRestrictions(res.data.dietaryProfile.restrictions);
       setFavorites(res.data.dietaryProfile.favoriteRestaurants.reverse());
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
     }
   };
 
